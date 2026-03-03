@@ -1,4 +1,5 @@
 import numpy as np
+import numbers
 from gym import spaces
 
 
@@ -7,7 +8,7 @@ def prepare_observation(observation_type, img_list, mask_list, depth_list, pose_
         return np.array(depth_list)
     if observation_type == 'Mask':
         return np.array(mask_list)
-    if observation_type == 'Color':
+    if observation_type in ['Color', 'Gray', 'CG']:
         return np.array(img_list)
     if observation_type == 'Rgbd':
         return np.append(np.array(img_list), np.array(depth_list), axis=-1)
@@ -45,12 +46,12 @@ def action_mapping(actions, player_list, action_spaces, agents):
         elif isinstance(action_space, spaces.Tuple):
             for j, action in enumerate(actions[i]):
                 if j == 0:
-                    if isinstance(action, int):
+                    if isinstance(action, numbers.Integral):
                         actions2move.append(agents[obj]['move_action'][action])
                     else:
                         actions2move.append(action)
                 elif j == 1:
-                    if isinstance(action, int):
+                    if isinstance(action, numbers.Integral):
                         actions2head.append(agents[obj]['head_action'][action])
                     else:
                         actions2head.append(action)
@@ -63,7 +64,7 @@ def action_mapping(actions, player_list, action_spaces, agents):
 def get_cam_flag(observation_type, use_color=False, use_mask=False, use_depth=False, use_cam_pose=False):
     flag = [False, False, False, False]
     flag[0] = use_cam_pose
-    flag[1] = observation_type in ['Color', 'Rgbd', 'ColorMask'] or use_color
+    flag[1] = observation_type in ['Color', 'Rgbd', 'ColorMask', 'Gray', 'CG'] or use_color
     flag[2] = observation_type in ['Mask', 'MaskDepth', 'ColorMask'] or use_mask
     flag[3] = observation_type in ['Depth', 'Rgbd', 'MaskDepth'] or use_depth
     return flag

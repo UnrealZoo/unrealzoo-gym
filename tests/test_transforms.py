@@ -29,6 +29,11 @@ def test_get_cam_flag_for_colormask():
     assert flag == [False, True, True, False]
 
 
+def test_get_cam_flag_for_gray_and_cg():
+    assert transforms.get_cam_flag('Gray')[1] is True
+    assert transforms.get_cam_flag('CG')[1] is True
+
+
 def test_action_mapping_discrete():
     player_list = ['p0']
     action_spaces = [spaces.Discrete(2)]
@@ -55,7 +60,11 @@ def test_action_mapping_continuous():
 
 def test_action_mapping_mixed():
     player_list = ['p0']
-    action_spaces = [spaces.Tuple((spaces.Discrete(2), spaces.Discrete(2), spaces.Discrete(2)))]
+    action_spaces = [spaces.Tuple((
+        spaces.Box(low=np.array([-1, -1]), high=np.array([1, 1]), dtype=np.float32),
+        spaces.Discrete(2),
+        spaces.Discrete(2),
+    ))]
     agents = {
         'p0': {
             'move_action': [[1, 0], [0, 1]],
@@ -63,9 +72,9 @@ def test_action_mapping_mixed():
             'animation_action': ['stand', 'jump'],
         }
     }
-    actions = [(1, 0, 1)]
+    actions = [(np.array([0.2, -0.4], dtype=np.float32), np.int64(0), np.int64(1))]
 
     move, head, animate = transforms.action_mapping(actions, player_list, action_spaces, agents)
-    assert move == [[0, 1]]
+    assert np.allclose(move[0], np.array([0.2, -0.4], dtype=np.float32))
     assert head == [[0, 0]]
     assert animate == ['jump']
