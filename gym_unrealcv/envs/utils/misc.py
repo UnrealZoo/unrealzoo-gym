@@ -5,7 +5,7 @@ import unrealcv
 
 
 def validate_env_setting(setting, filename=''):
-    required_keys = ['env_name', 'agents', 'interval', 'max_steps', 'height', 'third_cam', 'safe_start', 'reset_area']
+    required_keys = ['env_name', 'agents', 'interval', 'height', 'third_cam', 'safe_start', 'reset_area']
     missing_keys = [key for key in required_keys if key not in setting]
     if missing_keys:
         raise KeyError(f'Missing required keys in {filename}: {missing_keys}')
@@ -35,7 +35,8 @@ def validate_env_setting(setting, filename=''):
 
 def load_env_setting(filename):
     ext = os.path.splitext(filename)[1]
-    assert ext in ['.json'], ext + ' is not supported'
+    if ext not in ['.json']:
+        raise ValueError(ext + ' is not supported')
     with open(get_settingpath(filename)) as f:
         setting = json.load(f)
     return validate_env_setting(setting, filename=filename)

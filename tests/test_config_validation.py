@@ -15,7 +15,6 @@ def valid_setting():
             }
         },
         'interval': 0.1,
-        'max_steps': 100,
         'height': 100,
         'third_cam': {'cam_id': 0, 'cam_view_id': 0, 'location': [0, 0, 300], 'rotation': [0, 0, 0]},
         'safe_start': [[0, 0, 100, 0, 0, 0]],
@@ -32,7 +31,7 @@ def test_validate_env_setting_passes_with_minimal_valid_config():
 
 def test_validate_env_setting_missing_required_key_raises():
     setting = valid_setting()
-    del setting['max_steps']
+    del setting['interval']
     with pytest.raises(KeyError):
         validate_env_setting(setting, filename='test.json')
 
@@ -56,3 +55,12 @@ def test_validate_env_setting_missing_env_bin_keys_raises():
     del setting['env_bin']
     with pytest.raises(KeyError):
         validate_env_setting(setting, filename='test.json')
+
+
+def test_validate_env_setting_env_bin_mac_without_env_bin_passes():
+    setting = valid_setting()
+    del setting['env_bin']
+    setting['env_bin_mac'] = 'Fake/MacBinary'
+
+    validated = validate_env_setting(setting, filename='test.json')
+    assert validated['env_bin_mac'] == 'Fake/MacBinary'
