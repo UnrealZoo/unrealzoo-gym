@@ -6,7 +6,7 @@ config shape.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 import numpy as np
@@ -24,7 +24,7 @@ Location3D = List[float]
 # ---------------------------------------------------------------------------
 # Agent configuration
 # ---------------------------------------------------------------------------
-@dataclass
+@dataclass(slots=True)
 class AgentConfig:
     """Typed mirror of the per-agent dict that ``misc.convert_dict`` produces.
 
@@ -81,14 +81,14 @@ class AgentConfig:
         Unknown keys are stored in :attr:`extra` rather than discarded, so
         existing configs with custom fields keep working.
         """
-        known_keys = {f.name for f in cls.__dataclass_fields__.values() if f.name != "extra"}
+        known_keys = {f.name for f in fields(cls) if f.name != "extra"}
         kwargs = {k: v for k, v in data.items() if k in known_keys}
         extras = {k: v for k, v in data.items() if k not in known_keys}
         return cls(**kwargs, extra=extras)
 
     def to_dict(self) -> Dict[str, Any]:
         """Round-trip back to a plain dict (including extras)."""
-        d = {k: v for k, v in self.__dict__.items() if k != "extra"}
+        d = {f.name: getattr(self, f.name) for f in fields(self) if f.name != "extra"}
         d.update(self.extra)
         return d
 
@@ -96,7 +96,7 @@ class AgentConfig:
 # ---------------------------------------------------------------------------
 # Environment settings (readonly after load)
 # ---------------------------------------------------------------------------
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class EnvSettings:
     """Top-level settings loaded from a JSON config file.
 

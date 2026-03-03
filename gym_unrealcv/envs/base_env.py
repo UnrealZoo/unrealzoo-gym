@@ -10,6 +10,7 @@ import gym
 import numpy as np
 from gym import spaces
 from gym_unrealcv.envs.utils import misc
+from gym_unrealcv.envs.utils.transforms import get_cam_flag as build_cam_flag
 from unrealcv.launcher import RunUnreal
 from gym_unrealcv.envs.agent.character import Character_API
 import random
@@ -728,14 +729,13 @@ class UnrealCv_base(gym.Env):
 
 
     def get_cam_flag(self, observation_type, use_color=False, use_mask=False, use_depth=False, use_cam_pose=False):
-        # get flag for camera
-        # observation_type: 'color', 'depth', 'mask', 'cam_pose'
-        flag = [False, False, False, False]
-        flag[0] = use_cam_pose
-        flag[1] = observation_type == 'Color' or observation_type == 'Rgbd' or use_color or observation_type == 'ColorMask'
-        flag[2] = observation_type == 'Mask' or use_mask or observation_type == 'MaskDepth' or observation_type == 'ColorMask'
-        flag[3] = observation_type == 'Depth' or observation_type == 'Rgbd' or use_depth or observation_type == 'MaskDepth'
-        return flag
+        return build_cam_flag(
+            observation_type,
+            use_color=use_color,
+            use_mask=use_mask,
+            use_depth=use_depth,
+            use_cam_pose=use_cam_pose,
+        )
 
     def sample_from_area(self, area, num):
         x = np.random.randint(area[0], area[1], num)

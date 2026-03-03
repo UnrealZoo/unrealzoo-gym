@@ -493,8 +493,8 @@ class Character_API(UnrealCv_API):
         decoders = [self.decoder.decode_map[self.decoder.cmd2key(cmd)] for cmd in cmd_list]
         try:
             res_list = self.batch_cmd(cmd_list, decoders)
-        except:
-            print('batch cmd error')
+        except Exception as exc:
+            raise RuntimeError('batch_cmd failed in get_pose_img_batch') from exc
         obj_pose_list = []
         cam_pose_list = []
         img_list = []

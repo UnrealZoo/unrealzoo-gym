@@ -4,6 +4,7 @@ import math
 import time
 import json
 import re
+from gym_unrealcv.envs.utils.transforms import get_cam_flag as build_cam_flag
 class Tracking(Navigation):
     def __init__(self, port=9000, ip='127.0.0.1', resolution=(160, 120), comm_mode='tcp'):
         super(Tracking, self).__init__(port=port, ip=ip, resolution=resolution, comm_mode=comm_mode)
@@ -288,15 +289,13 @@ class Tracking(Navigation):
             res = self.client.request(cmd)
 
     def get_cam_flag(self, observation_type, use_color=False, use_mask=False, use_depth=False, use_cam_pose=False):
-        # get flag for camera
-        # observation_type: 'color', 'depth', 'mask', 'cam_pose'
-        flag = [False, False, False, False]
-        flag[0] = use_cam_pose
-        flag[1] = observation_type == 'Color' or observation_type == 'Rgbd' or use_color
-        flag[2] = observation_type == 'Mask' or use_mask
-        flag[3] = observation_type == 'Depth' or observation_type == 'Rgbd' or use_depth
-        print('cam_flag:', flag)
-        return flag
+        return build_cam_flag(
+            observation_type,
+            use_color=use_color,
+            use_mask=use_mask,
+            use_depth=use_depth,
+            use_cam_pose=use_cam_pose,
+        )
 
     def set_cam(self, obj, loc=[0, 30, 70], rot=[0, 0, 0]):
         # set the camera pose relative to a actor
