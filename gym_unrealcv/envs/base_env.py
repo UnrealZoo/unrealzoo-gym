@@ -7,6 +7,7 @@ import gym
 import numpy as np
 from gym import spaces
 from gym_unrealcv.envs.utils import misc
+from gym_unrealcv.envs.utils import transforms
 from unrealcv.launcher import RunUnreal
 from gym_unrealcv.envs.agent.character import Character_API
 import random
@@ -324,20 +325,7 @@ class UnrealCv_base(gym.Env):
         Returns:
             np.array: Prepared observation.
         """
-        if observation_type == 'Depth':
-            return np.array(depth_list)
-        elif observation_type == 'Mask':
-            return np.array(mask_list)
-        elif observation_type == 'Color':
-            return np.array(img_list)
-        elif observation_type == 'Rgbd':
-            return np.append(np.array(img_list), np.array(depth_list), axis=-1)
-        elif observation_type == 'Pose':
-            return np.array(pose_list)
-        elif observation_type == 'MaskDepth':
-            return np.append(np.array(mask_list), np.array(depth_list), axis=-1)
-        elif observation_type =='ColorMask':
-            return np.append(np.array(img_list), np.array(mask_list), axis=-1)
+        return transforms.prepare_observation(observation_type, img_list, mask_list, depth_list, pose_list)
 
 
 
@@ -683,51 +671,12 @@ class UnrealCv_base(gym.Env):
         return self.cam_list.index(random.choice([x for x in self.cam_list if x > 0]))
 
     def action_mapping(self, actions, player_list):
-        actions2move = []
-        actions2animate = []
-        actions2head = []
-        actions2player = []
-        for i, obj in enumerate(player_list):
-            action_space = self.action_space[i]
-            act = actions[i]
-            if act is None:  # if the action is None, then we don't control this agent
-                actions2move.append(None)  # place holder
-                actions2animate.append(None)
-                actions2head.append(None)
-                continue
-            if isinstance(action_space, spaces.Discrete):
-                actions2move.append(self.agents[obj]["move_action"][act])
-                actions2animate.append(None)
-                actions2head.append(None)
-            elif isinstance(action_space, spaces.Box):
-                actions2move.append(act)
-                actions2animate.append(None)
-                actions2head.append(None)
-            elif isinstance(action_space, spaces.Tuple):
-                for j, action in enumerate(actions[i]):
-                    if j == 0:
-                        if isinstance(action, int):
-                            actions2move.append(self.agents[obj]["move_action"][action])
-                        else:
-                            actions2move.append(action)
-                    elif j == 1:
-                        if isinstance(action, int):
-                            actions2head.append(self.agents[obj]["head_action"][action])
-                        else:
-                            actions2head.append(action)
-                    elif j == 2:
-                        actions2animate.append(self.agents[obj]["animation_action"][action])
-        return actions2move, actions2head, actions2animate
+        return transforms.action_mapping(actions, player_list, self.action_space, self.agents)
 
 
     def get_cam_flag(self, observation_type, use_color=False, use_mask=False, use_depth=False, use_cam_pose=False):
-        # get flag for camera
-        # observation_type: 'color', 'depth', 'mask', 'cam_pose'
-        flag = [False, False, False, False]
-        flag[0] = use_cam_pose
-        flag[1] = observation_type == 'Color' or observation_type == 'Rgbd' or use_color or observation_type == 'ColorMask'
-        flag[2] = observation_type == 'Mask' or use_mask or observation_type == 'MaskDepth' or observation_type == 'ColorMask'
-        flag[3] = observation_type == 'Depth' or observation_type == 'Rgbd' or use_depth or observation_type == 'MaskDepth'
+        flag = transforms.get_cam_flag(observation_type, use_color=use_color, use_mask=use_mask,
+                                       use_depth=use_depth, use_cam_pose=use_cam_pose)
         print('cam_flag:', flag)
         return flag
 
