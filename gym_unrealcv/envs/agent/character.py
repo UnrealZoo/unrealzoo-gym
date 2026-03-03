@@ -105,9 +105,11 @@ class Character_API(UnrealCv_API):
             return_cmd (bool, optional): If True, return the command string instead of executing it. Defaults to False.
 
         Returns:
-            float: The speed that was set.
+            float | str: The speed that was set, or command string when return_cmd is True.
         """
         cmd = f'vbp {player} set_speed {speed}'
+        if return_cmd:
+            return cmd
         self._request_with_retry(cmd)
         return speed
 
@@ -380,10 +382,9 @@ class Character_API(UnrealCv_API):
         cmd = f'vbp {player} generate_nav_goal {radius_max} {radius_min} '
         res = self.client.request(cmd)
         answer_dict = json.loads(res)
-        try:
-            loc = answer_dict["nav_goal"]
-        except KeyError:
-            loc = answer_dict["Nav_goal"]
+        loc = answer_dict.get("nav_goal") or answer_dict.get("Nav_goal")
+        if loc is None:
+            raise KeyError(f"Missing nav goal key in response, available keys: {list(answer_dict.keys())}")
         coordinates = re.findall(r"[-+]?\d*\.\d+|\d+", loc)
         # Convert the numbers to floats and store them in an array
         coordinates = [float(coordinate) for coordinate in coordinates]
@@ -506,8 +507,9 @@ class Character_API(UnrealCv_API):
             if use_depth:
                 # image = 1 / self.decoder.decode_depth(res_list[start_point],bytesio=False)
                 # image = self.decoder.decode_depth(res_list[start_point],bytesio=False)
-                image = self.get_depth(cam_id,show=False)
-                image = np.expand_dims(image, axis=-1)
+                image = res_list[start_point]
+                if image.ndim == 2:
+                    image = np.expand_dims(image, axis=-1)
                 depth_list.append(image)  # 500 is the default max depth of most depth cameras
                 # depth_list.append(res_list[start_point])  # 500 is the default max depth of most depth cameras
                 start_point += 1
