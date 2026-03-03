@@ -1,5 +1,6 @@
 __version__ = "2.0.3"
-from gym.envs.registration import register, registry
+import gym
+from gym.envs.registration import register
 import logging
 import os
 import re
@@ -191,20 +192,20 @@ def _parse_and_register(env_id: str) -> bool:
     return False
 
 
-# Monkey-patch the gym registry singleton to support lazy on-demand registration.
-# In gym 0.10.9, `registry` is an EnvRegistry instance with a `spec(id)` method
-# that raises UnregisteredEnv when the id isn't found.  We intercept that lookup
-# so we can register the env just-in-time.
-from gym.envs.registration import registry as _gym_registry, EnvRegistry as _EnvRegistry
-import types
+# Monkey-patch the public `gym.spec` API for lazy on-demand registration.
+# This is more stable across gym versions than patching private registry internals.
+_original_spec = gym.spec
 
-_original_spec = _gym_registry.spec.__func__  # unbound method
 
-def _lazy_spec(self, env_id: str):
-    """Look up *env_id*; if it isn't registered yet, try to parse and register it first."""
-    if env_id not in self.env_specs:
+def _lazy_spec(env_id: str):
+    """Look up *env_id*; if missing, try to parse/register and retry once."""
+    try:
+        return _original_spec(env_id)
+    except Exception:
         if _parse_and_register(env_id):
             logger.debug('Lazily registered %s', env_id)
-    return _original_spec(self, env_id)
+            return _original_spec(env_id)
+        raise
 
-_gym_registry.spec = types.MethodType(_lazy_spec, _gym_registry)
+
+gym.spec = _lazy_spec
