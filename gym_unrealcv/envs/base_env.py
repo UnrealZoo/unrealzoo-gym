@@ -505,6 +505,9 @@ class UnrealCv_base(gym.Env):
             if observation_type == 'Color' or observation_type == 'CG' or observation_type == 'Mask':
                 img_shape = (resolution[1], resolution[0], 3)
                 observation_space = spaces.Box(low=0, high=255, shape=img_shape, dtype=np.uint8)
+            elif observation_type == 'Gray':
+                img_shape = (resolution[1], resolution[0], 1)
+                observation_space = spaces.Box(low=0, high=255, shape=img_shape, dtype=np.uint8)
             elif observation_type == 'Depth':
                 img_shape = (resolution[1], resolution[0], 1)
                 observation_space = spaces.Box(low=0, high=100, shape=img_shape, dtype=np.float16)
@@ -523,6 +526,8 @@ class UnrealCv_base(gym.Env):
             elif observation_type=='ColorMask':
                 img_shape = (resolution[1], resolution[0], 6)
                 observation_space = spaces.Box(low=0, high=255, shape=img_shape, dtype=np.uint8)
+            else:
+                raise ValueError('Unknown observation type: {}'.format(observation_type))
         return observation_space
 
     def sample_init_pose(self, use_reset_area=False, num_agents=1):
