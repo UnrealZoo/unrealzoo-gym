@@ -33,7 +33,7 @@ class DisplayWrapper(Wrapper):
         if self.fix_camera:
             center_pos = [(env.reset_area[0]+env.reset_area[1])/2, (env.reset_area[2]+env.reset_area[3])/2, 2000]
             env.set_topview(center_pos, env.cam_id[0])
-        if self.get_bbox:
+        if self.get_bbox and hasattr(env, 'tracker_id') and hasattr(env, 'target_id'):
             self.bbox_init = []
             mask = env.unrealcv.read_image(env.cam_list[env.tracker_id], 'object_mask', 'fast')
             mask, bbox = env.unrealcv.get_bbox(mask, env.player_list[env.target_id], normalize=False)

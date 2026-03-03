@@ -25,10 +25,8 @@ class RandomPopulationWrapper(Wrapper):
 
     def reset(self, **kwargs):
         env = self.env.unwrapped
-        if not env.launched:  # we need to launch the environment
-            env.launched = env.launch_ue_env()
-            env.init_agents()
-            env.init_objects()
+        if not env.launched:
+            self.env.reset(**kwargs)
 
         if self.min_num == self.max_num:
             env.num_agents = self.min_num

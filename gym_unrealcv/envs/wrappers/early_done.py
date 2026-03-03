@@ -10,7 +10,8 @@ class EarlyDoneWrapper(Wrapper):
     def step(self, action):
         obs, reward, done, info = self.env.step(action) # take a step in the wrapped environment
 
-        if  not info['metrics']['target_viewed']:
+        viewed = info.get('metrics', {}).get('target_viewed', True)
+        if not viewed:
             self.count_lost += 1
         else:
             self.count_lost = 0
