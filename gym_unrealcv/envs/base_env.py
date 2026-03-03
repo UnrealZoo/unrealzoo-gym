@@ -331,13 +331,13 @@ class UnrealCv_base(gym.Env):
         elif observation_type == 'Color':
             return np.array(img_list)
         elif observation_type == 'Rgbd':
-            return np.append(np.array(img_list), np.array(depth_list), axis=-1)
+            return np.concatenate((np.array(img_list), np.array(depth_list)), axis=-1)
         elif observation_type == 'Pose':
             return np.array(pose_list)
         elif observation_type == 'MaskDepth':
-            return np.append(np.array(mask_list), np.array(depth_list), axis=-1)
+            return np.concatenate((np.array(mask_list), np.array(depth_list)), axis=-1)
         elif observation_type =='ColorMask':
-            return np.append(np.array(img_list), np.array(mask_list), axis=-1)
+            return np.concatenate((np.array(img_list), np.array(mask_list)), axis=-1)
 
 
 
@@ -611,19 +611,21 @@ class UnrealCv_base(gym.Env):
         # get the relative pose of each agent and the absolute location and orientation of the agent
         pose_obs = []
         player_num = len(obj_pos)
-        np.zeros((player_num, player_num, 2))
         relative_pose = np.zeros((player_num, player_num, 2))
         for j in range(player_num):
             vectors = []
+            yaw = obj_pos[j][4] / 180 * np.pi
+            cos_yaw = np.cos(yaw)
+            sin_yaw = np.sin(yaw)
             for i in range(player_num):
                 obs, distance, direction = self.get_relative(obj_pos[j], obj_pos[i])
-                yaw = obj_pos[j][4]/180*np.pi
                 # rescale the absolute location and orientation
                 abs_loc = [obj_pos[i][0], obj_pos[i][1],
-                           obj_pos[i][2], np.cos(yaw), np.sin(yaw)]
+                           obj_pos[i][2], cos_yaw, sin_yaw]
                 obs = obs + abs_loc
                 vectors.append(obs)
-                relative_pose[j, i] = np.array([distance, direction])
+                relative_pose[j, i, 0] = distance
+                relative_pose[j, i, 1] = direction
             pose_obs.append(vectors)
 
         return np.array(pose_obs), relative_pose

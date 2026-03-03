@@ -55,7 +55,6 @@ class Character_API(UnrealCv_API):
             state = self.get_image_multimodal(cam_id, ['lit', 'depth'], [mode, 'npy'])
             self.img_color = state[..., :3]
             self.img_depth = state[..., 3:]
-            state = np.append(self.img_color, self.img_depth, axis=2)
         elif observation_type == 'Gray':
             self.img_color = self.read_image(cam_id, 'lit', mode)
             self.img_gray = self.img_color.mean(2)
@@ -524,8 +523,9 @@ class Character_API(UnrealCv_API):
             if use_depth:
                 # image = 1 / self.decoder.decode_depth(res_list[start_point],bytesio=False)
                 # image = self.decoder.decode_depth(res_list[start_point],bytesio=False)
-                image = self.get_depth(cam_id,show=False)
-                image = np.expand_dims(image, axis=-1)
+                image = res_list[start_point]
+                if image.ndim == 2:
+                    image = np.expand_dims(image, axis=-1)
                 depth_list.append(image)  # 500 is the default max depth of most depth cameras
                 # depth_list.append(res_list[start_point])  # 500 is the default max depth of most depth cameras
                 start_point += 1
@@ -630,13 +630,13 @@ class Character_API(UnrealCv_API):
         return img
 
     def decode_bmp(self, res, channel=4):  # decode bmp image
-        img = np.fromstring(res, dtype=np.uint8)
+        img = np.frombuffer(res, dtype=np.uint8)
         img = img[-self.resolution[1] * self.resolution[0] * channel:]
         img = img.reshape(self.resolution[1], self.resolution[0], channel)
         return img[:, :, :-1]  # delete alpha channel
 
     def decode_depth(self, res):  # decode depth image
-        depth = np.fromstring(res, np.float32)
+        depth = np.frombuffer(res, np.float32)
         depth = depth[-self.resolution[1] * self.resolution[0]:]
         depth = depth.reshape(self.resolution[1], self.resolution[0], 1)
         return depth
