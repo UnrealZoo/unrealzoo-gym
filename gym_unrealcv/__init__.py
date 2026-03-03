@@ -123,7 +123,7 @@ for env in maps:
     for i in range(7):  # reset type
         for action in Actions:  # action type
             for obs in Observations:  # observation type
-                        name = 'UnrealAgent-{env}-{action}{obs}-v{reset}'.format(env=env, action=action, obs=obs, target=target, reset=i)
+                        name = 'UnrealAgent-{env}-{action}{obs}-v{reset}'.format(env=env, action=action, obs=obs, reset=i)
                         setting_file = os.path.join('env_config', f'{env}.json')
                         register(
                             id=name,

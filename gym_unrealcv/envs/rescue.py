@@ -15,12 +15,14 @@ class Rescue(UnrealCv_base):
                  task_file=None,  # the file to define the task TODO: use this file to config task specific parameters
                  action_type='Discrete',  # 'discrete', 'continuous'
                  observation_type='Color',  # 'color', 'depth', 'rgbd', 'Gray'
-                 resolution=(160, 160)
+                 resolution=(160, 160),
+                 reset_type=0
                  ):
         super(Rescue, self).__init__(setting_file=env_file,  # the setting file to define the task
                                          action_type=action_type,  # 'discrete', 'continuous'
                                          observation_type=observation_type,  # 'color', 'depth', 'rgbd', 'Gray'
-                                         resolution=resolution)
+                                         resolution=resolution,
+                                         reset_type=reset_type)
         self.count_reach = 0
         self.max_reach_steps = 5
         self.distance_threshold = 200
