@@ -3,12 +3,42 @@ import numpy as np
 import json
 import unrealcv
 
-def load_env_setting(filename):
-    f = open(get_settingpath(filename))
-    type = os.path.splitext(filename)[1]
-    assert type in ['.json'], type + ' is not supported'
-    setting = json.load(f)
+
+def validate_env_setting(setting, filename=''):
+    required_keys = ['env_name', 'agents', 'interval', 'max_steps', 'height', 'third_cam', 'safe_start', 'reset_area']
+    missing_keys = [key for key in required_keys if key not in setting]
+    if missing_keys:
+        raise KeyError(f'Missing required keys in {filename}: {missing_keys}')
+
+    if not isinstance(setting['agents'], dict) or len(setting['agents']) == 0:
+        raise TypeError(f'Invalid agents in {filename}: expected non-empty dict')
+
+    for agent_type, info in setting['agents'].items():
+        for key in ['name', 'cam_id', 'class_name']:
+            if key not in info:
+                raise KeyError(f'Missing agents.{agent_type}.{key} in {filename}')
+            if not isinstance(info[key], list):
+                raise TypeError(f'Invalid agents.{agent_type}.{key} in {filename}: expected list')
+        n = len(info['name'])
+        if len(info['cam_id']) != n or len(info['class_name']) != n:
+            raise ValueError(f'Inconsistent list lengths for agents.{agent_type} in {filename}')
+
+    if not isinstance(setting['safe_start'], list) or len(setting['safe_start']) == 0:
+        raise TypeError(f'Invalid safe_start in {filename}: expected non-empty list')
+    if not isinstance(setting['reset_area'], list) or len(setting['reset_area']) < 4:
+        raise TypeError(f'Invalid reset_area in {filename}: expected list with at least 4 values')
+
+    if not any(key in setting for key in ['env_bin', 'env_bin_mac', 'env_bin_win']):
+        raise KeyError(f'Missing env binary path in {filename}: one of env_bin/env_bin_mac/env_bin_win is required')
+
     return setting
+
+def load_env_setting(filename):
+    ext = os.path.splitext(filename)[1]
+    assert ext in ['.json'], ext + ' is not supported'
+    with open(get_settingpath(filename)) as f:
+        setting = json.load(f)
+    return validate_env_setting(setting, filename=filename)
 
 
 def get_settingpath(filename):
