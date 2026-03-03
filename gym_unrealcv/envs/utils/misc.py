@@ -31,7 +31,6 @@ def validate_env_setting(setting, filename=''):
     if not any(key in setting for key in ['env_bin', 'env_bin_mac', 'env_bin_win']):
         raise KeyError(f'Missing env binary path in {filename}: one of env_bin/env_bin_mac/env_bin_win is required')
 
-    return setting
 
 def load_env_setting(filename):
     ext = os.path.splitext(filename)[1]
