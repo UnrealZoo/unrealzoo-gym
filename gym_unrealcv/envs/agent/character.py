@@ -645,3 +645,30 @@ class Character_API(UnrealCv_API):
         cmd = f'vset /camera/{cam_id}/location {x} {y} {z}'
         self.client.request(cmd, -1)
         self.cam[cam_id]['location'] = loc
+
+    def get_pose_states(self, obj_pos):
+        pose_obs = []
+        player_num = len(obj_pos)
+        relative_pose = np.zeros((player_num, player_num, 2))
+        for j in range(player_num):
+            vectors = []
+            for i in range(player_num):
+                obs, distance, direction = self.get_relative(obj_pos[j], obj_pos[i])
+                yaw = obj_pos[j][4]/180*np.pi
+                abs_loc = [obj_pos[i][0], obj_pos[i][1],
+                           obj_pos[i][2], np.cos(yaw), np.sin(yaw)]
+                obs = obs + abs_loc
+                vectors.append(obs)
+                relative_pose[j, i] = np.array([distance, direction])
+            pose_obs.append(vectors)
+
+        return np.array(pose_obs), relative_pose
+
+    def get_relative(self, pose0, pose1):
+        delt_yaw = pose1[4] - pose0[4]
+        angle = misc.get_direction(pose0, pose1)
+        distance = self.get_distance(pose1, pose0, 3)
+        obs_vector = [np.sin(delt_yaw/180*np.pi), np.cos(delt_yaw/180*np.pi),
+                      np.sin(angle/180*np.pi), np.cos(angle/180*np.pi),
+                      distance]
+        return obs_vector, distance, angle
