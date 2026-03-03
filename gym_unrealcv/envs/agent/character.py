@@ -630,13 +630,13 @@ class Character_API(UnrealCv_API):
         return img
 
     def decode_bmp(self, res, channel=4):  # decode bmp image
-        img = np.fromstring(res, dtype=np.uint8)
+        img = np.frombuffer(res, dtype=np.uint8)
         img = img[-self.resolution[1] * self.resolution[0] * channel:]
         img = img.reshape(self.resolution[1], self.resolution[0], channel)
         return img[:, :, :-1]  # delete alpha channel
 
     def decode_depth(self, res):  # decode depth image
-        depth = np.fromstring(res, np.float32)
+        depth = np.frombuffer(res, np.float32)
         depth = depth[-self.resolution[1] * self.resolution[0]:]
         depth = depth.reshape(self.resolution[1], self.resolution[0], 1)
         return depth
@@ -645,41 +645,3 @@ class Character_API(UnrealCv_API):
         cmd = f'vset /camera/{cam_id}/location {x} {y} {z}'
         self.client.request(cmd, -1)
         self.cam[cam_id]['location'] = loc
-    def get_pose_states(self, obj_pos):
-        # get the relative pose of each agent and the absolute location and orientation of the agent
-        pose_obs = []
-        player_num = len(obj_pos)
-        np.zeros((player_num, player_num, 2))
-        relative_pose = np.zeros((player_num, player_num, 2))
-        for j in range(player_num):
-            vectors = []
-            for i in range(player_num):
-                obs, distance, direction = self.get_relative(obj_pos[j], obj_pos[i])
-                yaw = obj_pos[j][4]/180*np.pi
-                # rescale the absolute location and orientation
-                abs_loc = [obj_pos[i][0], obj_pos[i][1],
-                           obj_pos[i][2], np.cos(yaw), np.sin(yaw)]
-                obs = obs + abs_loc
-                vectors.append(obs)
-                relative_pose[j, i] = np.array([distance, direction])
-            pose_obs.append(vectors)
-
-        return np.array(pose_obs), relative_pose
-    def get_relative(self, pose0, pose1):  # pose0-centric
-        """
-        Get the relative pose between two objects, pose0 is the reference object.
-
-        Args:
-            pose0 (list): Pose of the reference object (the center of the coordinate system).
-            pose1 (list): Pose of the target object.
-
-        Returns:
-            tuple: Relative observation vector, distance, and angle.
-        """
-        delt_yaw = pose1[4] - pose0[4]
-        angle = misc.get_direction(pose0, pose1)
-        distance = self.get_distance(pose1, pose0, 3)
-        obs_vector = [np.sin(delt_yaw/180*np.pi), np.cos(delt_yaw/180*np.pi),
-                      np.sin(angle/180*np.pi), np.cos(angle/180*np.pi),
-                      distance]
-        return obs_vector, distance, angle

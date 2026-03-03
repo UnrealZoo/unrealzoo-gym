@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import os.path
 import time
 import warnings
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 import cv2
 import gym
@@ -28,13 +31,14 @@ class UnrealCv_base(gym.Env):
     Action: Discrete, Continuous, Mixed
     Done: defined by the task wrapper
     """
-    def __init__(self,
-                 setting_file,  # the setting file to define the task
-                 action_type='Discrete',  # 'discrete', 'continuous'
-                 observation_type='Color',  # 'color', 'depth', 'rgbd', 'Gray'
-                 resolution=(160, 160),
-                 reset_type = 0
-                 ):
+    def __init__(
+        self,
+        setting_file: str,
+        action_type: str = 'Discrete',
+        observation_type: str = 'Color',
+        resolution: Tuple[int, int] = (160, 160),
+        reset_type: int = 0,
+    ) -> None:
         """
         Initialize the UnrealCv_base environment.
 
@@ -120,7 +124,7 @@ class UnrealCv_base(gym.Env):
 
         self.ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
 
-    def step(self, actions):
+    def step(self, actions: List[Any]) -> Tuple[np.ndarray, np.ndarray, bool, Dict[str, Any]]:
         """
         Execute one step in the environment.
 
@@ -167,13 +171,7 @@ class UnrealCv_base(gym.Env):
 
         return observations, info['Reward'], info['Done'], info
 
-    def reset(self):
-        """
-        Reset the environment to its initial state.
-
-        Returns:
-            np.array: Initial observations.
-        """
+    def reset(self) -> np.ndarray:
         if not self.launched:  # first time to launch
             self.launched = self.launch_ue_env()
             self.init_agents()
@@ -202,7 +200,7 @@ class UnrealCv_base(gym.Env):
             # set view point
             self.unrealcv.set_cam(obj, self.agents[obj]['relative_location'], self.agents[obj]['relative_rotation'])
 
-        # 匹配真正cam
+        # Match real camera assignments
         self.unrealcv.cam = self.unrealcv.get_camera_config()
         self.update_camera_assignments()
         # set global view to the top location
@@ -212,15 +210,12 @@ class UnrealCv_base(gym.Env):
 
         return observations
 
-    def close(self):
-        """
-        Close the environment and disconnect from UnrealCV.
-        """
+    def close(self) -> None:
         if self.launched:
             self.unrealcv.client.disconnect()
             self.ue_binary.close()
 
-    def render(self, mode='rgb_array', close=False):
+    def render(self, mode: str = 'rgb_array', close: bool = False) -> Optional[np.ndarray]:
         """
         Show the rendered image.
 
@@ -235,16 +230,30 @@ class UnrealCv_base(gym.Env):
             self.ue_binary.close()
         return self.img_show
 
-    def seed(self, seed=None):
-        """
-        Set the random seed for the environment.
-
-        Args:
-            seed (int): Seed value.
-        """
+    def seed(self, seed: Optional[int] = None) -> None:
         np.random.seed(seed)
 
-    def update_observation(self, player_list, cam_list, cam_flag, observation_type):
+    def select_target_by_distance(self, current_pos, targets_pos):
+        """Find the nearest target from *targets_pos* to *current_pos*.
+
+        Args:
+            current_pos (list): The current position [x, y, z, ...].
+            targets_pos (dict): Mapping of target_id -> position list.
+
+        Returns:
+            tuple: ``(min_distance, target_id)``
+        """
+        target_id = next(iter(targets_pos))
+        distance_min = self.unrealcv.get_distance(targets_pos[target_id], current_pos, 3)
+
+        for key, target_pos in targets_pos.items():
+            distance = self.unrealcv.get_distance(target_pos, current_pos, 3)
+            if distance < distance_min:
+                target_id = key
+                distance_min = distance
+        return distance_min, target_id
+
+    def update_observation(self, player_list: List[str], cam_list: List[int], cam_flag: List[bool], observation_type: str) -> Tuple[np.ndarray, List, np.ndarray]:
         """
         Update the observations for the agents.
 
@@ -262,7 +271,7 @@ class UnrealCv_base(gym.Env):
         img_show = self.prepare_img2show(self.protagonist_id, observations)
         return observations, obj_poses, img_show
 
-    def get_start_area(self, safe_start, safe_range):
+    def get_start_area(self, safe_start: List[float], safe_range: int) -> List[float]:
         """
         Get the start area for the agents.
 
@@ -277,7 +286,7 @@ class UnrealCv_base(gym.Env):
                      safe_start[1]-safe_range, safe_start[1]+safe_range]
         return start_area
 
-    def set_topview(self, current_pose, cam_id):
+    def set_topview(self, current_pose: List[float], cam_id: int) -> None:
         """
         Set the virtual camera on top of a point(current pose) to capture images from the bird's eye view.
 
@@ -291,7 +300,7 @@ class UnrealCv_base(gym.Env):
         self.unrealcv.set_cam_location(cam_id, cam_loc)
         self.unrealcv.set_cam_rotation(cam_id, cam_rot)
 
-    def get_relative(self, pose0, pose1):  # pose0-centric
+    def get_relative(self, pose0: List[float], pose1: List[float]) -> Tuple[List[float], float, float]:
         """
         Get the relative pose between two objects, pose0 is the reference object.
 
@@ -310,7 +319,7 @@ class UnrealCv_base(gym.Env):
                       distance]
         return obs_vector, distance, angle
 
-    def prepare_observation(self, observation_type, img_list, mask_list, depth_list, pose_list):
+    def prepare_observation(self, observation_type: str, img_list: List, mask_list: List, depth_list: List, pose_list: List) -> Optional[np.ndarray]:
         """
         Prepare the observation based on the observation type.
 
@@ -436,10 +445,8 @@ class UnrealCv_base(gym.Env):
         self.agents.pop(name)
         st_time=time.time()
         time.sleep(1)
-        print(f'waiting for remove agent {name}...')
-        while self.unrealcv.get_camera_num() >len(last_cam_list)+1: #UE4 需要+1 ,UE5 不用?
+        while self.unrealcv.get_camera_num() > len(last_cam_list) + 1:  # UE4 needs +1, UE5 does not
             pass
-        print('Remove finished!')
 
     def remove_cam(self, name):
         """
@@ -728,7 +735,6 @@ class UnrealCv_base(gym.Env):
         flag[1] = observation_type == 'Color' or observation_type == 'Rgbd' or use_color or observation_type == 'ColorMask'
         flag[2] = observation_type == 'Mask' or use_mask or observation_type == 'MaskDepth' or observation_type == 'ColorMask'
         flag[3] = observation_type == 'Depth' or observation_type == 'Rgbd' or use_depth or observation_type == 'MaskDepth'
-        print('cam_flag:', flag)
         return flag
 
     def sample_from_area(self, area, num):
@@ -760,32 +766,16 @@ class UnrealCv_base(gym.Env):
 
 
     def update_camera_assignments(self):
-        """
-        更新所有智能体的相机分配，确保每个智能体使用最近的相机
-        """
-        # 获取所有相机位置
+        """Update camera assignments for all agents, assigning each agent the nearest camera."""
         cam_locs = []
-        for cam_id in range(0,self.unrealcv.get_camera_num()):
-            print(cam_id)
+        for cam_id in range(0, self.unrealcv.get_camera_num()):
             cam_loc = self.unrealcv.get_cam_location(cam_id)
             cam_locs.append(cam_loc)
 
-        # 为每个智能体匹配最近相机并更新
         for obj in self.player_list:
-            # 获取智能体位置 (包含位置和旋转信息)
             obj_loc = self.unrealcv.get_obj_location(obj)
-
-            dis_list = []
-            for loc in cam_locs:
-                # 计算距离 (使用3D欧氏距离)
-                distance = self.unrealcv.get_distance(loc, obj_loc, 3)
-                dis_list.append(distance)
-
-            # 找到最小距离的索引 (即相机ID)
+            dis_list = [self.unrealcv.get_distance(loc, obj_loc, 3) for loc in cam_locs]
             nearest_cam_id = dis_list.index(min(dis_list))
-
-            # 更新智能体的相机ID
             self.agents[obj]['cam_id'] = nearest_cam_id
-            # 更新cam_list中对应的相机ID
             agent_idx = self.player_list.index(obj)
             self.cam_list[agent_idx] = nearest_cam_id

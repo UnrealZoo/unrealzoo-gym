@@ -62,7 +62,6 @@ class Track(UnrealCv_base):
         # initialize the environment
         observations = super(Track, self).reset()
         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
-        print(target_pos)
         self.unrealcv.nav_to_goal(self.player_list[self.target_id], target_pos)
         time.sleep(1)
         super(Track, self).random_app()

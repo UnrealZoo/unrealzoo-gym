@@ -46,8 +46,8 @@ class NavigationMulti(UnrealCv_base):
         self.trigger_count = 0
 
         #define shared message
-        #可以自定义存储agent之间的通信信息
-        self.message_list=[]
+        # Shared message buffer for inter-agent communication
+        self.message_list = []
 
 
         self.count_steps = 0
@@ -57,7 +57,7 @@ class NavigationMulti(UnrealCv_base):
 
         #detect if any agent collision with environment
         # if sum([self.unrealcv.get_hit(self.player_list[i]) for i in range(len(self.player_list))]) == 0:
-        if self.unrealcv.get_hit(self.player_list[0])== 0: #目前无人机还没有get_hit函数，后期添加，当前仅判断human character碰撞
+        if self.unrealcv.get_hit(self.player_list[0]) == 0:  # TODO: drones lack get_hit(); only human character collision checked
             info['Collision'] = 0
         else:
             info['Collision'] += 1
@@ -87,7 +87,7 @@ class NavigationMulti(UnrealCv_base):
         # else:
 
         # get reward
-        # select_target_by_distance可以根据任务setting 需要更改
+        # select_target_by_distance can be changed per task setting
         # distance, self.target_id = [self.select_target_by_distance(info['Pose'][i][:3], self.targets_pos) for i in range(len(self.player_list))]
         distance = np.array([self.unrealcv.get_distance(info['Pose'][i][:3], self.targets_pos[self.target_id],n=3) for i in range(len(self.player_list))])
         distance_min = np.min(distance)
@@ -109,7 +109,6 @@ class NavigationMulti(UnrealCv_base):
         if info['Collision'] > 100:
             info['Reward'] = -1
             info['Done'] = True
-        print(distance_min,np.fabs(info['Direction'][distance_min_id]))
         if distance_min < 300 and np.fabs(info['Direction'][distance_min_id]) < 10:
             info['Success'] = True
             info['Done'] = True
@@ -143,33 +142,7 @@ class NavigationMulti(UnrealCv_base):
 
         return observations
 
-    def seed(self, seed=None):
-        return seed
-
-    def render(self, mode='rgb_array', close=False):
-        if close:
-            self.unreal.close()
-        return self.unrealcv.img_color
-
-    def close(self):
-        self.unrealcv.client.disconnect()
-        self.ue_binary.close()
-
-    def get_action_size(self):
-        return len(self.action)
-
-    def select_target_by_distance(self, current_pos, targets_pos):
-        # find the nearest target, return distance and targetid
-        target_id = list(self.targets_pos.keys())[0]
-        # distance_min = self.unrealcv.get_distance(targets_pos[target_id], current_pos, 2)
-        distance_min = self.unrealcv.get_distance(targets_pos[target_id], current_pos, 3)
-
-        for key, target_pos in targets_pos.items():
-            # distance = self.unrealcv.get_distance(target_pos, current_pos, 2)
-            distance = self.unrealcv.get_distance(target_pos, current_pos, 3)
-            if distance < distance_min:
-                target_id = key
-                distance_min = distance
-        return distance_min, target_id
+    # seed(), render(), close() inherited from UnrealCv_base
+    # select_target_by_distance() inherited from UnrealCv_base
 
 
