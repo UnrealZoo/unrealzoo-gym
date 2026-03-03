@@ -5,7 +5,7 @@ from pynput import keyboard
 import time
 import cv2
 import os
-os.environ['UnrealEnv']='/Users/wukui/unrealzoo-gym/gym_unrealcv/envs/UnrealEnv'
+# Set UnrealEnv before running, e.g. `export UnrealEnv=/path/to/UnrealEnv`
 
 class RandomAgent(object):
     """The world's simplest agent!"""

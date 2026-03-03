@@ -5,6 +5,9 @@ import numpy as np
 import cv2
 import random
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 '''
 Tasks: The task is to make the agents find the injured person and rescue him. 
 The agents are allowed to communicate with others to plan.
@@ -62,7 +65,7 @@ class Track(UnrealCv_base):
         # initialize the environment
         observations = super(Track, self).reset()
         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
-        print(target_pos)
+        logger.debug('target_pos: %s', target_pos)
         self.unrealcv.nav_to_goal(self.player_list[self.target_id], target_pos)
         time.sleep(1)
         super(Track, self).random_app()
