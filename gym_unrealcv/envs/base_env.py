@@ -440,8 +440,13 @@ class UnrealCv_base(gym.Env):
         st_time=time.time()
         time.sleep(1)
         logger.info('waiting for remove agent %s...', name)
+        timeout_seconds = 10.0
+        poll_interval = 0.1
         while self.unrealcv.get_camera_num() >len(last_cam_list)+1: # UE4 requires +1, UE5 does not
-            pass
+            if time.time() - st_time > timeout_seconds:
+                logger.error('Timeout while waiting to remove agent %s', name)
+                break
+            time.sleep(poll_interval)
         logger.info('remove finished')
 
     def remove_cam(self, name):

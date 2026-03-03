@@ -7,8 +7,11 @@ import time
 import numpy as np
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
 from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
-import os
-# Set UnrealEnv before running, e.g. `export UnrealEnv=/path/to/UnrealEnv`
+# Set UnrealEnv before running, for example:
+#   Unix shell (bash/zsh):      export UnrealEnv=/path/to/UnrealEnv
+#   Windows cmd.exe:            set UnrealEnv=C:\path\to\UnrealEnv
+#   Windows PowerShell:         $env:UnrealEnv = "C:\path\to\UnrealEnv"
+#   Python fallback:            os.environ.setdefault("UnrealEnv", "/path/to/UnrealEnv")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)

@@ -30,8 +30,11 @@ class RandomAgent(object):
         self.action = self.action_space.sample()
         self.count_steps = 0
 
-import os
-# Set UnrealEnv before running, e.g. `export UnrealEnv=/path/to/UnrealEnv`
+# Set UnrealEnv before running, for example:
+#   Unix shell (bash/zsh):      export UnrealEnv=/path/to/UnrealEnv
+#   Windows cmd.exe:            set UnrealEnv=C:\path\to\UnrealEnv
+#   Windows PowerShell:         $env:UnrealEnv = "C:\path\to\UnrealEnv"
+#   Python fallback:            os.environ.setdefault("UnrealEnv", "/path/to/UnrealEnv")
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-MiddleEast-ContinuousColor-v0',
