@@ -2,6 +2,12 @@ import numpy as np
 from gym_unrealcv.envs.base_env import UnrealCv_base
 from gym_unrealcv.envs.utils import misc, reward
 
+COLLISION_THRESHOLD = 10
+SUCCESS_DISTANCE = 300
+SUCCESS_DIRECTION = 10
+SUCCESS_REWARD = 100
+COLLISION_REWARD = -1
+
 '''
 It is a general env for navigating to a target object.
 
@@ -97,14 +103,14 @@ class Navigation(UnrealCv_base):
             info['Reward'] = 0
 
         # if collision detected, the episode is done and reward is -1
-        if info['Collision'] > 10 or info['Pose'][2] < self.height/2:
-            info['Reward'] = -1
+        if info['Collision'] > COLLISION_THRESHOLD or info['Pose'][2] < self.height/2:
+            info['Reward'] = COLLISION_REWARD
             info['Done'] = True
 
-        if distance < 300 and np.fabs(info['Direction']) < 10:
+        if distance < SUCCESS_DISTANCE and np.fabs(info['Direction']) < SUCCESS_DIRECTION:
             info['Success'] = True
             info['Done'] = True
-            info['Reward'] = 100
+            info['Reward'] = SUCCESS_REWARD
 
 
         # save the trajectory
@@ -129,8 +135,8 @@ class Navigation(UnrealCv_base):
         self.trajectory.append(current_pose)
         self.trigger_count = 0
         self.count_steps = 0
-        self.reward_function.dis2target_initial, self.targetID_last = \
-            self.select_target_by_distance(current_pose, self.targets_pos)
+        dis2target, self.targetID_last = self.select_target_by_distance(current_pose, self.targets_pos)
+        self.reward_function.reset(dis2target)
 
         return observations
 
