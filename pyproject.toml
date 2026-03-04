@@ -36,3 +36,8 @@ version = {attr = "gym_unrealcv.__version__"}
 legacy-gym = [
     "gym>=0.26,<0.27"
 ]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
