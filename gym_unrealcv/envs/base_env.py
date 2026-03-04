@@ -1,12 +1,18 @@
+from __future__ import annotations
+
 import os.path
 import time
 import warnings
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union, cast
 
 import cv2
-import gym
 import numpy as np
-from gym import spaces
+from gym_unrealcv._gym_compat import Env as GymEnv
+from gym_unrealcv._gym_compat import spaces
 from gym_unrealcv.envs.utils import misc
+from gym_unrealcv.envs.utils.transforms import action_mapping as map_actions
+from gym_unrealcv.envs.utils.transforms import prepare_observation as build_observation
+from gym_unrealcv.envs.utils.transforms import get_cam_flag as build_cam_flag
 from unrealcv.launcher import RunUnreal
 from gym_unrealcv.envs.agent.character import Character_API
 import random
@@ -21,20 +27,21 @@ Done : define by the task wrapper
 # TODO: agent apis for blueprints commands
 # TODO: config env by parapmeters
 # TODO: maintain a general agent list
-class UnrealCv_base(gym.Env):
+class UnrealCv_base(GymEnv):
     """
     A base environment for general purpose agent-environment interaction, including single/multi-agent navigation, tracking, etc.
     Observation: color image, depth image, rgbd image, mask image, pose
     Action: Discrete, Continuous, Mixed
     Done: defined by the task wrapper
     """
-    def __init__(self,
-                 setting_file,  # the setting file to define the task
-                 action_type='Discrete',  # 'discrete', 'continuous'
-                 observation_type='Color',  # 'color', 'depth', 'rgbd', 'Gray'
-                 resolution=(160, 160),
-                 reset_type = 0
-                 ):
+    def __init__(
+        self,
+        setting_file: str,
+        action_type: str = 'Discrete',
+        observation_type: str = 'Color',
+        resolution: Tuple[int, int] = (160, 160),
+        reset_type: int = 0,
+    ) -> None:
         """
         Initialize the UnrealCv_base environment.
 
@@ -55,7 +62,7 @@ class UnrealCv_base(gym.Env):
         self.agents = misc.convert_dict(self.agent_configs)
         self.reset_type = reset_type
         # TODO: it is useless.
-        self.character = {
+        self.character: dict[str, list[Any]] = {
             'player': [],  # the list of player to control
             'npc': [],  # the list of Non-player character
             'freeze': [],  # the list of player that exists in the scene, but it is frozen
@@ -64,7 +71,7 @@ class UnrealCv_base(gym.Env):
         self.height_top_view = setting['third_cam']['height_top_view']
 
         # self.env_obj_list = self.env_configs[""]
-        self.objects_list = []
+        self.objects_list: list[str] = []
         self.reset_area = setting['reset_area']
 
         self.safe_start = setting['safe_start']
@@ -120,7 +127,7 @@ class UnrealCv_base(gym.Env):
 
         self.ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
 
-    def step(self, actions):
+    def step(self, actions: List[Any]) -> Tuple[np.ndarray, np.ndarray, bool, Dict[str, Any]]:
         """
         Execute one step in the environment.
 
@@ -165,15 +172,9 @@ class UnrealCv_base(gym.Env):
         info['Pose_Obs'] = pose_obs
         info['Reward'] = np.zeros(len(self.player_list))
 
-        return observations, info['Reward'], info['Done'], info
+        return cast(np.ndarray, observations), cast(np.ndarray, info['Reward']), bool(info['Done']), info
 
-    def reset(self):
-        """
-        Reset the environment to its initial state.
-
-        Returns:
-            np.array: Initial observations.
-        """
+    def reset(self) -> np.ndarray:
         if not self.launched:  # first time to launch
             self.launched = self.launch_ue_env()
             self.init_agents()
@@ -202,7 +203,7 @@ class UnrealCv_base(gym.Env):
             # set view point
             self.unrealcv.set_cam(obj, self.agents[obj]['relative_location'], self.agents[obj]['relative_rotation'])
 
-        # 匹配真正cam
+        # Match real camera assignments
         self.unrealcv.cam = self.unrealcv.get_camera_config()
         self.update_camera_assignments()
         # set global view to the top location
@@ -210,17 +211,14 @@ class UnrealCv_base(gym.Env):
         # get state
         observations, self.obj_poses, self.img_show = self.update_observation(self.player_list, self.cam_list, self.cam_flag, self.observation_type)
 
-        return observations
+        return cast(np.ndarray, observations)
 
-    def close(self):
-        """
-        Close the environment and disconnect from UnrealCV.
-        """
+    def close(self) -> None:
         if self.launched:
             self.unrealcv.client.disconnect()
             self.ue_binary.close()
 
-    def render(self, mode='rgb_array', close=False):
+    def render(self, mode: str = 'rgb_array', close: bool = False) -> Optional[np.ndarray]:
         """
         Show the rendered image.
 
@@ -235,16 +233,30 @@ class UnrealCv_base(gym.Env):
             self.ue_binary.close()
         return self.img_show
 
-    def seed(self, seed=None):
-        """
-        Set the random seed for the environment.
-
-        Args:
-            seed (int): Seed value.
-        """
+    def seed(self, seed: Optional[int] = None) -> None:
         np.random.seed(seed)
 
-    def update_observation(self, player_list, cam_list, cam_flag, observation_type):
+    def select_target_by_distance(self, current_pos, targets_pos):
+        """Find the nearest target from *targets_pos* to *current_pos*.
+
+        Args:
+            current_pos (list): The current position [x, y, z, ...].
+            targets_pos (dict): Mapping of target_id -> position list.
+
+        Returns:
+            tuple: ``(min_distance, target_id)``
+        """
+        target_id = next(iter(targets_pos))
+        distance_min = self.unrealcv.get_distance(targets_pos[target_id], current_pos, 3)
+
+        for key, target_pos in targets_pos.items():
+            distance = self.unrealcv.get_distance(target_pos, current_pos, 3)
+            if distance < distance_min:
+                target_id = key
+                distance_min = distance
+        return distance_min, target_id
+
+    def update_observation(self, player_list: List[str], cam_list: List[int], cam_flag: List[bool], observation_type: str) -> Tuple[np.ndarray, List, np.ndarray]:
         """
         Update the observations for the agents.
 
@@ -260,9 +272,9 @@ class UnrealCv_base(gym.Env):
         obj_poses, cam_poses, imgs, masks, depths = self.unrealcv.get_pose_img_batch(player_list, cam_list, cam_flag)
         observations = self.prepare_observation(observation_type, imgs, masks, depths, obj_poses)
         img_show = self.prepare_img2show(self.protagonist_id, observations)
-        return observations, obj_poses, img_show
+        return cast(np.ndarray, observations), obj_poses, cast(np.ndarray, img_show)
 
-    def get_start_area(self, safe_start, safe_range):
+    def get_start_area(self, safe_start: List[float], safe_range: int) -> List[float]:
         """
         Get the start area for the agents.
 
@@ -277,7 +289,7 @@ class UnrealCv_base(gym.Env):
                      safe_start[1]-safe_range, safe_start[1]+safe_range]
         return start_area
 
-    def set_topview(self, current_pose, cam_id):
+    def set_topview(self, current_pose: List[float], cam_id: int) -> None:
         """
         Set the virtual camera on top of a point(current pose) to capture images from the bird's eye view.
 
@@ -291,7 +303,7 @@ class UnrealCv_base(gym.Env):
         self.unrealcv.set_cam_location(cam_id, cam_loc)
         self.unrealcv.set_cam_rotation(cam_id, cam_rot)
 
-    def get_relative(self, pose0, pose1):  # pose0-centric
+    def get_relative(self, pose0: List[float], pose1: List[float]) -> Tuple[List[float], float, float]:
         """
         Get the relative pose between two objects, pose0 is the reference object.
 
@@ -310,7 +322,7 @@ class UnrealCv_base(gym.Env):
                       distance]
         return obs_vector, distance, angle
 
-    def prepare_observation(self, observation_type, img_list, mask_list, depth_list, pose_list):
+    def prepare_observation(self, observation_type: str, img_list: List, mask_list: List, depth_list: List, pose_list: List) -> Optional[np.ndarray]:
         """
         Prepare the observation based on the observation type.
 
@@ -324,20 +336,10 @@ class UnrealCv_base(gym.Env):
         Returns:
             np.array: Prepared observation.
         """
-        if observation_type == 'Depth':
-            return np.array(depth_list)
-        elif observation_type == 'Mask':
-            return np.array(mask_list)
-        elif observation_type == 'Color':
-            return np.array(img_list)
-        elif observation_type == 'Rgbd':
-            return np.append(np.array(img_list), np.array(depth_list), axis=-1)
-        elif observation_type == 'Pose':
-            return np.array(pose_list)
-        elif observation_type == 'MaskDepth':
-            return np.append(np.array(mask_list), np.array(depth_list), axis=-1)
-        elif observation_type =='ColorMask':
-            return np.append(np.array(img_list), np.array(mask_list), axis=-1)
+        try:
+            return build_observation(observation_type, img_list, mask_list, depth_list, pose_list)
+        except ValueError:
+            return None
 
 
 
@@ -436,10 +438,8 @@ class UnrealCv_base(gym.Env):
         self.agents.pop(name)
         st_time=time.time()
         time.sleep(1)
-        print(f'waiting for remove agent {name}...')
-        while self.unrealcv.get_camera_num() >len(last_cam_list)+1: #UE4 需要+1 ,UE5 不用?
+        while self.unrealcv.get_camera_num() > len(last_cam_list) + 1:  # UE4 needs +1, UE5 does not
             pass
-        print('Remove finished!')
 
     def remove_cam(self, name):
         """
@@ -611,7 +611,6 @@ class UnrealCv_base(gym.Env):
         # get the relative pose of each agent and the absolute location and orientation of the agent
         pose_obs = []
         player_num = len(obj_pos)
-        np.zeros((player_num, player_num, 2))
         relative_pose = np.zeros((player_num, player_num, 2))
         for j in range(player_num):
             vectors = []
@@ -683,53 +682,17 @@ class UnrealCv_base(gym.Env):
         return self.cam_list.index(random.choice([x for x in self.cam_list if x > 0]))
 
     def action_mapping(self, actions, player_list):
-        actions2move = []
-        actions2animate = []
-        actions2head = []
-        actions2player = []
-        for i, obj in enumerate(player_list):
-            action_space = self.action_space[i]
-            act = actions[i]
-            if act is None:  # if the action is None, then we don't control this agent
-                actions2move.append(None)  # place holder
-                actions2animate.append(None)
-                actions2head.append(None)
-                continue
-            if isinstance(action_space, spaces.Discrete):
-                actions2move.append(self.agents[obj]["move_action"][act])
-                actions2animate.append(None)
-                actions2head.append(None)
-            elif isinstance(action_space, spaces.Box):
-                actions2move.append(act)
-                actions2animate.append(None)
-                actions2head.append(None)
-            elif isinstance(action_space, spaces.Tuple):
-                for j, action in enumerate(actions[i]):
-                    if j == 0:
-                        if isinstance(action, int):
-                            actions2move.append(self.agents[obj]["move_action"][action])
-                        else:
-                            actions2move.append(action)
-                    elif j == 1:
-                        if isinstance(action, int):
-                            actions2head.append(self.agents[obj]["head_action"][action])
-                        else:
-                            actions2head.append(action)
-                    elif j == 2:
-                        actions2animate.append(self.agents[obj]["animation_action"][action])
-        return actions2move, actions2head, actions2animate
+        return map_actions(actions, player_list, self.action_space, self.agents)
 
 
     def get_cam_flag(self, observation_type, use_color=False, use_mask=False, use_depth=False, use_cam_pose=False):
-        # get flag for camera
-        # observation_type: 'color', 'depth', 'mask', 'cam_pose'
-        flag = [False, False, False, False]
-        flag[0] = use_cam_pose
-        flag[1] = observation_type == 'Color' or observation_type == 'Rgbd' or use_color or observation_type == 'ColorMask'
-        flag[2] = observation_type == 'Mask' or use_mask or observation_type == 'MaskDepth' or observation_type == 'ColorMask'
-        flag[3] = observation_type == 'Depth' or observation_type == 'Rgbd' or use_depth or observation_type == 'MaskDepth'
-        print('cam_flag:', flag)
-        return flag
+        return build_cam_flag(
+            observation_type,
+            use_color=use_color,
+            use_mask=use_mask,
+            use_depth=use_depth,
+            use_cam_pose=use_cam_pose,
+        )
 
     def sample_from_area(self, area, num):
         x = np.random.randint(area[0], area[1], num)
@@ -737,13 +700,17 @@ class UnrealCv_base(gym.Env):
         z = np.random.randint(area[4], area[5], num)
         return np.vstack((x, y, z)).T
 
-    def get_startpoint(self, target_pos=[], distance=None, reset_area=[], exp_height=200, direction=None):
+    def get_startpoint(self, target_pos=None, distance=None, reset_area=None, exp_height=200, direction=None):
+        if target_pos is None:
+            target_pos = []
+        if reset_area is None:
+            reset_area = []
         for i in range(5):  # searching a safe point
-            if direction == None:
-                direction = 2 * np.pi * np.random.sample(1)
+            if direction is None:
+                direction = 2 * np.pi * float(np.random.sample())
             else:
                 direction = direction % (2 * np.pi)
-            if distance == None:
+            if distance is None:
                 x = np.random.randint(reset_area[0], reset_area[1])
                 y = np.random.randint(reset_area[2], reset_area[3])
             else:
@@ -760,32 +727,16 @@ class UnrealCv_base(gym.Env):
 
 
     def update_camera_assignments(self):
-        """
-        更新所有智能体的相机分配，确保每个智能体使用最近的相机
-        """
-        # 获取所有相机位置
+        """Update camera assignments for all agents, assigning each agent the nearest camera."""
         cam_locs = []
-        for cam_id in range(0,self.unrealcv.get_camera_num()):
-            print(cam_id)
+        for cam_id in range(0, self.unrealcv.get_camera_num()):
             cam_loc = self.unrealcv.get_cam_location(cam_id)
             cam_locs.append(cam_loc)
 
-        # 为每个智能体匹配最近相机并更新
         for obj in self.player_list:
-            # 获取智能体位置 (包含位置和旋转信息)
             obj_loc = self.unrealcv.get_obj_location(obj)
-
-            dis_list = []
-            for loc in cam_locs:
-                # 计算距离 (使用3D欧氏距离)
-                distance = self.unrealcv.get_distance(loc, obj_loc, 3)
-                dis_list.append(distance)
-
-            # 找到最小距离的索引 (即相机ID)
+            dis_list = [self.unrealcv.get_distance(loc, obj_loc, 3) for loc in cam_locs]
             nearest_cam_id = dis_list.index(min(dis_list))
-
-            # 更新智能体的相机ID
             self.agents[obj]['cam_id'] = nearest_cam_id
-            # 更新cam_list中对应的相机ID
             agent_idx = self.player_list.index(obj)
             self.cam_list[agent_idx] = nearest_cam_id
