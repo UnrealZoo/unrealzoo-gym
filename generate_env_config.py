@@ -1,14 +1,13 @@
+import argparse
+import copy
+import json
+import os
 import re
-import time
+from typing import Any
+
 from unrealcv.api import UnrealCv_API
 from unrealcv.launcher import RunUnreal
 from unrealcv.util import parse_resolution
-import argparse
-import json
-import copy
-import numpy as np
-import os
-from typing import Any
 
 '''
 An example to show how to use the UnrealCV API to launch the game and run some functions

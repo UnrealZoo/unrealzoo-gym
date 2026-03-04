@@ -1,11 +1,19 @@
 import argparse
-import gym_unrealcv
-from gym_unrealcv._gym_compat import gym
-import cv2
 import time
+
+import cv2
 import numpy as np
-from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
-from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
+
+from gym_unrealcv._gym_compat import gym
+from gym_unrealcv.envs.tracking.baseline import PoseTracker
+from gym_unrealcv.envs.wrappers import (
+    agents,
+    augmentation,
+    configUE,
+    early_done,
+    monitor,
+    time_dilation,
+)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
@@ -52,7 +60,7 @@ if __name__ == '__main__':
             # 使用环境自动设置的 tracker_id 和 target_id
             # tracker_id = 0 (player 追踪者), target_id = 1 (animal 被追踪者)
             print(f'Tracker ID: {tracker_id} ({env.unwrapped.agents_category[tracker_id]}), Target ID: {target_id} ({env.unwrapped.agents_category[target_id]})')
-            print(f'Tracker speed: 100, Target speed: 100')
+            print('Tracker speed: 100, Target speed: 100')
 
             # 为tracker智能体创建控制器, target 采用内置的导航控制器
             trackers = PoseTracker(env.action_space[0])

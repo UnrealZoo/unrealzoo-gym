@@ -1,10 +1,13 @@
 import argparse
-import gym_unrealcv
-from gym_unrealcv._gym_compat import gym
-import cv2
-import time
 import os
+import time
+
+import cv2
 import numpy as np
+
+from gym_unrealcv._gym_compat import gym
+
+
 class RandomAgent(object):
     """The world's simplest agent!"""
     def __init__(self, action_space):

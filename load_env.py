@@ -1,9 +1,12 @@
-import os
 import argparse
-import zipfile
-import sys
+import os
 import shutil
+import subprocess
+import sys
+import zipfile
+
 import unrealcv
+
 modelscope = {
     'UE4': 'UnrealZoo/UnrealZoo-UE4',
     'UE5': 'UnrealZoo/UnrealZoo-UE5',
@@ -53,9 +56,8 @@ if __name__ == '__main__':
         else:
             remote_repo = modelscope['UE4']
         cmd = f"modelscope download --dataset {remote_repo} --include {target_name} --local_dir ."
-        try:
-            os.system(cmd)
-        except:
+        result = subprocess.run(cmd, shell=True, check=False)
+        if result.returncode != 0:
             print('Please install modelscope first: pip install modelscope')
             exit()
         filename = target_name

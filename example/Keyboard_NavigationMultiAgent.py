@@ -1,10 +1,18 @@
 import argparse
-from gym_unrealcv._gym_compat import gym
-from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augmentation, configUE,agents
-from pynput import keyboard
 import time
+
 import cv2
-import os
+from pynput import keyboard
+
+from gym_unrealcv._gym_compat import gym
+from gym_unrealcv.envs.wrappers import (
+    augmentation,
+    configUE,
+    early_done,
+    monitor,
+    time_dilation,
+)
+
 
 class RandomAgent(object):
     """The world's simplest agent!"""

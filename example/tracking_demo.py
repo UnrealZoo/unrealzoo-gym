@@ -1,12 +1,18 @@
 import argparse
-import gym_unrealcv
-from gym_unrealcv._gym_compat import gym
-import cv2
 import time
-import numpy as np
-from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
-from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
 
+import cv2
+import numpy as np
+
+from gym_unrealcv._gym_compat import gym
+from gym_unrealcv.envs.tracking.baseline import Nav2GoalAgent, PoseTracker
+from gym_unrealcv.envs.wrappers import (
+    augmentation,
+    configUE,
+    early_done,
+    monitor,
+    time_dilation,
+)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
