@@ -701,13 +701,17 @@ class UnrealCv_base(GymEnv):
         z = np.random.randint(area[4], area[5], num)
         return np.vstack((x, y, z)).T
 
-    def get_startpoint(self, target_pos=[], distance=None, reset_area=[], exp_height=200, direction=None):
+    def get_startpoint(self, target_pos=None, distance=None, reset_area=None, exp_height=200, direction=None):
+        if target_pos is None:
+            target_pos = []
+        if reset_area is None:
+            reset_area = []
         for i in range(5):  # searching a safe point
-            if direction == None:
-                direction = 2 * np.pi * np.random.sample(1)
+            if direction is None:
+                direction = 2 * np.pi * float(np.random.sample())
             else:
                 direction = direction % (2 * np.pi)
-            if distance == None:
+            if distance is None:
                 x = np.random.randint(reset_area[0], reset_area[1])
                 y = np.random.randint(reset_area[2], reset_area[3])
             else:
