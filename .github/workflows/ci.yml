@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - v2.0
+
+jobs:
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Lint Markdown
+        run: npx markdownlint-cli2 "README.md" "doc/**/*.md"
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install package and test deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install pytest ruff mypy
+
+      - name: Lint (ruff)
+        run: ruff check tests gym_unrealcv/envs/utils/transforms.py gym_unrealcv/envs/utils/types.py gym_unrealcv/envs/wrappers/configUE.py gym_unrealcv/envs/tracking/baseline.py
+
+      - name: Type check (mypy)
+        run: mypy
+
+      - name: Run tests
+        run: pytest -q
