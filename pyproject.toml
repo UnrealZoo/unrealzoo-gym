@@ -31,3 +31,19 @@ packages = ["gym_unrealcv"]
 
 [tool.setuptools.dynamic]
 version = {attr = "gym_unrealcv.__version__"}
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+testpaths = [
+    "tests"
+]
+addopts = "-ra --strict-markers --strict-config"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
