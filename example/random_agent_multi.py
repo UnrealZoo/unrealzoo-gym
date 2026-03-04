@@ -3,8 +3,7 @@
 import os
 import argparse
 import gym_unrealcv
-import gym
-from gym import wrappers
+from gym_unrealcv._gym_compat import gym
 import cv2
 import time
 import numpy as np
@@ -62,18 +61,18 @@ if __name__ == '__main__':
     rewards = 0
     done = False
 
-    Total_rewards = 0
+    Total_rewards = 0.0
     env.seed(int(args.seed))
     for eps in range(1, episode_count):
         obs = env.reset()
         agents_num = len(env.action_space)
-        agents = [RandomAgent(env.action_space[i]) for i in range(agents_num)]  # reset agents
+        random_agents = [RandomAgent(env.action_space[i]) for i in range(agents_num)]  # reset agents
         count_step = 0
         t0 = time.time()
         agents_num = len(obs)
         C_rewards = np.zeros(agents_num)
         while True:
-            actions = [agents[i].act(obs[i]) for i in range(agents_num)]
+            actions = [random_agents[i].act(obs[i]) for i in range(agents_num)]
             obs, rewards, done, info = env.step(actions)
             C_rewards += rewards
             count_step += 1
@@ -84,7 +83,7 @@ if __name__ == '__main__':
                 cv2.waitKey(1)
             if done:
                 fps = count_step/(time.time() - t0)
-                Total_rewards += C_rewards[0]
+                Total_rewards += float(C_rewards[0])
                 print ('Fps:' + str(fps), 'R:'+str(C_rewards), 'R_ave:'+str(Total_rewards/eps))
                 break
 

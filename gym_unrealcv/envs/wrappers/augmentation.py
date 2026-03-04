@@ -1,8 +1,7 @@
-from gym import Wrapper
+from gym_unrealcv._gym_compat import Wrapper
 import numpy as np
 import os
 import gym_unrealcv
-import unrealcv
 class RandomPopulationWrapper(Wrapper):
     def __init__(self, env,  num_min=2, num_max=10, random_target=False, random_tracker=False):
         super().__init__(env)

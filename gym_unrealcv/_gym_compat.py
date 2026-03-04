@@ -10,9 +10,13 @@ try:
     from gymnasium import spaces
     from gymnasium.envs.registration import register
 except ImportError:  # pragma: no cover - fallback path
-    import gym
-    from gym import spaces
-    from gym.envs.registration import register
+    import gym as legacy_gym
+    from gym import spaces as legacy_spaces
+    from gym.envs.registration import register as legacy_register
+
+    gym = legacy_gym
+    spaces = legacy_spaces
+    register = legacy_register
 
 Wrapper = gym.Wrapper
 Env = gym.Env

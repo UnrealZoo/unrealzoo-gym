@@ -1,5 +1,5 @@
 import argparse
-import gym
+from gym_unrealcv._gym_compat import gym
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augmentation, configUE,agents
 from pynput import keyboard
 import time

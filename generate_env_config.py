@@ -1,3 +1,4 @@
+# pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
 import re
 import time
 from unrealcv.api import UnrealCv_API
@@ -8,6 +9,7 @@ import json
 import copy
 import numpy as np
 import os
+from typing import Any
 os.environ['UnrealEnv']='/home/wuk/DataDisk/UnrealEnv/'
 
 '''
@@ -216,14 +218,14 @@ if __name__ == '__main__':
     # unrealcv.config_ue(parse_res(args.resolution))
     for env_map in maps:
         unrealcv.set_map(env_map)
-        agents = {
+        agent_groups: dict[str, dict[str, Any]] = {
             "player": copy.deepcopy(player_config),
             "animal": copy.deepcopy(animal_config),
             "drone": copy.deepcopy(drone_config),
             "car": copy.deepcopy(car_config),
             "motorbike": copy.deepcopy(motorbike_config)
         }
-        env_config = {
+        env_config: dict[str, Any] = {
             "env_name": None,
             "env_bin": None,
             "env_map": None,
@@ -239,7 +241,7 @@ if __name__ == '__main__':
             },
             "height": 500,
             "interval": 1000,
-            "agents": agents,
+            "agents": agent_groups,
             "safe_start": [],
             "reset_area": [0, 0, 0, 0, 0, 0],
             "random_init": False,
@@ -268,9 +270,9 @@ if __name__ == '__main__':
         # Test the API
         objects = unrealcv.get_objects()
 
-        obj_locations = []
-        obj_size = []
-        obj_info = {}
+        obj_locations: list[Any] = []
+        obj_size: list[Any] = []
+        obj_info: dict[str, Any] = {}
         # print(objects)
         print(env_map, 'object number:',len(objects))
         env_config['obj_num'] = len(objects)
@@ -325,9 +327,9 @@ if __name__ == '__main__':
             return cam_id
         for obj in objects:
             if re.match(re.compile(r'bp_character', re.I), obj) is not None:
-                agents['player']['name'].append(obj)
-                agents['player']['class_name'].append(class_name['player'])
-                agents['player']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['player']['name'].append(obj)
+                agent_groups['player']['class_name'].append(class_name['player'])
+                agent_groups['player']['cam_id'].append(match_cam_id(cam_locs, obj))
                 start_pos_list.append(unrealcv.get_obj_location(obj))
                 print('Sample start point from Nav Mesh:')
                 for i in range(10):
@@ -338,30 +340,30 @@ if __name__ == '__main__':
                         goal_loc[-1] += 50
                         start_pos_list.append(goal_loc)
             elif re.match(re.compile(r'bp_animal', re.I), obj) is not None:
-                agents['animal']['name'].append(obj)
-                agents['animal']['class_name'].append(class_name['animal'])
-                agents['animal']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['animal']['name'].append(obj)
+                agent_groups['animal']['class_name'].append(class_name['animal'])
+                agent_groups['animal']['cam_id'].append(match_cam_id(cam_locs, obj))
                 start_pos_list.append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'bp_drone', re.I), obj) is not None:
-                agents['drone']['name'].append(obj)
-                agents['drone']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['drone']['class_name'].append(class_name['drone'])
+                agent_groups['drone']['name'].append(obj)
+                agent_groups['drone']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['drone']['class_name'].append(class_name['drone'])
                 # env_config['safe_start'].append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'bp_basecar|BP_Hatchback', re.I), obj) is not None:
-                agents['car']['name'].append(obj)
-                agents['car']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['car']['class_name'].append(class_name['car'])
+                agent_groups['car']['name'].append(obj)
+                agent_groups['car']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['car']['class_name'].append(class_name['car'])
                 start_pos_list.append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'sport|motorbike|BP_BaseBike', re.I), obj) is not None:
-                agents['motorbike']['name'].append(obj)
-                agents['motorbike']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['motorbike']['class_name'].append(class_name['motorbike'])
+                agent_groups['motorbike']['name'].append(obj)
+                agent_groups['motorbike']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['motorbike']['class_name'].append(class_name['motorbike'])
                 start_pos_list.append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'bp_door', re.I), obj) is not None or re.match(re.compile(r'animateddoor', re.I), obj) is not None:
                 env_config['env']['interactive_door'].append(obj)
 
-        agents = {k: v for k, v in agents.items() if len(v['name']) > 0}  # remove the agent category not in the scene
-        env_config['agents'] = agents
+        agent_groups = {k: v for k, v in agent_groups.items() if len(v['name']) > 0}  # remove the agent category not in the scene
+        env_config['agents'] = agent_groups
 
         env_config['safe_start'] = start_pos_list
         cam_x = [cam_loc[0] for cam_loc in start_pos_list]

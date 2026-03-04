@@ -1,9 +1,10 @@
 from __future__ import annotations
+# pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
 
 import os.path
 import time
 import warnings
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union, cast
 
 import cv2
 import numpy as np
@@ -62,7 +63,7 @@ class UnrealCv_base(GymEnv):
         self.agents = misc.convert_dict(self.agent_configs)
         self.reset_type = reset_type
         # TODO: it is useless.
-        self.character = {
+        self.character: dict[str, list[Any]] = {
             'player': [],  # the list of player to control
             'npc': [],  # the list of Non-player character
             'freeze': [],  # the list of player that exists in the scene, but it is frozen
@@ -71,7 +72,7 @@ class UnrealCv_base(GymEnv):
         self.height_top_view = setting['third_cam']['height_top_view']
 
         # self.env_obj_list = self.env_configs[""]
-        self.objects_list = []
+        self.objects_list: list[str] = []
         self.reset_area = setting['reset_area']
 
         self.safe_start = setting['safe_start']
@@ -172,7 +173,7 @@ class UnrealCv_base(GymEnv):
         info['Pose_Obs'] = pose_obs
         info['Reward'] = np.zeros(len(self.player_list))
 
-        return observations, info['Reward'], info['Done'], info
+        return cast(np.ndarray, observations), cast(np.ndarray, info['Reward']), bool(info['Done']), info
 
     def reset(self) -> np.ndarray:
         if not self.launched:  # first time to launch
@@ -211,7 +212,7 @@ class UnrealCv_base(GymEnv):
         # get state
         observations, self.obj_poses, self.img_show = self.update_observation(self.player_list, self.cam_list, self.cam_flag, self.observation_type)
 
-        return observations
+        return cast(np.ndarray, observations)
 
     def close(self) -> None:
         if self.launched:
@@ -272,7 +273,7 @@ class UnrealCv_base(GymEnv):
         obj_poses, cam_poses, imgs, masks, depths = self.unrealcv.get_pose_img_batch(player_list, cam_list, cam_flag)
         observations = self.prepare_observation(observation_type, imgs, masks, depths, obj_poses)
         img_show = self.prepare_img2show(self.protagonist_id, observations)
-        return observations, obj_poses, img_show
+        return cast(np.ndarray, observations), obj_poses, cast(np.ndarray, img_show)
 
     def get_start_area(self, safe_start: List[float], safe_range: int) -> List[float]:
         """

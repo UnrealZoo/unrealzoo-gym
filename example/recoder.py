@@ -1,7 +1,6 @@
 import argparse
 import gym_unrealcv
-import gym
-from gym import wrappers
+from gym_unrealcv._gym_compat import gym
 import cv2
 import time
 import os

@@ -1,7 +1,6 @@
 import argparse
 import gym_unrealcv
-import gym
-from gym import wrappers
+from gym_unrealcv._gym_compat import gym
 import cv2
 import time
 import numpy as np
@@ -37,7 +36,7 @@ if __name__ == '__main__':
     rewards = 0
     done = False
 
-    Total_rewards = 0
+    Total_rewards = 0.0
     env.seed(int(args.seed))
     try:
         for eps in range(1, episode_count):
@@ -73,7 +72,7 @@ if __name__ == '__main__':
                 cv2.waitKey(1)
                 if done:
                     fps = count_step/(time.time() - t0)
-                    Total_rewards += C_rewards[0]
+                    Total_rewards += float(C_rewards[0])
                     print('Fps:' + str(fps), 'R:'+str(C_rewards), 'R_ave:'+str(Total_rewards/eps))
                     break
 
