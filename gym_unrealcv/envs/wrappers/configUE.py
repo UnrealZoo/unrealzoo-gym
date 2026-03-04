@@ -1,5 +1,6 @@
 from gym_unrealcv._gym_compat import Wrapper
 
+
 class ConfigUEWrapper(Wrapper):
     def __init__(self, env, docker=False, resolution=(160, 160), display=None, offscreen=False,
                             use_opengl=False, nullrhi=False, gpu_id=None, sleep_time=5, comm_mode='tcp'):
@@ -13,11 +14,3 @@ class ConfigUEWrapper(Wrapper):
         env.unwrapped.sleep_time = sleep_time
         env.unwrapped.resolution = resolution
         env.unwrapped.comm_mode = comm_mode
-
-    def step(self, action):
-        obs, reward, done, info = self.env.step(action)
-        return obs, reward, done, info
-
-    def reset(self, **kwargs):
-        states = self.env.reset(**kwargs)
-        return states

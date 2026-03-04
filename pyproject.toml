@@ -52,3 +52,13 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = true
+follow_imports = "skip"
+files = [
+    "gym_unrealcv/envs/utils/transforms.py",
+    "gym_unrealcv/envs/utils/types.py"
+]

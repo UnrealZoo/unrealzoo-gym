@@ -1,9 +1,18 @@
-import numpy as np
 import numbers
+from typing import Any, Sequence, Tuple
+
+import numpy as np
+
 from gym_unrealcv._gym_compat import spaces
 
 
-def prepare_observation(observation_type, img_list, mask_list, depth_list, pose_list):
+def prepare_observation(
+    observation_type: str,
+    img_list: Sequence[Any],
+    mask_list: Sequence[Any],
+    depth_list: Sequence[Any],
+    pose_list: Sequence[Any],
+) -> np.ndarray:
     if observation_type == 'Depth':
         return np.array(depth_list)
     if observation_type == 'Mask':
@@ -21,10 +30,15 @@ def prepare_observation(observation_type, img_list, mask_list, depth_list, pose_
     raise ValueError('Unknown observation type: {}'.format(observation_type))
 
 
-def action_mapping(actions, player_list, action_spaces, agents):
-    actions2move = []
-    actions2animate = []
-    actions2head = []
+def action_mapping(
+    actions: Sequence[Any],
+    player_list: Sequence[str],
+    action_spaces: Sequence[Any],
+    agents: dict[str, dict[str, Any]],
+) -> Tuple[list[Any], list[Any], list[Any]]:
+    actions2move: list[Any] = []
+    actions2animate: list[Any] = []
+    actions2head: list[Any] = []
 
     for i, obj in enumerate(player_list):
         action_space = action_spaces[i]
@@ -61,7 +75,13 @@ def action_mapping(actions, player_list, action_spaces, agents):
     return actions2move, actions2head, actions2animate
 
 
-def get_cam_flag(observation_type, use_color=False, use_mask=False, use_depth=False, use_cam_pose=False):
+def get_cam_flag(
+    observation_type: str,
+    use_color: bool = False,
+    use_mask: bool = False,
+    use_depth: bool = False,
+    use_cam_pose: bool = False,
+) -> list[bool]:
     flag = [False, False, False, False]
     flag[0] = use_cam_pose
     flag[1] = observation_type in ['Color', 'Rgbd', 'ColorMask', 'Gray', 'CG'] or use_color

@@ -7,9 +7,7 @@ config shape.
 from __future__ import annotations
 
 from dataclasses import dataclass, field, fields
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
-
-import numpy as np
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # ---------------------------------------------------------------------------
 # Pose helpers
