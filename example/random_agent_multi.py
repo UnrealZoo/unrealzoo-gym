@@ -36,10 +36,10 @@ if __name__ == '__main__':
     parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-MiddleEast-ContinuousColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
-    parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')
-    parser.add_argument("-t", '--time-dilation', dest='time_dilation', default=10, help='time_dilation to keep fps in simulator')
+    parser.add_argument("-s", '--seed', dest='seed', type=int, default=0, help='random seed')
+    parser.add_argument("-t", '--time-dilation', dest='time_dilation', type=int, default=10, help='time_dilation to keep fps in simulator')
     parser.add_argument("-n", '--nav-agent', dest='nav_agent', action='store_true', help='use nav agent to control the agents')
-    parser.add_argument("-d", '--early-done', dest='early_done', default=-1, help='early_done when lost in n steps')
+    parser.add_argument("-d", '--early-done', dest='early_done', type=int, default=-1, help='early_done when lost in n steps')
     parser.add_argument("-m", '--monitor', dest='monitor', action='store_true', help='auto_monitor')
 
     args = parser.parse_args()
@@ -47,10 +47,10 @@ if __name__ == '__main__':
     env = configUE.ConfigUEWrapper(env, offscreen=False,resolution=(240,240))
     env.unwrapped.agents_category=['player'] #choose the agent type in the scene
 
-    if int(args.time_dilation) > 0:  # -1 means no time_dilation
-        env = time_dilation.TimeDilationWrapper(env, int(args.time_dilation))
-    if int(args.early_done) > 0:  # -1 means no early_done
-        env = early_done.EarlyDoneWrapper(env, int(args.early_done))
+    if args.time_dilation > 0:  # -1 means no time_dilation
+        env = time_dilation.TimeDilationWrapper(env, args.time_dilation)
+    if args.early_done > 0:  # -1 means no early_done
+        env = early_done.EarlyDoneWrapper(env, args.early_done)
     if args.monitor:
         env = monitor.DisplayWrapper(env)
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     done = False
 
     Total_rewards = 0.0
-    env.seed(int(args.seed))
+    env.seed(args.seed)
     for eps in range(1, episode_count):
         obs = env.reset()
         agents_num = len(env.action_space)

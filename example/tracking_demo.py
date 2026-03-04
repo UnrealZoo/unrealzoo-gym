@@ -13,9 +13,9 @@ if __name__ == '__main__':
     parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-ContinuousColor-v5',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
-    parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')
-    parser.add_argument("-t", '--time_dilation', dest='time_dilation', default=10, help='time_dilation to keep fps in simulator')
-    parser.add_argument("-d", '--early_done', dest='early_done', default=-1, help='early_done when lost in n steps')
+    parser.add_argument("-s", '--seed', dest='seed', type=int, default=0, help='random seed')
+    parser.add_argument("-t", '--time_dilation', dest='time_dilation', type=int, default=10, help='time_dilation to keep fps in simulator')
+    parser.add_argument("-d", '--early_done', dest='early_done', type=int, default=-1, help='early_done when lost in n steps')
     parser.add_argument("-m", '--monitor', dest='monitor', action='store_true', help='auto_monitor')
 
     args = parser.parse_args()
@@ -23,9 +23,9 @@ if __name__ == '__main__':
     env = configUE.ConfigUEWrapper(env, offscreen=False, resolution=(240, 240))
     env.unwrapped.agents_category=['player'] #choose the agent type in the scene
 
-    if int(args.time_dilation) > 0:  # -1 means no time_dilation
+    if args.time_dilation > 0:  # -1 means no time_dilation
         env = time_dilation.TimeDilationWrapper(env, args.time_dilation)
-    if int(args.early_done) > 0:  # -1 means no early_done
+    if args.early_done > 0:  # -1 means no early_done
         env = early_done.EarlyDoneWrapper(env, args.early_done)
     if args.monitor:
         env = monitor.DisplayWrapper(env)
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     done = False
 
     Total_rewards = 0.0
-    env.seed(int(args.seed))
+    env.seed(args.seed)
     try:
         for eps in range(1, episode_count):
             obs = env.reset()
@@ -68,8 +68,8 @@ if __name__ == '__main__':
                 if args.render:
                     img = env.render(mode='rgb_array')
                     #  img = img[..., ::-1]  # bgr->rgb
-                cv2.imshow('show', obs[1])
-                cv2.waitKey(1)
+                    cv2.imshow('show', obs[1])
+                    cv2.waitKey(1)
                 if done:
                     fps = count_step/(time.time() - t0)
                     Total_rewards += float(C_rewards[0])

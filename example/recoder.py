@@ -18,7 +18,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrackingMPRoom-DiscreteColorGoal-v2',
                         help='Select the environment to run')
-    parser.add_argument("-r", "--render", default=False, metavar='G', help='show env using cv2')
+    parser.add_argument("-r", "--render", action='store_true', help='show env using cv2')
     args = parser.parse_args()
     env = gym.make(args.env_id)
     env = env.unwrapped
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         env.seed(i)
         env.direction = 2*np.pi/8.0 * env.count_eps
         obs = env.reset()
-        os.mkdir("%03d" % env.count_eps)
+        os.makedirs("%03d" % env.count_eps, exist_ok=True)
         cv2.imwrite(os.path.join("%03d" % env.count_eps, "%03d" % env.count_steps+'.png'), obs[1])
         count_step = 0
         t0 = time.time()
