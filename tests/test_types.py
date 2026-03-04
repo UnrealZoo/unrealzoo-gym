@@ -93,3 +93,30 @@ class TestEnvSettings:
     def test_missing_env_map_defaults_none(self):
         s = EnvSettings.from_dict(self._sample_dict())
         assert s.env_map is None
+
+    def test_slots(self):
+        """EnvSettings(slots=True) should not have __dict__."""
+        s = EnvSettings.from_dict(self._sample_dict())
+        assert not hasattr(s, '__dict__')
+
+
+class TestSlots:
+    """Verify slots=True is effective for dataclass instances."""
+
+    def test_agentconfig_slots(self):
+        cfg = AgentConfig(agent_type='player')
+        assert not hasattr(cfg, '__dict__')
+
+    def test_envsettings_slots(self):
+        settings = EnvSettings.from_dict({
+            'env_name': 'Demo_Roof',
+            'height': 200,
+            'third_cam': {'cam_id': 0, 'height_top_view': 1500},
+            'agents': {'player': {'name': ['p0']}},
+            'env': {'targets': {}},
+            'reset_area': [0, 1000, 0, 1000, 0, 500],
+            'safe_start': [[100, 200, 0]],
+            'interval': 0.5,
+            'random_init': True,
+        })
+        assert not hasattr(settings, '__dict__')
