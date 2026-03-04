@@ -1,9 +1,20 @@
 import argparse
-import gym
-from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augmentation, configUE,agents
-from pynput import keyboard
 import time
+
 import cv2
+from pynput import keyboard
+
+from gym_unrealcv._gym_compat import gym
+from gym_unrealcv.envs.wrappers import (
+    agents,
+    augmentation,
+    configUE,
+    early_done,
+    monitor,
+    time_dilation,
+)
+
+
 class RandomAgent(object):
     """The world's simplest agent!"""
     def __init__(self, action_space):
@@ -89,10 +100,10 @@ if __name__ == '__main__':
     parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-MixedColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
-    parser.add_argument("-s", '--seed', dest='seed', default=10, help='random seed')
-    parser.add_argument("-t", '--time-dilation', dest='time_dilation', default=-1,
+    parser.add_argument("-s", '--seed', dest='seed', type=int, default=10, help='random seed')
+    parser.add_argument("-t", '--time-dilation', dest='time_dilation', type=int, default=-1,
                         help='time_dilation to keep fps in simulator')
-    parser.add_argument("-d", '--early-done', dest='early_done', default=-1, help='early_done when lost in n steps')
+    parser.add_argument("-d", '--early-done', dest='early_done', type=int, default=-1, help='early_done when lost in n steps')
     parser.add_argument("-m", '--monitor', dest='monitor', action='store_true', help='auto_monitor')
 
     args = parser.parse_args()
@@ -100,10 +111,10 @@ if __name__ == '__main__':
     env = configUE.ConfigUEWrapper(env, offscreen=True, resolution=(240, 240))
     env.unwrapped.agents_category=['player'] #choose the agent type in the scene
 
-    if int(args.time_dilation) > 0:  # -1 means no time_dilation
-        env = time_dilation.TimeDilationWrapper(env, int(args.time_dilation))
-    if int(args.early_done) > 0:  # -1 means no early_done
-        env = early_done.EarlyDoneWrapper(env, int(args.early_done))
+    if args.time_dilation > 0:  # -1 means no time_dilation
+        env = time_dilation.TimeDilationWrapper(env, args.time_dilation)
+    if args.early_done > 0:  # -1 means no early_done
+        env = early_done.EarlyDoneWrapper(env, args.early_done)
     if args.monitor:
         env = monitor.DisplayWrapper(env)
     env = augmentation.RandomPopulationWrapper(env, 2, 2, random_target=False)
@@ -113,15 +124,16 @@ if __name__ == '__main__':
     done = False
     Total_rewards = 0
     count_step = 0
-    env.seed(int(args.seed))
+    env.seed(args.seed)
     obs = env.reset()
     t0 = time.time()
     print('Use the "I", "J", "K", and "L" keys to control the agent  movement.')
     while True:
         action = get_key_action()
         obs, rewards, done, info = env.step([action])
-        cv2.imshow('obs',obs[0])
-        cv2.waitKey(1)
+        if args.render:
+            cv2.imshow('obs',obs[0])
+            cv2.waitKey(1)
         count_step += 1
         if done:
             fps = count_step / (time.time() - t0)

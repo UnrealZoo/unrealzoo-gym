@@ -1,16 +1,18 @@
-import os
 import json
-import matplotlib.pyplot as plt
+import os
 from collections import defaultdict
+from typing import DefaultDict
+
+import matplotlib.pyplot as plt
 
 # 设置文件夹路径
 folder_path = 'statistic'
 
 # 初始化字典来存储面积数据
-area_data = defaultdict(int)
-size_data = defaultdict(int)
-height_data = defaultdict(int)
-object_data = defaultdict(int)
+area_data: DefaultDict[str, int] = defaultdict(int)
+size_data: DefaultDict[str, int] = defaultdict(int)
+height_data: DefaultDict[str, int] = defaultdict(int)
+object_data: DefaultDict[str, int] = defaultdict(int)
 
 # 遍历文件夹中的所有文件
 categories_area = ['0-999', '1000-9999', '10000-99999', '100000-999999']
@@ -98,7 +100,7 @@ print(area_data, size_data, height_data)
 def plot_bar_chart(categories, data, title, xlabel, ylabel):
     colormap = plt.get_cmap('viridis')
     counts = [data[category] for category in categories if category in data]
-    bars = plt.bar(categories, counts, color=[colormap(i / len(counts)) for i in range(len(counts))])
+    plt.bar(categories, counts, color=[colormap(i / len(counts)) for i in range(len(counts))])
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.title(title)
