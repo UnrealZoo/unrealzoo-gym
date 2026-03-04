@@ -1,6 +1,19 @@
 from gym_unrealcv._gym_compat import Wrapper
 import time
 import cv2
+import os
+
+
+def _safe_imshow(window_name, image):
+    if image is None:
+        return
+    if os.name != "nt" and os.environ.get("DISPLAY") is None:
+        return
+    try:
+        cv2.imshow(window_name, image)
+        cv2.waitKey(1)
+    except cv2.error:
+        pass
 
 class DisplayWrapper(Wrapper):
     def __init__(self, env, dynamic_top_down=True, fix_camera=True, get_bbox=False):
@@ -38,12 +51,10 @@ class DisplayWrapper(Wrapper):
             mask, bbox = env.unrealcv.get_bbox(mask, env.player_list[env.target_id], normalize=False)
             self.mask_percent = mask.sum()/(255 * env.resolution[0] * env.resolution[1])
             self.bbox_init.append(bbox)
-        cv2.imshow('init', env.img_show)
-        cv2.waitKey(1)
+        _safe_imshow('init', env.img_show)
         return states # return the same results as the wrapped environment
 
     def show_bbox(self, img2disp, bbox):
         # im_disp = states[0][:, :, :3].copy()
         cv2.rectangle(img2disp, (int(bbox[0]), int(bbox[1])), (int(bbox[2] + bbox[0]), int(bbox[3] + bbox[1])), (0, 255, 0), 5)
-        cv2.imshow('track_res', img2disp)
-        cv2.waitKey(1)
+        _safe_imshow('track_res', img2disp)
