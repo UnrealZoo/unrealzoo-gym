@@ -1,5 +1,6 @@
 """Tests for lazy environment registration in gym_unrealcv.__init__."""
 import pytest
+
 from gym_unrealcv._gym_compat import gym
 
 

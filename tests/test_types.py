@@ -1,5 +1,6 @@
 """Tests for typed data structures in gym_unrealcv.envs.utils.types."""
 import pytest
+
 from gym_unrealcv.envs.utils.types import AgentConfig, EnvSettings
 
 

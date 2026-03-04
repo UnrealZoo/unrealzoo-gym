@@ -45,3 +45,10 @@ testpaths = [
     "tests"
 ]
 addopts = "-ra --strict-markers --strict-config"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]

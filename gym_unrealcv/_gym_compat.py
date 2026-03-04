@@ -17,6 +17,8 @@ except ImportError:  # pragma: no cover - fallback path
 Wrapper = gym.Wrapper
 Env = gym.Env
 
+__all__ = ["gym", "spaces", "register", "Wrapper", "Env", "spec"]
+
 
 def spec(env_id: str):
     return gym.spec(env_id)
