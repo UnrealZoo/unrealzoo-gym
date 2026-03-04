@@ -1,6 +1,5 @@
 __version__ = "2.0.3"
-import gym
-from gym.envs.registration import register
+from gym_unrealcv._gym_compat import gym, register
 import logging
 import os
 import re

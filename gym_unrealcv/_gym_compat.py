@@ -1,0 +1,22 @@
+"""Compatibility shim for gym/gymnasium imports.
+
+Prefer gymnasium when available; fall back to legacy gym.
+"""
+
+from __future__ import annotations
+
+try:
+    import gymnasium as gym
+    from gymnasium import spaces
+    from gymnasium.envs.registration import register
+except ImportError:  # pragma: no cover - fallback path
+    import gym
+    from gym import spaces
+    from gym.envs.registration import register
+
+Wrapper = gym.Wrapper
+Env = gym.Env
+
+
+def spec(env_id: str):
+    return gym.spec(env_id)

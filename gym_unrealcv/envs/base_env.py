@@ -6,9 +6,9 @@ import warnings
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 import cv2
-import gym
 import numpy as np
-from gym import spaces
+from gym_unrealcv._gym_compat import Env as GymEnv
+from gym_unrealcv._gym_compat import spaces
 from gym_unrealcv.envs.utils import misc
 from gym_unrealcv.envs.utils.transforms import action_mapping as map_actions
 from gym_unrealcv.envs.utils.transforms import prepare_observation as build_observation
@@ -27,7 +27,7 @@ Done : define by the task wrapper
 # TODO: agent apis for blueprints commands
 # TODO: config env by parapmeters
 # TODO: maintain a general agent list
-class UnrealCv_base(gym.Env):
+class UnrealCv_base(GymEnv):
     """
     A base environment for general purpose agent-environment interaction, including single/multi-agent navigation, tracking, etc.
     Observation: color image, depth image, rgbd image, mask image, pose

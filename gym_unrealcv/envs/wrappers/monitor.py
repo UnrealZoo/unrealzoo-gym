@@ -1,5 +1,4 @@
-import gym
-from gym import Wrapper
+from gym_unrealcv._gym_compat import Wrapper
 import time
 import cv2
 

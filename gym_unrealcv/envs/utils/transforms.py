@@ -1,6 +1,6 @@
 import numpy as np
 import numbers
-from gym import spaces
+from gym_unrealcv._gym_compat import spaces
 
 
 def prepare_observation(observation_type, img_list, mask_list, depth_list, pose_list):

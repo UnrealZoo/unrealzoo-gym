@@ -1,7 +1,6 @@
 import random
 import time
 
-import gym
 from gym_unrealcv.envs.utils import misc
 import numpy as np
 from random import choice

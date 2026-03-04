@@ -1,5 +1,5 @@
 import numpy as np
-from gym import spaces
+from gym_unrealcv._gym_compat import spaces
 
 from gym_unrealcv.envs.utils import transforms
 from gym_unrealcv.envs.utils.types import AgentConfig, EnvSettings

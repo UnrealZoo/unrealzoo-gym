@@ -7,7 +7,7 @@ name = "gym_unrealcv"
 description = "Gymnasium environments for UnrealCV"
 dynamic = ["version"]
 dependencies = [
-    "gym>=0.26,<0.27",
+    "gymnasium>=0.29,<1.1",
     "matplotlib",
     "numpy",
     "unrealcv>=1.1.5",
@@ -31,3 +31,8 @@ packages = ["gym_unrealcv"]
 
 [tool.setuptools.dynamic]
 version = {attr = "gym_unrealcv.__version__"}
+
+[project.optional-dependencies]
+legacy-gym = [
+    "gym>=0.26,<0.27"
+]
