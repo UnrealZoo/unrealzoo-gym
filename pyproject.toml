@@ -41,3 +41,6 @@ legacy-gym = [
 pythonpath = [
     "."
 ]
+testpaths = [
+    "tests"
+]
