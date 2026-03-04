@@ -1,7 +1,6 @@
 import time
 
-import gym
-from gym import Wrapper
+from gym_unrealcv._gym_compat import Wrapper
 import numpy as np
 from gym_unrealcv.envs.tracking.baseline import RandomAgent, Nav2GoalAgent, InternalNavAgent
 
@@ -17,12 +16,15 @@ class NavAgents(Wrapper):
         # the action is a list of actions for each agent, the length of the action is the number of agents
         env = self.env.unwrapped
         new_action = []
+        provided_actions = list(action)
+        controlled_idx = 0
         for idx, mode in enumerate(self.nav_list):
             if mode == -1:
                 if self.mask_agent:
-                    new_action.append(action.pop(0))
+                    new_action.append(provided_actions[controlled_idx])
+                    controlled_idx += 1
                 else:
-                    new_action.append(action[idx])
+                    new_action.append(provided_actions[idx])
                 continue
             elif mode == 0:
                 new_action.append(self.agents[idx].act(env.obj_poses[idx]))
