@@ -1,5 +1,4 @@
 from __future__ import annotations
-# pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
 
 import os.path
 import time

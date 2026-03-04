@@ -1,4 +1,3 @@
-# pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
 import re
 import time
 from unrealcv.api import UnrealCv_API

@@ -82,7 +82,7 @@ class TestEnvSettings:
     def test_frozen(self):
         s = EnvSettings.from_dict(self._sample_dict())
         with pytest.raises(AttributeError):
-            s.env_name = 'Other'  # type: ignore[misc]
+            setattr(s, 'env_name', 'Other')
 
     def test_optional_env_map(self):
         d = self._sample_dict()

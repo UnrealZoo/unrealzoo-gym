@@ -1,4 +1,6 @@
 """Tests for lazy environment registration in gym_unrealcv.__init__."""
+import importlib
+
 import pytest
 
 from gym_unrealcv._gym_compat import gym
@@ -26,7 +28,7 @@ def _all_registered_ids(gym_module):
 
 def test_import_registers_zero_envs():
     """Importing gym_unrealcv should NOT eagerly register any Unreal envs."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     unreal_specs = [s for s in _all_registered_ids(gym) if 'Unreal' in s]
     assert len(unreal_specs) == 0, (
@@ -36,7 +38,7 @@ def test_import_registers_zero_envs():
 
 def test_lazy_lookup_agent_env():
     """Lazily looking up an UnrealAgent env should succeed and register it."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealAgent-Greek_Island-DiscreteColor-v0'
     spec = gym.spec(env_id)
@@ -49,7 +51,7 @@ def test_lazy_lookup_agent_env():
 
 def test_lazy_lookup_task_env():
     """Task-oriented env (Navigation) should register lazily."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealNavigation-Demo_Roof-DiscreteColor-v0'
     spec = gym.spec(env_id)
@@ -60,7 +62,7 @@ def test_lazy_lookup_task_env():
 
 def test_lazy_lookup_task_track():
     """Track task should lazily register with max_episode_steps=500."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealTrack-FlexibleRoom-ContinuousDepth-v3'
     spec = gym.spec(env_id)
@@ -71,7 +73,7 @@ def test_lazy_lookup_task_track():
 
 def test_lazy_lookup_arm():
     """Legacy robot arm env should still work."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealArm-ContinuousRgbd-v2'
     spec = gym.spec(env_id)
@@ -81,7 +83,7 @@ def test_lazy_lookup_arm():
 
 def test_lazy_lookup_spline_tracking():
     """Legacy spline tracking env should register."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealTrack-City2StefaniPath1-DiscreteColor-v0'
     spec = gym.spec(env_id)
@@ -91,7 +93,7 @@ def test_lazy_lookup_spline_tracking():
 
 def test_lazy_lookup_mc_tracking():
     """Multi-camera tracking env should register."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealMCRoom-DiscreteColorRandom-v3'
     spec = gym.spec(env_id)
@@ -101,7 +103,7 @@ def test_lazy_lookup_mc_tracking():
 
 def test_lazy_lookup_mcmt():
     """MCMT tracking env should register."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     env_id = 'UnrealMCFlexibleRoom-ContinuousDepthGoal-v2'
     spec = gym.spec(env_id)
@@ -111,7 +113,7 @@ def test_lazy_lookup_mcmt():
 
 def test_invalid_env_raises():
     """An unrecognised env ID should still raise an error."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     with pytest.raises(Exception):
         gym.spec('UnrealAgent-NonExistentMap-DiscreteColor-v0')
@@ -119,7 +121,7 @@ def test_invalid_env_raises():
 
 def test_invalid_obs_raises():
     """An invalid observation type should not match the pattern."""
-    import gym_unrealcv  # noqa: F401
+    importlib.import_module('gym_unrealcv')
 
     with pytest.raises(Exception):
         gym.spec('UnrealAgent-Greek_Island-DiscreteInvalid-v0')
