@@ -361,7 +361,7 @@ You can build your agent based on the latest method in reinforcement learning, e
 # 🗓️ TODO List
 
 - [x] Release an all-in-one package of the collected environments
-- [ ] Add gym interface for heterogeneous mutli-agent co-operation.
+- [ ] Add gym interface for heterogeneous multi-agent co-operation.
 - [x] Expand the list of supported interactive actions.
 - [x] Add more detailed examples for reinforcement learning agents.
 - [x] Add more detailed examples for large vision-language models.

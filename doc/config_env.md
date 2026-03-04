@@ -22,11 +22,11 @@ register(
 )
 ```
 
-In this case, you can configure the type of observation, action, reward, the resetting mode and if using docker to run the environemnt.
+In this case, you can configure the type of observation, action, reward, the resetting mode and if using docker to run the environment.
 The comment indicates the candidate variable.
 
 Besides, more details of the environment is in the `setting_file`, a json file in `/gym_unrealcv/envs/setting`.
-For example, [search_rr_door41.json](../gym_unrealcv/envs/setting/search_rr_door41.json) with comments is shown as below:
+For example, a navigation setting file in [Navigation](../gym_unrealcv/envs/setting/Navigation) with comments is shown as below:
 
 ```buildoutcfg
 {
@@ -37,7 +37,7 @@ For example, [search_rr_door41.json](../gym_unrealcv/envs/setting/search_rr_door
  "height": 40, # height of camera (cm)
  "pitch": 0, # the pitch angle of camera
  "maxsteps": 100, # the max steps in an episode
- "trigger_th": 0.6, # when trigger value is lagger than trigger_th, the virual button is trigger.
+ "trigger_th": 0.6, # when trigger value is larger than trigger_th, the virtual button is trigger.
  "reward_th": 0.1, # if reward < reward_th, reward=0
  "reward_factor": 10, # reward = reward_factor * bbox_size/img_size
  "collision_th": 50, # param for waypoint reset mode, the min distance between the waypoint and the collision point
@@ -58,7 +58,7 @@ For example, [search_rr_door41.json](../gym_unrealcv/envs/setting/search_rr_door
   [-80.312, 254.579 ]
  ],
 
- # define the discrete actions [liner velocity, angular velocity, trigger]
+ # define the discrete actions [linear velocity, angular velocity, trigger]
  "discrete_actions": [
   [50, 0, 0],
   [30, 15, 0],
@@ -68,7 +68,7 @@ For example, [search_rr_door41.json](../gym_unrealcv/envs/setting/search_rr_door
   [0, 0, 1]
  ],
 
- # the range of each action dimension,[liner velocity, angular velocity, trigger]
+ # the range of each action dimension,[linear velocity, angular velocity, trigger]
  "continous_actions": {
   "high": [100, 45, 1],
   "low":  [0,  -45, 0]
