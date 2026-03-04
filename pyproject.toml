@@ -44,3 +44,4 @@ pythonpath = [
 testpaths = [
     "tests"
 ]
+addopts = "-ra --strict-markers"
