@@ -1,10 +1,10 @@
 # Environment List
 
-we currently provide a preview version of the collection of **60+ scene maps**, and we will soon release an all-in-one package of the collected environments(>100 maps). 
+we currently provide a preview version of the collection of **60+ scene maps**, and we will soon release an all-in-one package of the collected environments(>100 maps).
 The following table list all the available maps in the collection.
 
 |                       |                             |                           |
-|-----------------------|-----------------------------|---------------------------|
+| --------------------- | --------------------------- | ------------------------- |
 | Greek_Island          | ContainerYard_Night         | Medieval_Daytime          |
 | supermarket           | ContainerYard_Day           | Medieval_Nighttime        |
 | Brass_Gardens         | Old_Factory_01              | ModularGothic_Day         |
