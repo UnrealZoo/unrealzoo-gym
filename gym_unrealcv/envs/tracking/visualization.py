@@ -1,17 +1,6 @@
 import cv2
-import os
 
-
-def _safe_imshow(window_name, image):
-    if image is None:
-        return
-    if os.name != "nt" and os.environ.get("DISPLAY") is None:
-        return
-    try:
-        cv2.imshow(window_name, image)
-        cv2.waitKey(1)
-    except cv2.error:
-        pass
+from gym_unrealcv.envs.utils.display import safe_imshow
 
 
 def show_info(info, action_type='discrete'):
@@ -62,5 +51,5 @@ def show_info(info, action_type='discrete'):
         cv2.circle(cv_img, (collision_x + int(width * 0.05), collision_y - 30), 15, (0, 255, 0), -1)
 
 
-    _safe_imshow('info_show', cv_img)
+    safe_imshow('info_show', cv_img)
 
