@@ -4,10 +4,16 @@ import json
 import unrealcv
 
 def load_env_setting(filename):
-    f = open(get_settingpath(filename))
-    type = os.path.splitext(filename)[1]
-    assert type in ['.json'], type + ' is not supported'
-    setting = json.load(f)
+    setting_type = os.path.splitext(filename)[1]
+    if setting_type != '.json':
+        raise ValueError(setting_type + ' is not supported')
+
+    setting_path = get_settingpath(filename)
+    if not os.path.isfile(setting_path):
+        raise FileNotFoundError(f'Environment setting file not found: {setting_path}')
+
+    with open(setting_path, encoding='utf-8') as file_obj:
+        setting = json.load(file_obj)
     return setting
 
 
@@ -35,13 +41,15 @@ def get_direction(current_pose, target_pose):  # get relative angle between curr
 
 def get_textures(texture_name="textures", docker=False):
     try:
-        texture_dir = os.path.join(unrealcv.util.get_path2UnrealEnv(), "textures")
+        texture_dir = os.path.join(unrealcv.util.get_path2UnrealEnv(), texture_name)
     except AttributeError:
         raise ImportError(
             "Function get_path2UnrealEnv() not found. "
             "Please upgrade unrealcv to version 1.1.5 or higher using: \n"
             "pip install --upgrade unrealcv"
             )
+    if not os.path.isdir(texture_dir):
+        raise FileNotFoundError(f'Texture directory not found: {texture_dir}')
     textures_list = os.listdir(texture_dir)
     # relative to abs
     for i in range(len(textures_list)):

@@ -10,7 +10,6 @@ import copy
 import numpy as np
 import os
 from typing import Any
-os.environ['UnrealEnv']='/home/wuk/DataDisk/UnrealEnv/'
 
 '''
 An example to show how to use the UnrealCV API to launch the game and run some functions
@@ -164,6 +163,7 @@ if __name__ == '__main__':
     # parser.add_argument('--env-bin', default='Collection_WinNoEditor\WindowsNoEditor\Collection\Binaries\Win64\Collection.exe', help='The path to the UE4Editor binary')
     # parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Win64_v1.0.1\\UnrealZoo_UE5_5\\Binaries\\Win64\\UnrealZoo_UE5_5.exe', help='The path to the UE4Editor binary')
     parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Linux/Linux/UnrealZoo_UE5_5/Binaries/Linux/UnrealZoo_UE5_5', help='The path to the UE4Editor binary')
+    parser.add_argument('--unreal-env', default=None, help='Optional path to UnrealEnv root directory')
 
     parser.add_argument('--env-map', default='Lighthouse', help='The map to load')
     # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
@@ -178,7 +178,15 @@ if __name__ == '__main__':
     parser.add_argument('--show', action='store_true', help='show the get image result')
     parser.add_argument('--gpu-id', default=None, help='The GPU to use')
     args = parser.parse_args()
+    if args.unreal_env is not None:
+        if not os.path.isdir(args.unreal_env):
+            raise FileNotFoundError(f'UnrealEnv path not found: {args.unreal_env}')
+        os.environ['UnrealEnv'] = args.unreal_env
+
     env_bin = args.env_bin
+    if not os.path.isfile(env_bin):
+        raise FileNotFoundError(f'Environment binary not found: {env_bin}')
+
     env_map = args.env_map
     if args.env_map == 'all':
         maps = [
@@ -211,6 +219,10 @@ if __name__ == '__main__':
         env_map = maps
     else:
         maps = [env_map]
+
+    target_dir = os.path.abspath(args.target_dir)
+    os.makedirs(target_dir, exist_ok=True)
+
     # print(len(maps))
     ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
     env_ip, env_port = ue_binary.start(args.use_docker, parse_resolution(args.resolution), args.display, args.use_opengl, args.offscreen, args.nullrhi, str(args.gpu_id))
@@ -373,10 +385,10 @@ if __name__ == '__main__':
         env_config['reset_area'] = [min(cam_x), max(cam_x), min(cam_y), max(cam_y), min(cam_z), max(cam_z)]
         env_config['third_cam']['height_top_view'] = env_config['height'] + 1000
         # print(env_config)
-        import os
-        if not os.path.exists(args.target_dir):
-            os.makedirs(args.target_dir)
-        with open(os.path.join(args.target_dir, f'{env_map}.json'), 'w') as json_file:
+        if not start_pos_list:
+            raise RuntimeError(f'No safe_start points found for map: {env_map}')
+
+        with open(os.path.join(target_dir, f'{env_map}.json'), 'w') as json_file:
             json.dump(env_config, json_file, indent=4)
 
 

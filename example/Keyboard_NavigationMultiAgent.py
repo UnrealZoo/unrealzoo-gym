@@ -5,7 +5,6 @@ from pynput import keyboard
 import time
 import cv2
 import os
-os.environ['UnrealEnv']='/Users/wukui/unrealzoo-gym/gym_unrealcv/envs/UnrealEnv'
 
 class RandomAgent(object):
     """The world's simplest agent!"""

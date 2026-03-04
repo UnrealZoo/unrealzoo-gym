@@ -60,13 +60,28 @@ if __name__ == '__main__':
             exit()
         filename = target_name
 
+    if not os.path.isfile(filename):
+        raise FileNotFoundError(f'Downloaded archive not found: {filename}')
+
     with zipfile.ZipFile(filename, "r") as z:
         z.extractall()  # extract the zip file
     if 'Textures' in filename:
         folder ='textures'
     else:
         folder = filename[:-4]
+    if not os.path.isdir(folder):
+        raise FileNotFoundError(f'Extracted folder not found: {folder}')
+
     target = unrealcv.util.get_path2UnrealEnv()
+    if not os.path.isdir(target):
+        raise FileNotFoundError(f'UnrealEnv path not found: {target}')
+
+    destination = os.path.join(target, os.path.basename(folder))
+    if os.path.exists(destination):
+        if os.path.isdir(destination):
+            shutil.rmtree(destination)
+        else:
+            os.remove(destination)
     shutil.move(folder, target)
     os.remove(filename)
 
