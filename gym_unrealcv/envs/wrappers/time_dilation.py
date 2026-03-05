@@ -1,4 +1,5 @@
-from gym_unrealcv._gym_compat import Wrapper
+import gym
+from gym import Wrapper
 import time
 
 class TimeDilationWrapper(Wrapper):
