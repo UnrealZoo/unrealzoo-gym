@@ -1,11 +1,11 @@
 import random
-from random import choice
+import time
 
-import numpy as np
-
-from gym_unrealcv._gym_compat import gym
+import gym
 from gym_unrealcv.envs.utils import misc
-
+import numpy as np
+from random import choice
+from gym_unrealcv.envs.utils import misc
 
 class RandomAgent(object):
     """The world's simplest agent!"""
@@ -19,7 +19,7 @@ class RandomAgent(object):
 
     def act(self, pose):
         self.step_counter += 1
-        if self.pose_last is None:
+        if self.pose_last == None:
             self.pose_last = pose
             d_moved = 100
         else:
@@ -71,7 +71,7 @@ class GoalNavAgent(object):
 
     def act(self, pose, ref_goal=None):
         self.step_counter += 1
-        if self.pose_last is None or self.fix:
+        if self.pose_last == None or self.fix:
             self.pose_last = pose
             d_moved = 100
         else:
@@ -112,7 +112,7 @@ class GoalNavAgent(object):
         return (velocity, angle)
 
     def act2(self, pose):
-        if self.pose_last is None or self.fix:
+        if self.pose_last == None or self.fix:
             self.pose_last = pose
             d_moved = 100
         else:
@@ -138,7 +138,7 @@ class GoalNavAgent(object):
         self.pose_last = None
 
     def generate_goal(self, goal_area, fixed=False):
-        if goal_area is None:
+        if goal_area==None:
             goal_area = self.goal_area
         goal_list = [[goal_area[0], goal_area[2]], [goal_area[0], goal_area[3]],
                      [goal_area[1], goal_area[3]], [goal_area[1], goal_area[2]]]
@@ -175,7 +175,7 @@ class GoalNavAgentTest(object):
     def act(self, pose):
 
         self.step_counter += 1
-        if self.pose_last is None:
+        if self.pose_last == None:
             self.pose_last = pose
             d_moved = 100
         else:
@@ -239,6 +239,8 @@ class InternalNavAgent(object):
 
     def act(self, pose):
         self.step_counter += 1
+
+        distance_tmp = np.linalg.norm(np.array(self.pose_last) - np.array(pose))
         self.pose_last = pose
         if self.check_reach(self.goal, pose) or self.step_counter > self.max_len: # or distance_tmp<1:
             # sample a new goal
@@ -306,7 +308,7 @@ class Nav2GoalAgent(object):
     def __init__(self, action_space, goal_area, fix_point=False, random_th=0, max_len=200):
         self.step_counter = 0
         self.keep_steps = 0
-        if isinstance(action_space, gym.spaces.Discrete):
+        if type(action_space) == gym.spaces.Discrete:
             self.discrete = True
         else:
             self.discrete = False
@@ -324,7 +326,7 @@ class Nav2GoalAgent(object):
 
     def act(self, pose, ref_goal=None):
         self.step_counter += 1
-        if self.pose_last is None or self.fix:
+        if self.pose_last == None or self.fix:
             self.pose_last = pose
             d_moved = 10
         else:
@@ -356,7 +358,7 @@ class Nav2GoalAgent(object):
         self.pose_last = None
 
     def generate_goal(self, goal_area, fixed=False):
-        if goal_area is None:
+        if goal_area==None:
             goal_area = self.goal_area
         goal_list = [[goal_area[0], goal_area[2]], [goal_area[0], goal_area[3]],
                      [goal_area[1], goal_area[3]], [goal_area[1], goal_area[2]]]
@@ -377,7 +379,7 @@ class Nav2GoalAgent(object):
 
 class PoseTracker(object):
     def __init__(self, action_space, expected_distance = 250, expected_angle = 0):
-        if isinstance(action_space, gym.spaces.Discrete):
+        if type(action_space) == gym.spaces.Discrete:
             self.discrete = True
         else:
             self.discrete = False
