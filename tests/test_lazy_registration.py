@@ -27,13 +27,40 @@ def _all_registered_ids(gym_module):
 
 
 def test_import_registers_zero_envs():
-    """Importing gym_unrealcv should NOT eagerly register any Unreal envs."""
+    """Importing gym_unrealcv should NOT eagerly register Unreal env specs."""
+    before = {s for s in _all_registered_ids(gym) if 'Unreal' in s}
     importlib.import_module('gym_unrealcv')
-
-    unreal_specs = [s for s in _all_registered_ids(gym) if 'Unreal' in s]
-    assert len(unreal_specs) == 0, (
-        f"Expected 0 eager registrations, got {len(unreal_specs)}"
+    after = {s for s in _all_registered_ids(gym) if 'Unreal' in s}
+    assert after == before, (
+        f"Import should not eagerly register envs. Before={len(before)}, after={len(after)}"
     )
+
+
+def test_lazy_make_registers_on_demand(monkeypatch: pytest.MonkeyPatch):
+    """gym.make() should trigger lazy registration when an ID is missing."""
+    module = importlib.import_module('gym_unrealcv')
+    env_id = 'UnrealUnitTest-CartPole-v0'
+    if gym.__name__ == 'gym':
+        from gym.envs.classic_control import CartPoleEnv as entry_point
+    else:
+        from gymnasium.envs.classic_control.cartpole import CartPoleEnv as entry_point
+
+    def _fake_parse_and_register(candidate_id: str) -> bool:
+        if candidate_id != env_id:
+            return False
+        module.register(id=env_id, entry_point=entry_point, max_episode_steps=5)
+        return True
+
+    monkeypatch.setattr(module, '_parse_and_register', _fake_parse_and_register)
+
+    gym.spec(env_id)
+    env = gym.make(env_id)
+    try:
+        env.reset()
+        assert env.spec is not None
+        assert env.spec.id == env_id
+    finally:
+        env.close()
 
 
 def test_lazy_lookup_agent_env():

@@ -45,9 +45,9 @@ _MAPS_SET = frozenset(MAPS)
 # Lazy registration helpers
 # ---------------------------------------------------------------------------
 # Instead of eagerly registering ~116k env specs at import time (which took
-# ~20 s), we *only* register an env when it is first requested via gym.make().
-# We do this by monkey-patching the gym registry's __contains__ / spec lookup
-# so that it can recognise our naming convention and register on-the-fly.
+# ~20 s), we *only* register an env when it is first requested via gym.make()
+# or gym.spec(). We do this by monkey-patching the public gym.spec API so
+# missing IDs can be parsed and registered on-the-fly.
 
 
 def _parse_and_register(env_id: str) -> bool:
@@ -194,13 +194,14 @@ def _parse_and_register(env_id: str) -> bool:
 # Monkey-patch the public `gym.spec` API for lazy on-demand registration.
 # This is more stable across gym versions than patching private registry internals.
 _original_spec = gym.spec
+_lookup_error = gym.error.Error
 
 
 def _lazy_spec(env_id: str):
     """Look up *env_id*; if missing, try to parse/register and retry once."""
     try:
         return _original_spec(env_id)
-    except Exception:
+    except _lookup_error:
         if _parse_and_register(env_id):
             logger.debug('Lazily registered %s', env_id)
             return _original_spec(env_id)

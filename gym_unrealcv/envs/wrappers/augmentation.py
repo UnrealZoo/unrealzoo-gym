@@ -11,7 +11,11 @@ def _extract_reset_type(env) -> int:
     match = re.search(r"-v(\d+)$", str(spec_id))
     if match is not None:
         return int(match.group(1))
-    return int(getattr(env.unwrapped, "reset_type", 0))
+    fallback = getattr(env.unwrapped, "reset_type", 0)
+    try:
+        return int(fallback)
+    except (TypeError, ValueError):
+        return 0
 
 
 class RandomPopulationWrapper(Wrapper):

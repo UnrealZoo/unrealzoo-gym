@@ -1,13 +1,13 @@
 from gym_unrealcv._gym_compat import Wrapper
-import time
 import cv2
 import os
+import sys
 
 
 def _safe_imshow(window_name, image):
     if image is None:
         return
-    if os.name != "nt" and os.environ.get("DISPLAY") is None:
+    if sys.platform.startswith("linux") and os.environ.get("DISPLAY") is None and os.environ.get("WAYLAND_DISPLAY") is None:
         return
     try:
         cv2.imshow(window_name, image)
