@@ -1,7 +1,7 @@
 # Environment List
 
-We currently provide a preview version of the collection of **60+ scene maps**, and we will soon release an all-in-one package of the collected environments(>100 maps).
-The following table list all the available maps in the collection.
+We currently provide a preview version of the collection of **60+ scene maps**, and we will soon release an all-in-one package of the collected environments (>100 maps).
+The following table lists all available maps in the collection.
 
 |                       |                             |                           |
 | --------------------- | --------------------------- | ------------------------- |
