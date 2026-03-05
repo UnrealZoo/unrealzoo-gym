@@ -1,9 +1,12 @@
-import os
 import argparse
-import zipfile
-import sys
+import os
 import shutil
+import subprocess
+import sys
+import zipfile
+
 import unrealcv
+
 modelscope = {
     'UE4': 'UnrealZoo/UnrealZoo-UE4',
     'UE5': 'UnrealZoo/UnrealZoo-UE5',
@@ -47,18 +50,21 @@ if __name__ == '__main__':
         print(f"{args.env} is not available to your platform")
         exit()
 
+    filename = target_name
+
     if args.cloud == 'modelscope':
         if 'UE5' in target_name:
             remote_repo = modelscope['UE5']
         else:
             remote_repo = modelscope['UE4']
         cmd = f"modelscope download --dataset {remote_repo} --include {target_name} --local_dir ."
-        try:
-            os.system(cmd)
-        except:
+        result = subprocess.run(cmd, shell=True, check=False)
+        if result.returncode != 0:
             print('Please install modelscope first: pip install modelscope')
             exit()
-        filename = target_name
+
+    if not os.path.isfile(filename):
+        raise FileNotFoundError(f'Downloaded archive not found: {filename}')
 
     with zipfile.ZipFile(filename, "r") as z:
         z.extractall()  # extract the zip file
@@ -66,7 +72,19 @@ if __name__ == '__main__':
         folder ='textures'
     else:
         folder = filename[:-4]
+    if not os.path.isdir(folder):
+        raise FileNotFoundError(f'Extracted folder not found: {folder}')
+
     target = unrealcv.util.get_path2UnrealEnv()
+    if not os.path.isdir(target):
+        raise FileNotFoundError(f'UnrealEnv path not found: {target}')
+
+    destination = os.path.join(target, os.path.basename(folder))
+    if os.path.exists(destination):
+        if os.path.isdir(destination):
+            shutil.rmtree(destination)
+        else:
+            os.remove(destination)
     shutil.move(folder, target)
     os.remove(filename)
 
