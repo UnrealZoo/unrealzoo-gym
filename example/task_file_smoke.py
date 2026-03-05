@@ -21,7 +21,7 @@ SAMPLES = [
 ]
 
 
-def main():
+def main() -> None:
     print('Checking task_file samples in dry-run mode (JSON loading only)...')
     base_stub = object.__new__(UnrealCv_base)
     for env_name, kwargs in SAMPLES:
