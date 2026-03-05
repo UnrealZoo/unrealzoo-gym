@@ -29,10 +29,6 @@ class RandomPopulationWrapper(Wrapper):
             env.unwrapped.env_configs["backgrounds"]=[ "FLOOR","wall1","wall2","wall3","wall4","Cube7_13","Cube8","Cube9","Cube10"]
             env.unwrapped.env_configs["lights"] = ["light1", "light2", "light3", "light4", "light5", "light6"]
             env.unwrapped.textures_list = gym_unrealcv.envs.utils.misc.get_textures(texture_name="textures", docker=env.unwrapped.docker)
-    def step(self, action):
-        obs, reward, done, info = self.env.step(action)
-        return obs, reward, done, info
-
     def reset(self, **kwargs):
         env = self.env.unwrapped
         if not env.launched:  # we need to launch the environment
