@@ -8,7 +8,7 @@ import numpy as np
 from gym_unrealcv._gym_compat import gym
 
 
-class RandomAgent(object):
+class RandomAgent:
     """The world's simplest agent!"""
     def __init__(self, action_space):
         self.action_space = action_space
