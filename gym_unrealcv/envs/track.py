@@ -25,7 +25,7 @@ class Track(UnrealCv_base):
                  resolution=(160, 160),
                  reset_type = 0
                  ):
-        super(Track, self).__init__(setting_file=env_file,  # the setting file to define the task
+        super().__init__(setting_file=env_file,  # the setting file to define the task
                                          action_type=action_type,  # 'discrete', 'continuous'
                                          observation_type=observation_type,  # 'color', 'depth', 'rgbd', 'Gray'
                                          resolution=resolution,
@@ -46,7 +46,7 @@ class Track(UnrealCv_base):
         self.target_id = self.protagonist_id+1
 
     def step(self, action):
-        obs, rewards, done, info = super(Track, self).step(action)
+        obs, rewards, done, info = super().step(action)
         relative_pose = info['Relative_Pose']
         # compute the useful metrics for rewards and done condition
         metrics, score4tracker = self.track_metrics(relative_pose, self.tracker_id, self.target_id)
@@ -63,12 +63,12 @@ class Track(UnrealCv_base):
 
     def reset(self):
         # initialize the environment
-        observations = super(Track, self).reset()
+        observations = super().reset()
         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
         logger.debug('target_pos: %s', target_pos)
         self.unrealcv.nav_to_goal(self.player_list[self.target_id], target_pos)
         time.sleep(1)
-        super(Track, self).random_app()
+        super().random_app()
         object_list = self.unrealcv.get_objects()
         ############
         for obj in object_list: #binary mask configure
