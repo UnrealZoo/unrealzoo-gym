@@ -322,7 +322,7 @@ class UnrealCv_base(GymEnv):
                       distance]
         return obs_vector, distance, angle
 
-    def prepare_observation(self, observation_type: str, img_list: List, mask_list: List, depth_list: List, pose_list: List) -> Optional[np.ndarray]:
+    def prepare_observation(self, observation_type: str, img_list: List, mask_list: List, depth_list: List, pose_list: List) -> np.ndarray:
         """
         Prepare the observation based on the observation type.
 
@@ -336,10 +336,7 @@ class UnrealCv_base(GymEnv):
         Returns:
             np.array: Prepared observation.
         """
-        try:
-            return build_observation(observation_type, img_list, mask_list, depth_list, pose_list)
-        except ValueError:
-            return None
+        return build_observation(observation_type, img_list, mask_list, depth_list, pose_list)
 
 
 
@@ -436,10 +433,13 @@ class UnrealCv_base(GymEnv):
         self.observation_space.pop(agent_index)
         self.unrealcv.destroy_obj(name)  # the agent is removed from the scene
         self.agents.pop(name)
-        st_time=time.time()
+        st_time = time.time()
         time.sleep(1)
+        timeout_s = 10.0
         while self.unrealcv.get_camera_num() > len(last_cam_list) + 1:  # UE4 needs +1, UE5 does not
-            pass
+            if time.time() - st_time > timeout_s:
+                raise RuntimeError(f'Timeout while waiting to remove camera for agent {name}')
+            time.sleep(0.01)
 
     def remove_cam(self, name):
         """
