@@ -1,7 +1,6 @@
 import argparse
-import gym_unrealcv
+import gym_unrealcv  # noqa: F401
 import gym
-from gym import wrappers
 import cv2
 import time
 import numpy as np
