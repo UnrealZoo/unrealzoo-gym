@@ -33,9 +33,8 @@ def validate_env_setting(setting, filename=''):
 
 
 def load_env_setting(filename):
-    ext = os.path.splitext(filename)[1]
-    if ext not in ['.json']:
-        raise ValueError(ext + ' is not supported')
+    file_ext = os.path.splitext(filename)[1]
+    assert file_ext in ['.json'], file_ext + ' is not supported'
     with open(get_settingpath(filename)) as f:
         setting = json.load(f)
     return validate_env_setting(setting, filename=filename)
