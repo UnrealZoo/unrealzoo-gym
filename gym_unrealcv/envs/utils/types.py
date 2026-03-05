@@ -79,14 +79,18 @@ class AgentConfig:
         Unknown keys are stored in :attr:`extra` rather than discarded, so
         existing configs with custom fields keep working.
         """
-        known_keys = {f.name for f in fields(cls) if f.name != "extra"}
+        known_keys = {field_info.name for field_info in fields(cls) if field_info.name != "extra"}
         kwargs = {k: v for k, v in data.items() if k in known_keys}
         extras = {k: v for k, v in data.items() if k not in known_keys}
         return cls(**kwargs, extra=extras)
 
     def to_dict(self) -> Dict[str, Any]:
         """Round-trip back to a plain dict (including extras)."""
-        d = {f.name: getattr(self, f.name) for f in fields(self) if f.name != "extra"}
+        d = {
+            field_info.name: getattr(self, field_info.name)
+            for field_info in fields(self)
+            if field_info.name != "extra"
+        }
         d.update(self.extra)
         return d
 
