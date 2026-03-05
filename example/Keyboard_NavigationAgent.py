@@ -4,7 +4,7 @@ from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augme
 from pynput import keyboard
 import time
 import cv2
-class RandomAgent(object):
+class RandomAgent:
     """The world's simplest agent!"""
     def __init__(self, action_space):
         self.action_space = action_space
