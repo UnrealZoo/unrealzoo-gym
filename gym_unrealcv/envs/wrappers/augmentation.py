@@ -1,6 +1,5 @@
 from gym_unrealcv._gym_compat import Wrapper
 import numpy as np
-import os
 import gym_unrealcv
 import re
 
