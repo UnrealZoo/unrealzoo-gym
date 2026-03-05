@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class Character_API(UnrealCv_API):
     def __init__(self, port=9000, ip='127.0.0.1', resolution=(160, 120), comm_mode='tcp'):
-        super(Character_API, self).__init__(port=port, ip=ip, resolution=resolution, mode=comm_mode)
+        super().__init__(port=port, ip=ip, resolution=resolution, mode=comm_mode)
         self.obstacles = []
         self.targets = []
         self.img_color = np.zeros((resolution[1], resolution[0], 3))
