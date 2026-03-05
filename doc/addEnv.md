@@ -1,6 +1,6 @@
 # Add a new unreal environment
 
-In this section, we will show you how to add a new environment in gym-unrealzoo for your interactive tasks, step by step.
+In this section, we will show you how to add a new environment in unrealzoo-gym for your interactive tasks, step by step.
 
 1. Download/Package a UE binary integrated with UnrealCV Server and move the binary to the `UnrealEnv` folder, which is our default location for binaries, the folder structures are as follows:
 
