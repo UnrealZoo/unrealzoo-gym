@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gym_unrealcv"
 description = "Gymnasium environments for UnrealCV"
+readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     "gym==0.10.9",
