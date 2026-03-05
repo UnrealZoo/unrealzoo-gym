@@ -1,5 +1,5 @@
 import numpy as np
-class Reward():
+class Reward:
     '''
     define different type reward function
     '''
