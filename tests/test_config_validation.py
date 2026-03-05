@@ -3,7 +3,7 @@ import pytest
 from gym_unrealcv.envs.utils.misc import validate_env_setting
 
 
-def valid_setting():
+def valid_setting() -> dict:
     return {
         'env_name': 'Demo_Roof',
         'agents': {
