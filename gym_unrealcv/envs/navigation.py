@@ -29,9 +29,14 @@ class Navigation(UnrealCv_base):
                                     resolution=resolution,
                                     reset_type=reset_type)
 
+        self.task_config = self.load_task_setting(task_file)
 
         # self.cam_id = self.setting['cam_id']
-        self.target_list =self.env_configs['targets']['Point']
+        self.target_list = self.task_config.get('target_list', self.env_configs['targets']['Point'])
+        if isinstance(self.target_list, str):
+            self.target_list = [self.target_list]
+        if len(self.target_list) == 0:
+            raise ValueError('target_list in task_file should not be empty')
 
         self.player = self.player_list
 
@@ -42,9 +47,12 @@ class Navigation(UnrealCv_base):
         # define reward type
         # distance, bbox, bbox_distance,
         # self.reward_type = reward_type
-        self.reward_type = 'distance'
+        self.reward_type = self.task_config.get('reward_type', 'distance')
         self.reward_function = reward.Reward()
         self.trigger_count = 0
+        self.max_collision_steps = self.task_config.get('max_collision_steps', 10)
+        self.success_distance = self.task_config.get('success_distance', 300)
+        self.success_direction = self.task_config.get('success_direction', 10)
 
 
         self.count_steps = 0
@@ -97,11 +105,11 @@ class Navigation(UnrealCv_base):
             info['Reward'] = 0
 
         # if collision detected, the episode is done and reward is -1
-        if info['Collision'] > 10 or info['Pose'][2] < self.height/2:
+        if info['Collision'] > self.max_collision_steps or info['Pose'][2] < self.height/2:
             info['Reward'] = -1
             info['Done'] = True
 
-        if distance < 300 and np.fabs(info['Direction']) < 10:
+        if distance < self.success_distance and np.fabs(info['Direction']) < self.success_direction:
             info['Success'] = True
             info['Done'] = True
             info['Reward'] = 100

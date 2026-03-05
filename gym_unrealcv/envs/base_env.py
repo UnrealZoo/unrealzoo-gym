@@ -120,6 +120,14 @@ class UnrealCv_base(gym.Env):
 
         self.ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
 
+    def load_task_setting(self, task_file):
+        if task_file is None:
+            return {}
+        task_setting = misc.load_env_setting(task_file)
+        if not isinstance(task_setting, dict):
+            raise ValueError('Task setting file should contain a JSON object')
+        return task_setting
+
     def step(self, actions):
         """
         Execute one step in the environment.

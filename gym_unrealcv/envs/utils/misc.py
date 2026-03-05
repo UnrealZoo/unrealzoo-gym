@@ -12,6 +12,10 @@ def load_env_setting(filename):
 
 
 def get_settingpath(filename):
+    if os.path.isabs(filename) and os.path.exists(filename):
+        return filename
+    if os.path.exists(filename):
+        return filename
     import gym_unrealcv
     gympath = os.path.dirname(gym_unrealcv.__file__)
     return os.path.join(gympath, 'envs', 'setting', filename)

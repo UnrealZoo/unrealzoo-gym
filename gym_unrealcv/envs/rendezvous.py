@@ -20,9 +20,10 @@ class Rendezvous(UnrealCv_base):
                                          action_type=action_type,  # 'discrete', 'continuous'
                                          observation_type=observation_type,  # 'color', 'depth', 'rgbd', 'Gray'
                                          resolution=resolution)
+        self.task_config = self.load_task_setting(task_file)
         self.count_meet = 0
-        self.max_meet_steps = 20
-        self.distance_threshold = 200
+        self.max_meet_steps = self.task_config.get('max_meet_steps', 20)
+        self.distance_threshold = self.task_config.get('distance_threshold', 200)
         self.agents_category = ['player']
 
     def step(self, action):

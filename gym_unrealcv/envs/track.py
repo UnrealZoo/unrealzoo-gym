@@ -28,19 +28,32 @@ class Track(UnrealCv_base):
                                          resolution=resolution,
                                     reset_type=reset_type)
         self.count_lost = 0
-        self.max_lost_steps = 20
         self.agents_category = ['player']
-        self.reward_type = 'dense'  # 'dense', 'sparse'
-        self.reward_params = {
+        self.task_config = self.load_task_setting(task_file)
+        self.max_lost_steps = self.task_config.get('max_lost_steps', 20)
+        self.reward_type = self.task_config.get('reward_type', 'dense')  # 'dense', 'sparse'
+        reward_params = {
             "min_distance": 100,
             "max_direction": 60,
             "max_distance": 750,
             "exp_distance": 250,
             "exp_angle": 0
         }
-        self.distance_threshold = self.reward_params["min_distance"]  # distance threshold for collision
-        self.tracker_id = self.protagonist_id
-        self.target_id = self.protagonist_id+1
+        reward_override = self.task_config.get('reward_params', {})
+        if isinstance(reward_override, dict):
+            reward_params.update(reward_override)
+        self.reward_params = reward_params
+        self.distance_threshold = self.task_config.get('distance_threshold', self.reward_params["min_distance"])  # distance threshold for collision
+        self.tracker_id = int(self.task_config.get('tracker_id', self.protagonist_id))
+        default_target_id = self.protagonist_id + 1 if len(self.player_list) > 1 else self.protagonist_id
+        self.target_id = int(self.task_config.get('target_id', default_target_id))
+        player_num = len(self.player_list)
+        if not (0 <= self.tracker_id < player_num):
+            raise ValueError(f'invalid tracker_id {self.tracker_id} for {player_num} players')
+        if not (0 <= self.target_id < player_num):
+            raise ValueError(f'invalid target_id {self.target_id} for {player_num} players')
+        if self.target_id == self.tracker_id and player_num > 1:
+            raise ValueError('target_id and tracker_id should be different for tracking task')
 
     def step(self, action):
         obs, rewards, done, info = super(Track, self).step(action)

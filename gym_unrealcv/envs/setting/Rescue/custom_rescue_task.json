@@ -1,0 +1,6 @@
+{
+  "reward_type": "shared",
+  "max_reach_steps": 8,
+  "distance_threshold": 220,
+  "injured_agent_name": "injured_person"
+}

@@ -1,0 +1,9 @@
+{
+  "target_list": [
+    "target_1"
+  ],
+  "reward_type": "distance",
+  "max_collision_steps": 20,
+  "success_distance": 250,
+  "success_direction": 12
+}

@@ -324,6 +324,7 @@ You can build your agent based on the latest method in reinforcement learning, e
 - We provide a set of wrappers for FPS control, population randomization, etc.
 Please refer to the [wrapper](doc/wrapper.md) for more details.
 - We provide a document for adding a new environment in unrealzoo-gym. Please refer to the [addEnv](doc/addEnv.md) for more details.
+- We provide task-level runtime overrides via `task_file` JSON. Please refer to [task_config](doc/task_config.md) for supported keys and examples.
 
 # 🗓️ TODO List
 - [x]  Release an all-in-one package of the collected environments
