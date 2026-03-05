@@ -7,7 +7,7 @@ from gym_unrealcv._gym_compat import gym
 from gym_unrealcv.envs.utils import misc
 
 
-class RandomAgent(object):
+class RandomAgent:
     """The world's simplest agent!"""
     def __init__(self, action_space, min_steps=1, max_steps=20):
         self.step_counter = 0
