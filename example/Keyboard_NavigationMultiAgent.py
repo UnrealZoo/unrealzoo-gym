@@ -14,7 +14,7 @@ from gym_unrealcv.envs.wrappers import (
 )
 
 
-class RandomAgent(object):
+class RandomAgent:
     """The world's simplest agent!"""
     def __init__(self, action_space):
         self.action_space = action_space
