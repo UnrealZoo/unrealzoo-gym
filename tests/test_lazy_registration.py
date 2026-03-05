@@ -6,15 +6,15 @@ import pytest
 from gym_unrealcv._gym_compat import gym
 
 
-def _entry_point(spec):
+def _entry_point(spec: object) -> object:
     return getattr(spec, 'entry_point', getattr(spec, '_entry_point', None))
 
 
-def _kwargs(spec):
+def _kwargs(spec: object) -> dict:
     return getattr(spec, 'kwargs', getattr(spec, '_kwargs', {}))
 
 
-def _all_registered_ids(gym_module):
+def _all_registered_ids(gym_module: object) -> list:
     registry = gym_module.envs.registry
     if hasattr(registry, 'keys'):
         return list(registry.keys())
