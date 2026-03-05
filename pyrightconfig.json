@@ -3,11 +3,11 @@
   "reportMissingImports": "none",
   "reportMissingTypeStubs": "none",
   "exclude": [
-    "**/__pycache__",
-    ".venv",
     ".mypy_cache",
     ".pytest_cache",
     ".ruff_cache",
+    ".venv",
+    "**/__pycache__",
     "build",
     "dist"
   ]
