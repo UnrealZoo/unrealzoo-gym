@@ -1,6 +1,6 @@
 """Typed data structures for environment and agent configuration.
 
-Replaces raw ``dict`` agent configs with proper dataclasses, giving IDE
+Provides optional dataclass representations for config dictionaries, giving IDE
 auto-complete, early validation, and one clear definition of the expected
 config shape.
 """
