@@ -28,6 +28,9 @@ class UnrealCv_base(gym.Env):
     Action: Discrete, Continuous, Mixed
     Done: defined by the task wrapper
     """
+    # Supported observation modes
+    SUPPORTED_OBSERVATION_MODES = ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose', 'MaskDepth', 'ColorMask']
+    
     def __init__(self,
                  setting_file,  # the setting file to define the task
                  action_type='Discrete',  # 'discrete', 'continuous'
@@ -102,7 +105,11 @@ class UnrealCv_base(gym.Env):
         # define observation space,
         # color, depth, rgbd,...
         self.observation_type = observation_type
-        assert self.observation_type in ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose','MaskDepth','ColorMask']
+        if self.observation_type not in self.SUPPORTED_OBSERVATION_MODES:
+            raise ValueError(
+                f"Unsupported observation_type '{self.observation_type}'. "
+                f"Supported modes: {', '.join(self.SUPPORTED_OBSERVATION_MODES)}"
+            )
         self.observation_space = [self.define_observation_space(self.cam_list[i], self.observation_type, resolution)
                                   for i in range(len(self.player_list))]
 
