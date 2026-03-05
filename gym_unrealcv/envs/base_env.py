@@ -231,7 +231,7 @@ class UnrealCv_base(gym.Env):
         Returns:
             np.array: Image to be rendered.
         """
-        if close==True:
+        if close:
             self.ue_binary.close()
         return self.img_show
 
