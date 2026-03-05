@@ -18,7 +18,7 @@ def prepare_observation(observation_type, img_list, mask_list, depth_list, pose_
         return np.append(np.array(mask_list), np.array(depth_list), axis=-1)
     if observation_type == 'ColorMask':
         return np.append(np.array(img_list), np.array(mask_list), axis=-1)
-    raise ValueError('Unknown observation type: {}'.format(observation_type))
+    raise ValueError(f'Unknown observation type: {observation_type}')
 
 
 def action_mapping(actions, player_list, action_spaces, agents):
