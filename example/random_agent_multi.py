@@ -31,7 +31,7 @@ class RandomAgent(object):
         self.count_steps = 0
 
 import os
-os.environ['UnrealEnv']='/home/wuk/UnrealEnv'
+os.environ.setdefault('UnrealEnv', os.path.expanduser('~/UnrealEnv'))
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-MiddleEast-ContinuousColor-v0',
