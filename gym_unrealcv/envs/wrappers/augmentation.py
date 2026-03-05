@@ -1,23 +1,8 @@
-from gym_unrealcv._gym_compat import Wrapper
+from gym import Wrapper
 import numpy as np
 import os
 import gym_unrealcv
-import re
-
-
-def _extract_reset_type(env) -> int:
-    spec = getattr(env, "spec", None)
-    spec_id = getattr(spec, "id", "") if spec is not None else ""
-    match = re.search(r"-v(\d+)$", str(spec_id))
-    if match is not None:
-        return int(match.group(1))
-    fallback = getattr(env.unwrapped, "reset_type", 0)
-    try:
-        return int(fallback)
-    except (TypeError, ValueError):
-        return 0
-
-
+import unrealcv
 class RandomPopulationWrapper(Wrapper):
     def __init__(self, env,  num_min=2, num_max=10, random_target=False, random_tracker=False):
         super().__init__(env)
@@ -26,7 +11,7 @@ class RandomPopulationWrapper(Wrapper):
         self.random_target_id = random_target
         self.random_tracker_id = random_tracker
 
-        self.reset_type = _extract_reset_type(env)
+        self.reset_type = int(env.spec.id.split('-')[-1][-1])
         if 'track_train' in env.unwrapped.env_name and  self.reset_type>0:
             env.unwrapped.objects_list=["cube1", "cube2_7", "cube3", "cube4", "cube5",
                 "cylinder1", "cylinder2", "cylinder3", "cylinder4", "cylinder5",
