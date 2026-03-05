@@ -123,18 +123,18 @@ for env in maps:
     for i in range(7):  # reset type
         for action in Actions:  # action type
             for obs in Observations:  # observation type
-                        name = 'UnrealAgent-{env}-{action}{obs}-v{reset}'.format(env=env, action=action, obs=obs, reset=i)
-                        setting_file = os.path.join('env_config', f'{env}.json')
-                        register(
-                            id=name,
-                            entry_point='gym_unrealcv.envs:UnrealCv_base',
-                            kwargs={'setting_file': setting_file,
-                                    'action_type': action,
-                                    'observation_type': obs,
-                                    'reset_type': i,
-                                    },
-                            max_episode_steps=500
-                            )
+                name = 'UnrealAgent-{env}-{action}{obs}-v{reset}'.format(env=env, action=action, obs=obs, reset=i)
+                setting_file = os.path.join('env_config', f'{env}.json')
+                register(
+                    id=name,
+                    entry_point='gym_unrealcv.envs:UnrealCv_base',
+                    kwargs={'setting_file': setting_file,
+                            'action_type': action,
+                            'observation_type': obs,
+                            'reset_type': i,
+                            },
+                    max_episode_steps=500
+                    )
 # Task-oriented envs
 for env in maps:
     for i in range(7):  # reset type
