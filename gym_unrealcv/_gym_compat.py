@@ -25,5 +25,5 @@ Env = gym.Env
 __all__ = ["gym", "spaces", "register", "Wrapper", "Env", "spec"]
 
 
-def spec(env_id: str):
+def spec(env_id: str) -> object:
     return gym.spec(env_id)
