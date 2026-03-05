@@ -50,6 +50,8 @@ if __name__ == '__main__':
         print(f"{args.env} is not available to your platform")
         exit()
 
+    filename = target_name
+
     if args.cloud == 'modelscope':
         if 'UE5' in target_name:
             remote_repo = modelscope['UE5']
@@ -60,7 +62,6 @@ if __name__ == '__main__':
         if result.returncode != 0:
             print('Please install modelscope first: pip install modelscope')
             exit()
-        filename = target_name
 
     if not os.path.isfile(filename):
         raise FileNotFoundError(f'Downloaded archive not found: {filename}')

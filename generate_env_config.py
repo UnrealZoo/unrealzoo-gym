@@ -375,6 +375,9 @@ if __name__ == '__main__':
         agent_groups = {k: v for k, v in agent_groups.items() if len(v['name']) > 0}  # remove the agent category not in the scene
         env_config['agents'] = agent_groups
 
+        if not start_pos_list:
+            raise RuntimeError(f'No safe_start points found for map: {env_map}')
+
         env_config['safe_start'] = start_pos_list
         cam_x = [cam_loc[0] for cam_loc in start_pos_list]
         cam_y = [cam_loc[1] for cam_loc in start_pos_list]
@@ -383,9 +386,6 @@ if __name__ == '__main__':
         env_config['reset_area'] = [min(cam_x), max(cam_x), min(cam_y), max(cam_y), min(cam_z), max(cam_z)]
         env_config['third_cam']['height_top_view'] = env_config['height'] + 1000
         # print(env_config)
-        if not start_pos_list:
-            raise RuntimeError(f'No safe_start points found for map: {env_map}')
-
         with open(os.path.join(target_dir, f'{env_map}.json'), 'w') as json_file:
             json.dump(env_config, json_file, indent=4)
 
