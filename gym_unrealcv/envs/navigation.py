@@ -134,32 +134,6 @@ class Navigation(UnrealCv_base):
 
         return observations
 
-    def seed(self, seed=None):
-        return seed
-
-    def render(self, mode='rgb_array', close=False):
-        if close:
-            self.unreal.close()
-        return self.unrealcv.img_color
-
-    def close(self):
-        self.unrealcv.client.disconnect()
-        self.ue_binary.close()
-
-    def get_action_size(self):
-        return len(self.action)
-
-    def select_target_by_distance(self, current_pos, targets_pos):
-        # find the nearest target, return distance and targetid
-        target_id = list(self.targets_pos.keys())[0]
-        # distance_min = self.unrealcv.get_distance(targets_pos[target_id], current_pos, 2)
-        distance_min = self.unrealcv.get_distance(targets_pos[target_id], current_pos, 3)
-
-        for key, target_pos in targets_pos.items():
-            # distance = self.unrealcv.get_distance(target_pos, current_pos, 2)
-            distance = self.unrealcv.get_distance(target_pos, current_pos, 3)
-            if distance < distance_min:
-                target_id = key
-                distance_min = distance
-        return distance_min, target_id
+    # seed(), render(), close() inherited from UnrealCv_base
+    # select_target_by_distance() inherited from UnrealCv_base
 

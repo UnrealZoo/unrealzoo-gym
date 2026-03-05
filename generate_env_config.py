@@ -1,14 +1,13 @@
+import argparse
+import copy
+import json
+import os
 import re
-import time
+from typing import Any
+
 from unrealcv.api import UnrealCv_API
 from unrealcv.launcher import RunUnreal
 from unrealcv.util import parse_resolution
-import argparse
-import json
-import copy
-import numpy as np
-import os
-os.environ['UnrealEnv']='/home/wuk/DataDisk/UnrealEnv/'
 
 '''
 An example to show how to use the UnrealCV API to launch the game and run some functions
@@ -162,6 +161,7 @@ if __name__ == '__main__':
     # parser.add_argument('--env-bin', default='Collection_WinNoEditor\WindowsNoEditor\Collection\Binaries\Win64\Collection.exe', help='The path to the UE4Editor binary')
     # parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Win64_v1.0.1\\UnrealZoo_UE5_5\\Binaries\\Win64\\UnrealZoo_UE5_5.exe', help='The path to the UE4Editor binary')
     parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Linux/Linux/UnrealZoo_UE5_5/Binaries/Linux/UnrealZoo_UE5_5', help='The path to the UE4Editor binary')
+    parser.add_argument('--unreal-env', default=None, help='Optional path to UnrealEnv root directory')
 
     parser.add_argument('--env-map', default='Lighthouse', help='The map to load')
     # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
@@ -176,7 +176,15 @@ if __name__ == '__main__':
     parser.add_argument('--show', action='store_true', help='show the get image result')
     parser.add_argument('--gpu-id', default=None, help='The GPU to use')
     args = parser.parse_args()
+    if args.unreal_env is not None:
+        if not os.path.isdir(args.unreal_env):
+            raise FileNotFoundError(f'UnrealEnv path not found: {args.unreal_env}')
+        os.environ['UnrealEnv'] = args.unreal_env
+
     env_bin = args.env_bin
+    if not os.path.isfile(env_bin):
+        raise FileNotFoundError(f'Environment binary not found: {env_bin}')
+
     env_map = args.env_map
     if args.env_map == 'all':
         maps = [
@@ -209,6 +217,10 @@ if __name__ == '__main__':
         env_map = maps
     else:
         maps = [env_map]
+
+    target_dir = os.path.abspath(args.target_dir)
+    os.makedirs(target_dir, exist_ok=True)
+
     # print(len(maps))
     ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
     env_ip, env_port = ue_binary.start(args.use_docker, parse_resolution(args.resolution), args.display, args.use_opengl, args.offscreen, args.nullrhi, str(args.gpu_id))
@@ -216,14 +228,14 @@ if __name__ == '__main__':
     # unrealcv.config_ue(parse_res(args.resolution))
     for env_map in maps:
         unrealcv.set_map(env_map)
-        agents = {
+        agent_groups: dict[str, dict[str, Any]] = {
             "player": copy.deepcopy(player_config),
             "animal": copy.deepcopy(animal_config),
             "drone": copy.deepcopy(drone_config),
             "car": copy.deepcopy(car_config),
             "motorbike": copy.deepcopy(motorbike_config)
         }
-        env_config = {
+        env_config: dict[str, Any] = {
             "env_name": None,
             "env_bin": None,
             "env_map": None,
@@ -239,7 +251,7 @@ if __name__ == '__main__':
             },
             "height": 500,
             "interval": 1000,
-            "agents": agents,
+            "agents": agent_groups,
             "safe_start": [],
             "reset_area": [0, 0, 0, 0, 0, 0],
             "random_init": False,
@@ -268,9 +280,9 @@ if __name__ == '__main__':
         # Test the API
         objects = unrealcv.get_objects()
 
-        obj_locations = []
-        obj_size = []
-        obj_info = {}
+        obj_locations: list[Any] = []
+        obj_size: list[Any] = []
+        obj_info: dict[str, Any] = {}
         # print(objects)
         print(env_map, 'object number:',len(objects))
         env_config['obj_num'] = len(objects)
@@ -325,9 +337,9 @@ if __name__ == '__main__':
             return cam_id
         for obj in objects:
             if re.match(re.compile(r'bp_character', re.I), obj) is not None:
-                agents['player']['name'].append(obj)
-                agents['player']['class_name'].append(class_name['player'])
-                agents['player']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['player']['name'].append(obj)
+                agent_groups['player']['class_name'].append(class_name['player'])
+                agent_groups['player']['cam_id'].append(match_cam_id(cam_locs, obj))
                 start_pos_list.append(unrealcv.get_obj_location(obj))
                 print('Sample start point from Nav Mesh:')
                 for i in range(10):
@@ -338,30 +350,30 @@ if __name__ == '__main__':
                         goal_loc[-1] += 50
                         start_pos_list.append(goal_loc)
             elif re.match(re.compile(r'bp_animal', re.I), obj) is not None:
-                agents['animal']['name'].append(obj)
-                agents['animal']['class_name'].append(class_name['animal'])
-                agents['animal']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['animal']['name'].append(obj)
+                agent_groups['animal']['class_name'].append(class_name['animal'])
+                agent_groups['animal']['cam_id'].append(match_cam_id(cam_locs, obj))
                 start_pos_list.append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'bp_drone', re.I), obj) is not None:
-                agents['drone']['name'].append(obj)
-                agents['drone']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['drone']['class_name'].append(class_name['drone'])
+                agent_groups['drone']['name'].append(obj)
+                agent_groups['drone']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['drone']['class_name'].append(class_name['drone'])
                 # env_config['safe_start'].append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'bp_basecar|BP_Hatchback', re.I), obj) is not None:
-                agents['car']['name'].append(obj)
-                agents['car']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['car']['class_name'].append(class_name['car'])
+                agent_groups['car']['name'].append(obj)
+                agent_groups['car']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['car']['class_name'].append(class_name['car'])
                 start_pos_list.append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'sport|motorbike|BP_BaseBike', re.I), obj) is not None:
-                agents['motorbike']['name'].append(obj)
-                agents['motorbike']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['motorbike']['class_name'].append(class_name['motorbike'])
+                agent_groups['motorbike']['name'].append(obj)
+                agent_groups['motorbike']['cam_id'].append(match_cam_id(cam_locs, obj))
+                agent_groups['motorbike']['class_name'].append(class_name['motorbike'])
                 start_pos_list.append(unrealcv.get_obj_location(obj))
             elif re.match(re.compile(r'bp_door', re.I), obj) is not None or re.match(re.compile(r'animateddoor', re.I), obj) is not None:
                 env_config['env']['interactive_door'].append(obj)
 
-        agents = {k: v for k, v in agents.items() if len(v['name']) > 0}  # remove the agent category not in the scene
-        env_config['agents'] = agents
+        agent_groups = {k: v for k, v in agent_groups.items() if len(v['name']) > 0}  # remove the agent category not in the scene
+        env_config['agents'] = agent_groups
 
         env_config['safe_start'] = start_pos_list
         cam_x = [cam_loc[0] for cam_loc in start_pos_list]
@@ -371,10 +383,10 @@ if __name__ == '__main__':
         env_config['reset_area'] = [min(cam_x), max(cam_x), min(cam_y), max(cam_y), min(cam_z), max(cam_z)]
         env_config['third_cam']['height_top_view'] = env_config['height'] + 1000
         # print(env_config)
-        import os
-        if not os.path.exists(args.target_dir):
-            os.makedirs(args.target_dir)
-        with open(os.path.join(args.target_dir, f'{env_map}.json'), 'w') as json_file:
+        if not start_pos_list:
+            raise RuntimeError(f'No safe_start points found for map: {env_map}')
+
+        with open(os.path.join(target_dir, f'{env_map}.json'), 'w') as json_file:
             json.dump(env_config, json_file, indent=4)
 
 
