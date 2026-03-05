@@ -20,6 +20,19 @@ class Reward():
         self.r_tracker = 0
         self.dis2target = self.dis_exp
         self.angle2target = 0
+        self.dis2target_initial = None  # Must be set via reset() to prevent first-step spike
+
+    def reset(self, initial_distance):
+        """Reset reward state for new episode.
+        
+        Args:
+            initial_distance (float): Distance to target at start of episode.
+        """
+        self.dis2target_initial = initial_distance
+        self.dis2target = initial_distance
+        self.angle2target = 0
+        self.r_target = 0
+        self.r_tracker = 0
 
     def reward_distance(self, dis2target_now, direction_error, dis_exp=None):
         #  reward = (100.0 / max(dis2target_now,100)) * np.cos(direction_error/360.0*np.pi)

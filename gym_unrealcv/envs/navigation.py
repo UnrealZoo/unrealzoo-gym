@@ -137,8 +137,9 @@ class Navigation(UnrealCv_base):
         self.trajectory.append(current_pose)
         self.trigger_count = 0
         self.count_steps = 0
-        self.reward_function.dis2target_initial, self.targetID_last = \
+        initial_distance, self.targetID_last = \
             self.select_target_by_distance(current_pose, self.targets_pos)
+        self.reward_function.reset(initial_distance)
 
         return observations
 

@@ -106,9 +106,13 @@ class UnrealCv_base(gym.Env):
         # color, depth, rgbd,...
         self.observation_type = observation_type
         if self.observation_type not in self.SUPPORTED_OBSERVATION_MODES:
+            # Find similar modes for helpful error message
+            similar = [m for m in self.SUPPORTED_OBSERVATION_MODES 
+                      if m.lower() == observation_type.lower()]
+            hint = f" Did you mean '{similar[0]}'?" if similar else ""
             raise ValueError(
                 f"Unsupported observation_type '{self.observation_type}'. "
-                f"Supported modes: {', '.join(self.SUPPORTED_OBSERVATION_MODES)}"
+                f"Supported modes: {', '.join(self.SUPPORTED_OBSERVATION_MODES)}{hint}"
             )
         self.observation_space = [self.define_observation_space(self.cam_list[i], self.observation_type, resolution)
                                   for i in range(len(self.player_list))]
