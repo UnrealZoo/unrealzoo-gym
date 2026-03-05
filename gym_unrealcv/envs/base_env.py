@@ -31,6 +31,9 @@ class UnrealCv_base(gym.Env):
     # Supported observation modes
     SUPPORTED_OBSERVATION_MODES = ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose', 'MaskDepth', 'ColorMask']
     
+    # Supported action types
+    SUPPORTED_ACTION_TYPES = ['Discrete', 'Continuous', 'Mixed']
+    
     def __init__(self,
                  setting_file,  # the setting file to define the task
                  action_type='Discrete',  # 'discrete', 'continuous'
@@ -99,7 +102,11 @@ class UnrealCv_base(gym.Env):
 
         # define action space
         self.action_type = action_type
-        assert self.action_type in ['Discrete', 'Continuous', 'Mixed']
+        if self.action_type not in self.SUPPORTED_ACTION_TYPES:
+            raise ValueError(
+                f"Unsupported action_type '{self.action_type}'. "
+                f"Supported types: {', '.join(self.SUPPORTED_ACTION_TYPES)}"
+            )
         self.action_space = [self.define_action_space(self.action_type, self.agents[obj]) for obj in self.player_list]
 
         # define observation space,
