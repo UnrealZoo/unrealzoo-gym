@@ -8,11 +8,16 @@ import json
 import copy
 import numpy as np
 import os
-os.environ['UnrealEnv']='/home/wuk/DataDisk/UnrealEnv/'
+# os.environ['UnrealEnv']='/home/wuk/DataDisk/UnrealEnv/'
+os.environ['UnrealEnv']='I:\\UnrealProject\\UnrealZoo_UE5_6\\Binaries'
+# os.environ['UnrealEnv']='E:\\UnrealEnv'
+'''
+Probe a map (navmesh, doors, cameras) and write env JSON. Agents are template-only: no name/cam_id;
+class_name and asset_path come from dicts below (no pre-placed pawns required).
+'''
 
-'''
-An example to show how to use the UnrealCV API to launch the game and run some functions
-'''
+# --- spawn_from_path: use asset_path dict (strings or lists); ** = prefix placeholder, optional --asset-prefix ---
+# Legacy blueprint names for JSON class_name arrays (kept for reference).
 class_name = {
     "player": "bp_character_C",
     "animal": "BP_animal_C",
@@ -23,6 +28,40 @@ class_name = {
     "car":"BP_Hatchback_child_base_C", #for UE5.5 binary
     "motorbike": "BP_BaseBike_C",#for UE5.5 binary
 }
+
+# Manual UE asset soft paths (use ** for the prefix segment). Not used with class_name dict above (kept for reference).
+asset_path = {
+    "player": "	/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
+    "animal": "/Game/Animal_pack_ultra_2/BP_animal.BP_animal_C",
+    "drone": "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C",
+    "car": [
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_police.BP_Hatchback_child_police_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_taxi.BP_Hatchback_child_taxi_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_base.BP_Sedan_child_base_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_extras.BP_Sedan_child_extras_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_police.BP_Sedan_child_police_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_taxi.BP_Sedan_child_taxi_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_base.BP_SUV_child_base_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_extras.BP_SUV_child_extras_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_police.BP_SUV_child_police_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_taxi.BP_SUV_child_taxi_C",
+    ],
+    "motorbike": [
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Base.BP_Custom_Base_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Extras.BP_Custom_Extras_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Police.BP_Custom_Police_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Base.BP_Enduro_Base_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Extras.BP_Enduro_Extras_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Police.BP_Enduro_Police_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Base.BP_Naked_Base_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Extras.BP_Naked_Extras_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Police.BP_Naked_Police_C",
+        "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C",
+    ],
+}
+
 Addition_Vechicles={ #only available in latest UE5.5 package
        "car":["BP_Hatchback_child_extras_C","BP_Hatchback_child_police_C","BP_Hatchback_child_taxi_C",
             "BP_Sedan_child_base_C","BP_Sedan_child_extras_C","BP_Sedan_child_police_C","BP_Sedan_child_taxi_C",
@@ -34,9 +73,8 @@ Addition_Vechicles={ #only available in latest UE5.5 package
 }
 
 player_config = {
-        "name": [],
-        "cam_id": [],
         "class_name": [],
+        "asset_path": [],
         "internal_nav": True,
         "scale": [1, 1, 1],
         "relative_location": [20, 0, 0],
@@ -58,9 +96,8 @@ player_config = {
     }
 
 animal_config = {
-        "name": [],
-        "cam_id": [],
         "class_name": [],
+        "asset_path": [],
         "internal_nav": True,
         "scale": [1, 1, 1],
         "relative_location": [20, 0, 0],
@@ -81,9 +118,8 @@ animal_config = {
     }
 
 drone_config = {
-    "name": [],
-    "cam_id": [],
-    "class_name": [],
+        "class_name": [],
+        "asset_path": [],
     "internal_nav": False,
     "scale": [0.1, 0.1, 0.1],
     "relative_location": [0, 0, 0],
@@ -105,9 +141,8 @@ drone_config = {
     }
     }
 car_config = {
-    "name": [],
-    "cam_id": [],
-    "class_name": [],
+        "class_name": [],
+        "asset_path": [],
     "internal_nav": True,
     "scale": [1, 1, 1],
     "relative_location": [0, 0,  0],
@@ -126,9 +161,8 @@ car_config = {
 }
 
 motorbike_config = {
-    "name": [],
-    "cam_id": [],
-    "class_name": [],
+        "class_name": [],
+        "asset_path": [],
     "internal_nav": True,
     "scale": [1, 1, 1],
     "relative_location": [0, 0,  0],
@@ -155,15 +189,51 @@ agents = {
     "motorbike": motorbike_config
 }
 
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+UE5_BACKUP_DIR = os.path.join(_SCRIPT_DIR, 'gym_unrealcv', 'envs', 'setting', 'UE5_backup')
+
+
+def load_ue5_backup_fields(env_map):
+    """Top-level height / reset_area / safe_start from UE5_backup if the file exists."""
+    path = os.path.join(UE5_BACKUP_DIR, f'{env_map}.json')
+    if not os.path.isfile(path):
+        return {}
+    with open(path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return {k: data[k] for k in ('height', 'reset_area', 'safe_start') if k in data}
+
+
+def fill_agent_class_and_paths(agents_dict, asset_prefix=""):
+    """Set class_name (single-element list) and asset_path from module dicts; ** -> asset_prefix."""
+    def ap(s):
+        if not isinstance(s, str):
+            return s
+        t = s.strip()
+        return t.replace('**', asset_prefix.rstrip('/'), 1) if asset_prefix else t
+
+    for role, cfg in agents_dict.items():
+        if role not in class_name:
+            continue
+        cfg["class_name"] = [class_name[role]]
+        apaths = asset_path.get(role)
+        if apaths is None:
+            cfg["asset_path"] = []
+        elif isinstance(apaths, str):
+            cfg["asset_path"] = [ap(apaths)]
+        else:
+            cfg["asset_path"] = [ap(x) for x in apaths]
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # parser.add_argument('--env-bin', default='UE4_ExampleScene_Win/UE4_ExampleScene/Binaries/Win64/UE4_ExampleScene.exe', help='The path to the UE4Editor binary')
     # parser.add_argument('--env-bin', default='UE5_ExampleScene_Win64\Compile_unrealcv5_4\Binaries\Win64\Compile_unrealcv5_4.exe', help='The path to the UE4Editor binary')
     # parser.add_argument('--env-bin', default='Collection_WinNoEditor\WindowsNoEditor\Collection\Binaries\Win64\Collection.exe', help='The path to the UE4Editor binary')
-    # parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Win64_v1.0.1\\UnrealZoo_UE5_5\\Binaries\\Win64\\UnrealZoo_UE5_5.exe', help='The path to the UE4Editor binary')
-    parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Linux/Linux/UnrealZoo_UE5_5/Binaries/Linux/UnrealZoo_UE5_5', help='The path to the UE4Editor binary')
+    parser.add_argument('--env-bin', default='UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe', help='The path to the UE4Editor binary')
+    # parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Linux/Linux/UnrealZoo_UE5_5/Binaries/Linux/UnrealZoo_UE5_5', help='The path to the UE4Editor binary')
+    # parser.add_argument('--env-bin', default='WarSimulation_Win64\\WarSimulation\\Binaries\\Win64\\WarSimulation.exe', help='The path to the UE4Editor binary')
 
-    parser.add_argument('--env-map', default='Lighthouse', help='The map to load')
+    parser.add_argument('--env-map', default='all', help='The map to load')
     # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
     parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
 
@@ -175,11 +245,17 @@ if __name__ == '__main__':
     parser.add_argument('--nullrhi', action='store_true', help='Use the NullRHI')
     parser.add_argument('--show', action='store_true', help='show the get image result')
     parser.add_argument('--gpu-id', default=None, help='The GPU to use')
+    parser.add_argument(
+        '--asset-prefix',
+        default='',
+        help='Replaces the ** placeholder in asset_path templates when writing JSON (no trailing slash).',
+    )
     args = parser.parse_args()
+    asset_prefix = args.asset_prefix or ''
     env_bin = args.env_bin
     env_map = args.env_map
     if args.env_map == 'all':
-        maps = [
+        maps = ['FlexibleRoom'
             'Greek_Island', 'supermarket', 'Brass_Gardens', 'Brass_Palace', 'Brass_Streets',
             'EF_Gus', 'EF_Lewis_1', 'EF_Lewis_2', 'EF_Grounds', 'TemplePlaza', 'Eastern_Garden', 'Western_Garden',
             'Colosseum_Desert',
@@ -194,14 +270,17 @@ if __name__ == '__main__':
             'UltimateFarming', 'RuralAustralia_Example_01', 'RuralAustralia_Example_02', 'RuralAustralia_Example_03',
             'LV_Soul_Cave', 'Dungeon_Demo_00', 'SwimmingPool', 'DesertMap', 'RainMap', 'SnowMap',
             'ModularVictorianCity',
-            'SuburbNeighborhood_Day', 'SuburbNeighborhood_Night', 'Storagehouse', 'ModularNeighborhood',
+            'SuburbNeighborhood_Day','SuburbNeighborhood_Day_dooropen', 'SuburbNeighborhood_Night', 'Storagehouse', 'ModularNeighborhood',
             'ModularSciFiVillage', 'ModularSciFiSeason1', 'LowPolyMedievalInterior_1', 'QA_Holding_Cells_A',
             'ParkingLot', 'Demo_Roof', 'MiddleEast', 'Lighthouse',
             'Cabin_Lake', 'UniversityClassroom', 'Tokyo', 'CommandCenter', 'JapanTrainStation_Optimised',
-            'Hotel_Corridor', 'Museum', 'ForestGasStation',
+            'Hotel_Corridor',
+            'Museum', 'ForestGasStation',
             'KoreanPalace', 'CourtYard', 'Chinese_Landscape_Demo', 'EnglishCollege', 'OperaHouse', 'AsianTemple',
             'Pyramid', 'PlanetOutDoor',
-            'Map_ChemicalPlant_1', 'Hangar', 'Science_Fiction_valley_town', 'RussianWinterTownDemo01', 'LookoutTower',
+            'Map_ChemicalPlant_1', 'Hangar',
+            'Science_Fiction_valley_town',
+            'RussianWinterTownDemo01', 'LookoutTower',
             'LV_Bazaar', 'OperatingRoom',
             'PostSoviet_Village', 'Old_Town', 'AsianMedivalCity', 'StonePineForest', 'TemplesOfCambodia_01_01_Exterior',
             'AbandonedDistrict'
@@ -216,6 +295,7 @@ if __name__ == '__main__':
     # unrealcv.config_ue(parse_res(args.resolution))
     for env_map in maps:
         unrealcv.set_map(env_map)
+        time.sleep(5)
         agents = {
             "player": copy.deepcopy(player_config),
             "animal": copy.deepcopy(animal_config),
@@ -223,6 +303,7 @@ if __name__ == '__main__':
             "car": copy.deepcopy(car_config),
             "motorbike": copy.deepcopy(motorbike_config)
         }
+        fill_agent_class_and_paths(agents, asset_prefix)
         env_config = {
             "env_name": None,
             "env_bin": None,
@@ -261,10 +342,11 @@ if __name__ == '__main__':
         # time.sleep(1)
         cam_num = unrealcv.get_camera_num()
         start_pos_list = []
+        # Only need camera 0 for height/reset fallback; syns=False avoids KeyError when
+        # get_camera_num() > len(api.cam) (UnrealCV does not pre-register every slot).
         cam_locs = []
-        for i in range(cam_num):
-            loc = unrealcv.get_cam_location(i)
-            cam_locs.append(loc)
+        if cam_num > 0:
+            cam_locs.append(unrealcv.get_cam_location(0, syns=False))
         # Test the API
         objects = unrealcv.get_objects()
 
@@ -283,37 +365,13 @@ if __name__ == '__main__':
                 bbox[2] = bbox[2]/100.0
                 size = bbox[0] * bbox[1] * bbox[2]
                 area = bbox[0] * bbox[1]
-                print(obj, uclass, bbox, size, area)
+                # print(obj, uclass, bbox, size, area)
                 env_config['size'] = size
                 env_config['area'] = area
                 env_config['bbox'] = bbox
-        # for obj in objects:
-        #     if 'NavMesh' in obj or 'PostProcess' in obj or 'Capture' in obj or 'SkyLight' in obj or 'Light' in obj or 'DirectionalLight' in obj or 'ExponentialHeightFog' in obj or 'AtmosphericFog' in obj or 'ReflectionCapture' in obj or 'SphereReflectionCapture' in obj or 'PlanarReflection' in obj:
-        #         continue
-        #     uclass = unrealcv.get_obj_uclass(obj)
-        #     bbox = unrealcv.get_obj_size(obj, box=True)
-        #     size = bbox[0] * bbox[1] * bbox[2]
-        #     location = unrealcv.get_obj_location(obj)
-        #     if size == 0:
-        #         continue
-        #     obj_data = {}
-        #     obj_data['size'] = size
-        #     obj_data['bbox'] = bbox
-        #     obj_data['location'] = unrealcv.get_obj_location(obj)
-        #     obj_info[obj] = obj_data
-            # obj_size.append(unrealcv.get_obj_size(obj, box=True))
-            # obj_locations.append(unrealcv.get_obj_location(obj))
-        # rint(obj_info, len(obj_info))
 
-        def generate_nav_goal(player, radius):
-            cmd = f'vbp {player} generate_nav_goal {radius}'
-            res = unrealcv.client.request(cmd)
-            goal = unrealcv.decoder.string2vector(res)
-            if len(goal) == 0:
-                print(env_map)
-                print(f'Failed to generate nav goal for {player}')
-                return None
-            return goal
+        def _ap(s):
+            return s.replace('**', asset_prefix.rstrip('/'), 1) if asset_prefix else s
 
         def match_cam_id(cam_locs, obj_name):
             obj_loc = unrealcv.get_obj_location(obj_name)
@@ -324,54 +382,38 @@ if __name__ == '__main__':
             cam_id = dis_list.index(min(dis_list))
             return cam_id
         for obj in objects:
-            if re.match(re.compile(r'bp_character', re.I), obj) is not None:
-                agents['player']['name'].append(obj)
-                agents['player']['class_name'].append(class_name['player'])
-                agents['player']['cam_id'].append(match_cam_id(cam_locs, obj))
-                start_pos_list.append(unrealcv.get_obj_location(obj))
-                print('Sample start point from Nav Mesh:')
-                for i in range(10):
-                    # print(generate_nav_goal(obj, 1000))
-                    goal_loc = generate_nav_goal(obj, 2000)
-                    print(goal_loc)
-                    if goal_loc is not None:
-                        goal_loc[-1] += 50
-                        start_pos_list.append(goal_loc)
-            elif re.match(re.compile(r'bp_animal', re.I), obj) is not None:
-                agents['animal']['name'].append(obj)
-                agents['animal']['class_name'].append(class_name['animal'])
-                agents['animal']['cam_id'].append(match_cam_id(cam_locs, obj))
-                start_pos_list.append(unrealcv.get_obj_location(obj))
-            elif re.match(re.compile(r'bp_drone', re.I), obj) is not None:
-                agents['drone']['name'].append(obj)
-                agents['drone']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['drone']['class_name'].append(class_name['drone'])
-                # env_config['safe_start'].append(unrealcv.get_obj_location(obj))
-            elif re.match(re.compile(r'bp_basecar|BP_Hatchback', re.I), obj) is not None:
-                agents['car']['name'].append(obj)
-                agents['car']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['car']['class_name'].append(class_name['car'])
-                start_pos_list.append(unrealcv.get_obj_location(obj))
-            elif re.match(re.compile(r'sport|motorbike|BP_BaseBike', re.I), obj) is not None:
-                agents['motorbike']['name'].append(obj)
-                agents['motorbike']['cam_id'].append(match_cam_id(cam_locs, obj))
-                agents['motorbike']['class_name'].append(class_name['motorbike'])
-                start_pos_list.append(unrealcv.get_obj_location(obj))
-            elif re.match(re.compile(r'bp_door', re.I), obj) is not None or re.match(re.compile(r'animateddoor', re.I), obj) is not None:
+            if re.match(re.compile(r'bp_door', re.I), obj) is not None or re.match(re.compile(r'animateddoor', re.I), obj) is not None:
                 env_config['env']['interactive_door'].append(obj)
 
-        agents = {k: v for k, v in agents.items() if len(v['name']) > 0}  # remove the agent category not in the scene
         env_config['agents'] = agents
 
-        env_config['safe_start'] = start_pos_list
+        ue5_backup = load_ue5_backup_fields(env_map)
+        start_pos_list = [list(cam_locs[0])] if cam_locs else []
         cam_x = [cam_loc[0] for cam_loc in start_pos_list]
         cam_y = [cam_loc[1] for cam_loc in start_pos_list]
         cam_z = [cam_loc[2] for cam_loc in start_pos_list]
-        env_config['height'] = max(cam_z)
-        env_config['reset_area'] = [min(cam_x), max(cam_x), min(cam_y), max(cam_y), min(cam_z), max(cam_z)]
+
+        if 'safe_start' in ue5_backup:
+            env_config['safe_start'] = ue5_backup['safe_start']
+        else:
+            env_config['safe_start'] = start_pos_list
+
+        if 'height' in ue5_backup:
+            env_config['height'] = ue5_backup['height']
+        elif cam_z:
+            env_config['height'] = max(cam_z)
+        else:
+            env_config['height'] = env_config.get('height', 500)
+
+        if 'reset_area' in ue5_backup:
+            env_config['reset_area'] = ue5_backup['reset_area']
+        elif cam_z:
+            env_config['reset_area'] = [min(cam_x), max(cam_x), min(cam_y), max(cam_y), min(cam_z), max(cam_z)]
+        else:
+            env_config['reset_area'] = [0, 0, 0, 0, 0, 0]
+
         env_config['third_cam']['height_top_view'] = env_config['height'] + 1000
         # print(env_config)
-        import os
         if not os.path.exists(args.target_dir):
             os.makedirs(args.target_dir)
         with open(os.path.join(args.target_dir, f'{env_map}.json'), 'w') as json_file:

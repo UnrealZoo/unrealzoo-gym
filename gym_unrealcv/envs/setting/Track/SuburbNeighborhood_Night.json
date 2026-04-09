@@ -1,29 +1,26 @@
 {
     "env_name": "SuburbNeighborhood_Night",
-    "env_bin": "UE4_ExampleScene_Linux/UE4_ExampleScene/Binaries/Linux/UE4_ExampleScene",
+    "env_bin": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
     "env_map": "SuburbNeighborhood_Night",
-    "env_bin_win": "UE4_ExampleScene_Win\\UE4_ExampleScene\\Binaries\\Win64\\UE4_ExampleScene.exe",
-    "env_bin_mac": "UE4_ExampleScene_Mac/UE4_ExampleScene.app",
+    "env_bin_win": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "env_bin_mac": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
     "third_cam": {
         "cam_id": 0,
         "pitch": -90,
         "yaw": 0,
         "roll": 0,
-        "height_top_view": 1142.79,
+        "height_top_view": 1105.0,
         "fov": 90
     },
-    "height": 142.79,
+    "height": 105.0,
     "interval": 1000,
     "agents": {
         "player": {
-            "name": [
-                "BP_Character_2"
-            ],
-            "cam_id": [
-                2
-            ],
             "class_name": [
                 "bp_character_C"
+            ],
+            "asset_path": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -117,14 +114,11 @@
             }
         },
         "animal": {
-            "name": [
-                "BP_animal_2"
-            ],
-            "cam_id": [
-                1
-            ],
             "class_name": [
                 "BP_animal_C"
+            ],
+            "asset_path": [
+                "/Game/Animal_pack_ultra_2/BP_animal.BP_animal_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -184,14 +178,11 @@
             }
         },
         "drone": {
-            "name": [
-                "BP_Drone01_2"
-            ],
-            "cam_id": [
-                3
-            ],
             "class_name": [
                 "BP_drone01_C"
+            ],
+            "asset_path": [
+                "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C"
             ],
             "internal_nav": false,
             "scale": [
@@ -281,14 +272,22 @@
             }
         },
         "car": {
-            "name": [
-                "BP_BaseCar_2"
-            ],
-            "cam_id": [
-                5
-            ],
             "class_name": [
-                "BP_BaseCar_C"
+                "BP_Hatchback_child_base_C"
+            ],
+            "asset_path": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_police.BP_Hatchback_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_taxi.BP_Hatchback_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_base.BP_Sedan_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_extras.BP_Sedan_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_police.BP_Sedan_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_taxi.BP_Sedan_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_base.BP_SUV_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_extras.BP_SUV_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_police.BP_SUV_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_taxi.BP_SUV_child_taxi_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -340,14 +339,20 @@
             }
         },
         "motorbike": {
-            "name": [
-                "MotorBikes_2"
-            ],
-            "cam_id": [
-                4
-            ],
             "class_name": [
-                "MotorBikes_C"
+                "BP_BaseBike_C"
+            ],
+            "asset_path": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Base.BP_Custom_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Extras.BP_Custom_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Police.BP_Custom_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Base.BP_Enduro_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Extras.BP_Enduro_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Police.BP_Enduro_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Base.BP_Naked_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Extras.BP_Naked_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Police.BP_Naked_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -401,90 +406,68 @@
     },
     "safe_start": [
         [
-            1530.0,
-            110.023,
-            142.79
-        ],
-        [
-            1540.0,
-            -140.016,
+            760.0,
+            240.016,
             98.15
         ],
         [
-            2150.991,
-            -1474.758,
-            110.0
+            1374.576,
+            -28.197,
+            50.094
         ],
         [
-            2979.689,
-            -7.407,
-            120.0
+            -980.36,
+            834.0,
+            75.0
         ],
         [
-            1069.833,
-            -840.658,
-            83.257
-        ],
-        [
-            2044.42,
-            -1139.345,
-            110.0
-        ],
-        [
-            1262.227,
-            1449.47,
-            120.0
-        ],
-        [
-            934.0,
-            1576.0,
-            130.0
-        ],
-        [
-            2011.486,
-            -560.66,
-            70.0
-        ],
-        [
-            1753.015,
-            -228.013,
-            58.753
-        ],
-        [
-            47.216,
-            162.138,
-            56.839
-        ],
-        [
-            1670.447,
-            872.0,
+            2477.884,
+            -575.738,
             80.0
         ],
         [
-            1007.531,
-            169.965,
-            8.492
+            -988.171,
+            646.172,
+            68.59100000000001
         ],
         [
-            1010.0,
-            -180.0,
-            -2.134
+            1137.899,
+            586.519,
+            73.456
         ],
-          [-2385,1050,120],
-        [-3169,-1128,120],
-        [-2675,-1970,151],
-        [-1301,1814,146],
-        [182,-1850,144],
-        [91,1842,138],
-        [3305,1261,501]
+        [
+            999.271,
+            605.064,
+            68.264
+        ],
+        [
+            1863.659,
+            -1142.84,
+            105.0
+        ],
+        [
+            1033.316,
+            1238.977,
+            99.463
+        ],
+        [
+            583.857,
+            282.866,
+            50.0
+        ],
+        [
+            1113.347,
+            -57.892,
+            50.0
+        ]
     ],
     "reset_area": [
-        47.216,
-        2979.689,
-        -1474.758,
-        1576.0,
-        -2.134,
-        142.79
+        -988.171,
+        2477.884,
+        -1142.84,
+        1238.977,
+        50.0,
+        105.0
     ],
     "random_init": false,
     "env": {
@@ -520,14 +503,44 @@
             "BP_Door_garage3_5",
             "BP_Door_garage4_9",
             "BP_Door_garage_14"
-        ]
+        ],
+        "Extra_Vehicles": {
+            "car": [
+                "BP_Hatchback_child_extras_C",
+                "BP_Hatchback_child_police_C",
+                "BP_Hatchback_child_taxi_C",
+                "BP_Sedan_child_base_C",
+                "BP_Sedan_child_extras_C",
+                "BP_Sedan_child_police_C",
+                "BP_Sedan_child_taxi_C",
+                "BP_SUV_child_base_C",
+                "BP_SUV_child_extras_C",
+                "BP_SUV_child_police_C",
+                "BP_SUV_child_taxi_C"
+            ],
+            "motorbike": [
+                "BP_Custom_Base_C",
+                "BP_Custom_Extras_C",
+                "BP_Custom_Police_C",
+                "BP_Enduro_Base_C",
+                "BP_Enduro_Extras_C",
+                "BP_Enduro_Police_C",
+                "BP_Naked_Base_C",
+                "BP_Naked_Extras_C",
+                "BP_Naked_Police_C",
+                "BP_BaseBike_TwoPassengers_C"
+            ]
+        },
+        "Pickable_object": {
+            "class_name": "BP_GrabMoveDrop_C"
+        }
     },
-    "obj_num": 2535,
-    "size": 228800.0,
-    "area": 22000.0,
+    "obj_num": 2528,
+    "size": 162591.4224,
+    "area": 21824.352,
     "bbox": [
-        200.0,
-        110.0,
-        10.4
+        199.2,
+        109.56,
+        7.45
     ]
 }

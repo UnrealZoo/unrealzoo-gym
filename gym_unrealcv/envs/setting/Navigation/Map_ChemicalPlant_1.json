@@ -1,26 +1,25 @@
 {
-    "env_name": "track_train",
-    "env_bin": "UE4_ExampleScene_Linux_0416_25/UE4_ExampleScene/Binaries/Linux/UE4_ExampleScene",
-    "env_map": "track_train",
-    "env_bin_win": "UE4_ExampleScene_Win\\UE4_ExampleScene\\Binaries\\Win64\\UE4_ExampleScene.exe",
-    "env_bin_mac": "UE4_ExampleScene_Mac/UE4_ExampleScene.app",
+    "env_name": "Map_ChemicalPlant_1",
+    "env_bin": "UE5_ExampleScene_Linux/Linux/Compile_unrealcv5_4/Binaries/Linux/Compile_unrealcv5_4",
+    "env_map": "Map_ChemicalPlant_1",
+    "env_bin_win": "UE5_ExampleScene_Win64\\Compile_unrealcv5_4\\Binaries\\Win64\\Compile_unrealcv5_4.exe",
     "third_cam": {
         "cam_id": 0,
         "pitch": -90,
         "yaw": 0,
         "roll": 0,
-        "height_top_view": 1218.15,
+        "height_top_view": -11712.997,
         "fov": 90
     },
-    "height": 218.15,
+    "height": -12712.997,
     "interval": 1000,
     "agents": {
         "player": {
             "name": [
-                "BP_Character_2"
+                "BP_Character_C_1"
             ],
             "cam_id": [
-                4
+                1
             ],
             "class_name": [
                 "bp_character_C"
@@ -116,79 +115,12 @@
                 ]
             }
         },
-        "animal": {
-            "name": [
-                "BP_animal_2"
-            ],
-            "cam_id": [
-                1
-            ],
-            "class_name": [
-                "BP_animal_C"
-            ],
-            "internal_nav": true,
-            "scale": [
-                1,
-                1,
-                1
-            ],
-            "relative_location": [
-                20,
-                0,
-                0
-            ],
-            "relative_rotation": [
-                0,
-                0,
-                0
-            ],
-            "move_action": [
-                [
-                    0,
-                    200
-                ],
-                [
-                    0,
-                    -200
-                ],
-                [
-                    15,
-                    100
-                ],
-                [
-                    -15,
-                    100
-                ],
-                [
-                    30,
-                    0
-                ],
-                [
-                    -30,
-                    0
-                ],
-                [
-                    0,
-                    0
-                ]
-            ],
-            "move_action_continuous": {
-                "high": [
-                    30,
-                    200
-                ],
-                "low": [
-                    -30,
-                    -200
-                ]
-            }
-        },
         "drone": {
             "name": [
-                "BP_Drone01_2"
+                "BP_Drone01_C_1"
             ],
             "cam_id": [
-                3
+                2
             ],
             "class_name": [
                 "BP_drone01_C"
@@ -206,7 +138,7 @@
             ],
             "relative_rotation": [
                 0,
-                -10,
+                0,
                 0
             ],
             "move_action": [
@@ -276,147 +208,86 @@
                     -1,
                     -1,
                     -1,
-                    -1
-                ]
-            }
-        },
-        "car": {
-            "name": [
-                "BP_BaseCar_2"
-            ],
-            "cam_id": [
-                2
-            ],
-            "class_name": [
-                "BP_BaseCar_C"
-            ],
-            "internal_nav": true,
-            "scale": [
-                1,
-                1,
-                1
-            ],
-            "relative_location": [
-                0,
-                0,
-                0
-            ],
-            "relative_rotation": [
-                0,
-                0,
-                0
-            ],
-            "move_action": [
-                [
-                    1,
-                    0
-                ],
-                [
-                    -0.3,
-                    0
-                ],
-                [
-                    0.5,
-                    1
-                ],
-                [
-                    0.5,
-                    -1
-                ],
-                [
-                    0,
-                    0
-                ]
-            ],
-            "move_action_continuous": {
-                "high": [
-                    1,
-                    1
-                ],
-                "low": [
-                    0,
                     -1
                 ]
             }
         }
     },
     "safe_start": [
-
         [
-            -530.0,
-            -100.0,
-            218.15
+            3470.0,
+            -1129.796,
+            -12712.997
         ],
         [
-            429.475,
-            815.294,
-            151.0
+            2956.14,
+            -249.408,
+            -12750.0
         ],
         [
-            -1752.185,
-            782.182,
-            151.0
+            3131.583,
+            -556.072,
+            -12750.0
         ],
         [
-            -1499.903,
-            -156.136,
-            151.0
+            2901.155,
+            408.394,
+            -12750.0
         ],
         [
-            -443.623,
-            1103.178,
-            151.0
+            3463.206,
+            -2263.599,
+            -13410.0
         ],
         [
-            -2099.483,
-            -1206.975,
-            151.0
-        ],
-
-        [
-            4.933,
-            -631.278,
-            151.0
+            4424.784,
+            -8.61,
+            -12750.0
         ],
         [
-            -463.186,
-            697.768,
-            151.0
+            2174.244,
+            -2122.199,
+            -12750.0
         ],
         [
-            -1067.106,
-            -1165.355,
-            151.0
+            3265.274,
+            -2823.698,
+            -13410.0
         ],
         [
-            -2057.718,
-            470.39,
-            151.0
+            3818.498,
+            -1638.831,
+            -12750.0
         ],
         [
-            -1650.0,
-            155.998,
-            118.597
+            4273.73,
+            44.659,
+            -12750.0
+        ],
+        [
+            3304.686,
+            767.493,
+            -12750.0
         ]
     ],
     "reset_area": [
-        -2415,
-        1115,
-        -1415.975,
-        1415.178,
-        100.308,
-        218.15
+        2174.244,
+        4424.784,
+        -2823.698,
+        767.493,
+        -13410.0,
+        -12712.997
     ],
     "random_init": false,
     "env": {
         "interactive_door": []
     },
-    "obj_num": 71,
-    "size": 0.0,
-    "area": 1952.288,
+    "obj_num": 14787,
+    "size": 10107134.352,
+    "area": 244133.68000000002,
     "bbox": [
-        49.4,
-        39.52,
-        0.0
+        607.6,
+        401.8,
+        41.4
     ]
 }

@@ -1,6 +1,6 @@
 # place multiple agent in the environment, each agent share the same action space
 # each agent perform randome action in the environment
-import os
+
 import argparse
 import gym_unrealcv
 import gym
@@ -8,7 +8,9 @@ from gym import wrappers
 import cv2
 import time
 import numpy as np
+import os
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation, configUE
+os.environ['UnrealEnv']='E:\\UnrealEnv'
 
 class RandomAgent(object):
     """The world's simplest agent!"""
@@ -30,22 +32,21 @@ class RandomAgent(object):
         self.action = self.action_space.sample()
         self.count_steps = 0
 
-import os
-os.environ['UnrealEnv']='/home/wuk/UnrealEnv'
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-MiddleEast-ContinuousColor-v0',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-FlexibleRoom-ContinuousColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')
-    parser.add_argument("-t", '--time-dilation', dest='time_dilation', default=10, help='time_dilation to keep fps in simulator')
+    parser.add_argument("-t", '--time-dilation', dest='time_dilation', default=-1, help='time_dilation to keep fps in simulator')
     parser.add_argument("-n", '--nav-agent', dest='nav_agent', action='store_true', help='use nav agent to control the agents')
     parser.add_argument("-d", '--early-done', dest='early_done', default=-1, help='early_done when lost in n steps')
     parser.add_argument("-m", '--monitor', dest='monitor', action='store_true', help='auto_monitor')
 
     args = parser.parse_args()
     env = gym.make(args.env_id)
-    env = configUE.ConfigUEWrapper(env, offscreen=False,resolution=(240,240))
+    env = configUE.ConfigUEWrapper(env, offscreen=False,resolution=(640,640))
     env.unwrapped.agents_category=['player'] #choose the agent type in the scene
 
     if int(args.time_dilation) > 0:  # -1 means no time_dilation
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     if args.monitor:
         env = monitor.DisplayWrapper(env)
 
-    env = augmentation.RandomPopulationWrapper(env, 2, 2, random_target=False)
+    env = augmentation.RandomPopulationWrapper(env, 10, 10, random_target=False)
     if args.nav_agent:
         env = agents.NavAgents(env, mask_agent=False)
     episode_count = 100
@@ -82,6 +83,9 @@ if __name__ == '__main__':
                 #  img = img[..., ::-1]  # bgr->rgb
                 cv2.imshow('show', img)
                 cv2.waitKey(1)
+            cv2.imshow('color', obs[0][:, :, :3])
+            # cv2.imshow('mask', obs[0][:, :, 3:])
+            cv2.waitKey(1)
             if done:
                 fps = count_step/(time.time() - t0)
                 Total_rewards += C_rewards[0]

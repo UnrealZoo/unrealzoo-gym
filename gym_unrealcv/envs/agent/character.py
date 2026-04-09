@@ -24,7 +24,28 @@ class Character_API(UnrealCv_API):
             'carry':self.carry_body,
             'drop':self.drop_body
         }
+    def config_ue(self, resolution=(320, 240), quality=1, disable_all_screen_messages=True, Lumen=False):
+        """
+        Configure Unreal Engine settings.
 
+        Args:
+            resolution (tuple): The resolution of the display window.
+            quality (bool): The quality of the display window. From 0 to 3.
+            disable_all_screen_messages (bool): Whether to disable all screen messages. Default is True.
+        """
+        self.check_connection()
+        [w, h] = resolution
+        self.client.request(f'vrun setres {w}x{h}w', -1)  # set resolution of the display window
+        if disable_all_screen_messages:
+            self.client.request('DisableAllScreenMessages', -1)  # disable all screen messages
+        if quality > 0:
+            self.client.request(f'vrun sg.ShadowQuality {quality}', -1)  # set shadow quality to low
+            self.client.request(f'vrun sg.TextureQuality {quality}', -1)  # set texture quality to low
+            self.client.request(f'vrun sg.EffectsQuality {quality}', -1)  # set effects quality to low
+        if Lumen:
+            self.client.request('vset /camera/1/illumination Lumen', -1)
+            self.client.request('vset /camera/1/reflection Lumen', -1)
+        time.sleep(0.1)
     def init_mask_color(self, targets=None):
         if targets == 'all':
             self.targets = self.get_objects()
@@ -295,6 +316,7 @@ class Character_API(UnrealCv_API):
 
     def random_obstacles(self, objects, img_dirs, num, area, start_area, texture=False):
         sample_index = np.random.choice(len(objects), num, replace=False)
+        all_loc=[]
         for id in sample_index:
             obstacle = objects[id]
             self.obstacles.append(obstacle)
@@ -304,15 +326,30 @@ class Character_API(UnrealCv_API):
                 self.set_texture(obstacle, (1, 1, 1), np.random.uniform(0, 1, 3), img_dir, np.random.randint(1, 4))
             # scale
             # self.set_obj_scale(obstacle, np.random.uniform(0.3, 3, 3))
-            self.set_obj_scale(obstacle, np.random.uniform(2, 5, 3))
+            self.set_obj_scale(obstacle, np.random.uniform(2, 4, 3))
 
             # location
             obstacle_loc = [start_area[0], start_area[2], 0]
-            while start_area[0] <= obstacle_loc[0] <= start_area[1] and start_area[2] <= obstacle_loc[1] <= start_area[3]:
-                obstacle_loc[0] = np.random.uniform(area[0]+200, area[1]-200)
-                obstacle_loc[1] = np.random.uniform(area[2]+200, area[3]-200)
+            tooclose=True
+            while (start_area[0] <= obstacle_loc[0] <= start_area[1] and start_area[2] <= obstacle_loc[1] <= start_area[3]) or tooclose:
+                # obstacle_loc[0] = np.random.uniform(area[0]+200, area[1]-200)
+                # obstacle_loc[1] = np.random.uniform(area[2]+200, area[3]-200)
+                obstacle_loc[0] = np.random.uniform(area[0] , area[1] )
+                obstacle_loc[1] = np.random.uniform(area[2] , area[3] )
                 obstacle_loc[2] = np.random.uniform(area[4], area[5]) -150
+                if len(all_loc)==0:
+                    tooclose=False
+                for loc in all_loc:
+                    distance = np.linalg.norm(np.array(obstacle_loc) - np.array(loc))
+                    if distance < 600:
+                        tooclose = True
+                        break
+                    else:
+                        tooclose= False
+
+
             self.set_obj_location(obstacle, obstacle_loc)
+            all_loc.append(obstacle_loc)
             time.sleep(0.1)
 
     def clean_obstacles(self):
@@ -339,6 +376,19 @@ class Character_API(UnrealCv_API):
         self.client.request(cmd, -1)
         return obj_name
 
+    def new_obj_fromPath(self, obj_class_path, obj_name, loc, rot=[0, 0, 0]):
+        # spawn, set obj pose, enable physics
+        [x, y, z] = loc
+        [pitch, yaw, roll] = rot
+        cmd = [f'vset /objects/spawn_from_path {obj_class_path} {obj_name}',
+                f'vset /object/{obj_name}/location {x} {y} {z}',
+                f'vset /object/{obj_name}/rotation {pitch} {yaw} {roll}',
+                f'vbp {obj_name} set_phy 0'
+                ]
+       
+        self.client.request(cmd, -1)
+        return obj_name
+
     def set_cam(self, obj, loc=[0, 30, 70], rot=[0, 0, 0], return_cmd=False):
         # set the camera pose relative to a actor
         x, y, z = loc
@@ -361,8 +411,8 @@ class Character_API(UnrealCv_API):
         # Assign the agent a navigation goal, and use Navmesh to automatically control its movement to reach the goal via the shortest path.
         # The goal should be reachable in the environment.
         x, y, z = loc
-        cmd = f'vbp {obj} nav_to_goal {x} {y} {z}'
-        res = self.client.request(cmd, -1)
+        cmd = f'vbp {obj} nav_to_goal_bypath {x} {y} {z}'
+        res = self.client.request(cmd)
         return res
     def nav_to_goal_bypath(self, obj, loc): # navigate the agent to a goal location
         # Assign the agent a navigation goal, and use Navmesh to automatically control its movement to reach the goal via the shortest path.

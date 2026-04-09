@@ -1,0 +1,196 @@
+{
+    "env_name": "Old_Town",
+    "env_bin": "UE5_ExampleScene_Linux/Linux/Compile_unrealcv5_4/Binaries/Linux/Compile_unrealcv5_4",
+    "env_map": "Old_Town",
+    "env_bin_win": "UE5_ExampleScene_Win64\\Compile_unrealcv5_4\\Binaries\\Win64\\Compile_unrealcv5_4.exe",
+    "third_cam": {
+        "cam_id": 0,
+        "pitch": -90,
+        "yaw": 0,
+        "roll": 0,
+        "height_top_view": 28420.0,
+        "fov": 90
+    },
+    "height": 27420.0,
+    "interval": 1000,
+    "agents": {
+        "player": {
+            "name": [
+                "BP_Character_C_1"
+            ],
+            "cam_id": [
+                1
+            ],
+            "class_name": [
+                "bp_character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch"
+            ],
+            "move_action": [
+                [
+                    0,
+                    100
+                ],
+                [
+                    0,
+                    -100
+                ],
+                [
+                    15,
+                    50
+                ],
+                [
+                    -15,
+                    50
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    100
+                ],
+                "low": [
+                    -30,
+                    -100
+                ]
+            }
+        }
+    },
+    "safe_start": [
+        [
+            1045.767,
+            19755.0,
+            26802.335
+        ],
+        [
+            -183.204,
+            19390.019,
+            26820.0
+        ],
+        [
+            -19.0,
+            18221.0,
+            27150.0
+        ],
+        [
+            -696.498,
+            20563.614,
+            26870.0
+        ],
+        [
+            2525.655,
+            19741.673,
+            26820.0
+        ],
+        [
+            -403.65,
+            18415.65,
+            26848.776
+        ],
+        [
+            807.322,
+            20926.388,
+            27098.463
+        ],
+        [
+            741.0,
+            20487.221,
+            26810.0
+        ],
+        [
+            -425.097,
+            18568.033,
+            26846.265
+        ],
+        [
+            229.858,
+            19057.0,
+            27420.0
+        ],
+        [
+            908.19,
+            18881.031,
+            26755.586
+        ]
+    ],
+    "reset_area": [
+        -696.498,
+        2525.655,
+        18221.0,
+        20926.388,
+        26755.586,
+        27420.0
+    ],
+    "random_init": false,
+    "env": {
+        "interactive_door": []
+    },
+    "obj_num": 7081,
+    "size": 158135.328,
+    "area": 7906.7664,
+    "bbox": [
+        88.92,
+        88.92,
+        20.0
+    ]
+}

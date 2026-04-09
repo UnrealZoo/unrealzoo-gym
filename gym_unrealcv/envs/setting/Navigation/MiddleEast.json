@@ -1,0 +1,196 @@
+{
+    "env_name": "MiddleEast",
+    "env_bin": "UE5_ExampleScene_Linux/Linux/Compile_unrealcv5_4/Binaries/Linux/Compile_unrealcv5_4",
+    "env_map": "MiddleEast",
+    "env_bin_win": "UE5_ExampleScene_Win64\\Compile_unrealcv5_4\\Binaries\\Win64\\Compile_unrealcv5_4.exe",
+    "third_cam": {
+        "cam_id": 0,
+        "pitch": -90,
+        "yaw": 0,
+        "roll": 0,
+        "height_top_view": 1334.387,
+        "fov": 90
+    },
+    "height": 334.387,
+    "interval": 1000,
+    "agents": {
+        "player": {
+            "name": [
+                "BP_Character_C_1"
+            ],
+            "cam_id": [
+                0
+            ],
+            "class_name": [
+                "bp_character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch"
+            ],
+            "move_action": [
+                [
+                    0,
+                    100
+                ],
+                [
+                    0,
+                    -100
+                ],
+                [
+                    15,
+                    50
+                ],
+                [
+                    -15,
+                    50
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    100
+                ],
+                "low": [
+                    -30,
+                    -100
+                ]
+            }
+        }
+    },
+    "safe_start": [
+        [
+            -1070.0,
+            -1250.0,
+            262.907
+        ],
+        [
+            -76.328,
+            -1216.643,
+            244.229
+        ],
+        [
+            -23.319,
+            -2675.03,
+            190.0
+        ],
+        [
+            -274.225,
+            -869.685,
+            255.193
+        ],
+        [
+            -717.804,
+            -3049.844,
+            334.387
+        ],
+        [
+            -2118.258,
+            172.884,
+            240.0
+        ],
+        [
+            91.551,
+            -675.597,
+            246.511
+        ],
+        [
+            -2165.789,
+            -1443.283,
+            260.0
+        ],
+        [
+            -1732.918,
+            -1915.88,
+            250.0
+        ],
+        [
+            -437.0,
+            -0.0,
+            250.0
+        ],
+        [
+            -348.914,
+            -1420.971,
+            260.0
+        ]
+    ],
+    "reset_area": [
+        -2165.789,
+        91.551,
+        -3049.844,
+        172.884,
+        190.0,
+        334.387
+    ],
+    "random_init": false,
+    "env": {
+        "interactive_door": []
+    },
+    "obj_num": 1290,
+    "size": 623756.016,
+    "area": 29284.319999999996,
+    "bbox": [
+        148.2,
+        197.6,
+        21.3
+    ]
+}

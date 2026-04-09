@@ -4,6 +4,9 @@ from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augme
 from pynput import keyboard
 import time
 import cv2
+import os
+os.environ['UnrealEnv']='E:\\UnrealEnv'
+
 class RandomAgent(object):
     """The world's simplest agent!"""
     def __init__(self, action_space):
@@ -22,6 +25,7 @@ key_state = {
     'space': False,
     '1': False,
     '2': False,
+'3': False,
     'head_up': False,
     'head_down': False
 }
@@ -71,6 +75,8 @@ def get_key_action():
         action[2] = 3
     if key_state['2']:
         action[2] = 4
+    if key_state['3']:
+        action[2] = 5
     if key_state['head_up']:
         action[1] = 1
     if key_state['head_down']:
@@ -86,7 +92,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     # parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-ContinuousMask-v4',
     #                     help='Select the environment to run')
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-MixedColor-v0',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-SuburbNeighborhood_Day-MixedColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=10, help='random seed')

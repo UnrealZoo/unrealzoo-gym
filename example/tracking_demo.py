@@ -1,5 +1,15 @@
+"""
+Entry point: multi-agent tracking demo.
+
+Typical chain: ``gym.make`` → ``ConfigUEWrapper`` → optional wrappers →
+``RandomPopulationWrapper``. On each ``reset``, the unwrapped env launches UE (once),
+then ``set_population`` spawns agents from the Track JSON (e.g. ``Track/FlexibleRoom.json``)
+using templates for empty ``name`` lists. ``env.unwrapped.agents_category`` (e.g. ``['player']``)
+selects which agent type block in that JSON is used as the spawn template
+(see ``UnrealCv_base._default_agent_template``).
+"""
 import argparse
-import gym_unrealcv
+import gym_unrealcv  # noqa: F401 — must load first to run register() in gym_unrealcv.__init__
 import gym
 from gym import wrappers
 import cv2
@@ -7,22 +17,25 @@ import time
 import numpy as np
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
 from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
+import os
+os.environ['UnrealEnv']='E:\\UnrealEnv'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-ContinuousColor-v5',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-VictorianTrainStation-ContinuousColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')
-    parser.add_argument("-t", '--time_dilation', dest='time_dilation', default=10, help='time_dilation to keep fps in simulator')
+    parser.add_argument("-t", '--time_dilation', dest='time_dilation', default=-1, help='time_dilation to keep fps in simulator')
     parser.add_argument("-d", '--early_done', dest='early_done', default=-1, help='early_done when lost in n steps')
     parser.add_argument("-m", '--monitor', dest='monitor', action='store_true', help='auto_monitor')
 
     args = parser.parse_args()
     env = gym.make(args.env_id)
     env = configUE.ConfigUEWrapper(env, offscreen=False, resolution=(240, 240))
-    env.unwrapped.agents_category=['player'] #choose the agent type in the scene
+    # Which JSON agent template to spawn (must match a key under ``agents`` in the env JSON).
+    env.unwrapped.agents_category = ['player']
 
     if int(args.time_dilation) > 0:  # -1 means no time_dilation
         env = time_dilation.TimeDilationWrapper(env, args.time_dilation)
@@ -31,9 +44,9 @@ if __name__ == '__main__':
     if args.monitor:
         env = monitor.DisplayWrapper(env)
 
-    env = augmentation.RandomPopulationWrapper(env, 8, 10, random_target=False)
+    env = augmentation.RandomPopulationWrapper(env, 2, 2, random_target=False)
     # env = agents.NavAgents(env, mask_agent=True)
-    episode_count = 100
+    episode_count = 1000
     rewards = 0
     done = False
 
@@ -69,7 +82,7 @@ if __name__ == '__main__':
                 if args.render:
                     img = env.render(mode='rgb_array')
                     #  img = img[..., ::-1]  # bgr->rgb
-                cv2.imshow('show', obs[1])
+                cv2.imshow('show', obs[0][:,:,:3])
                 cv2.waitKey(1)
                 if done:
                     fps = count_step/(time.time() - t0)

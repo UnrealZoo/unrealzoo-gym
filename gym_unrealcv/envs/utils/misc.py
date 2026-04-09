@@ -51,10 +51,38 @@ def get_textures(texture_name="textures", docker=False):
             textures_list[i] = os.path.join(texture_dir, textures_list[i])
     return textures_list
 
+
 def convert_dict(old_dict):
+    """Flatten agents JSON to (instances dict, templates dict for empty name lists)."""
     new_dict = {}
+    templates = {}
     for agent, info in old_dict.items():
-        names = info["name"]
+        names = info.get("name", [])
+        if len(names) == 0:
+            entry = {"agent_type": agent}
+            for key in info.keys():
+                if key == "name":
+                    continue
+                if key == "cam_id":
+                    if key not in info or not info.get(key):
+                        entry["cam_id"] = -1
+                    else:
+                        arr = info[key]
+                        entry["cam_id"] = arr[0] if isinstance(arr, list) and len(arr) > 0 else arr
+                elif key == "class_name":
+                    arr = info[key]
+                    if isinstance(arr, list) and len(arr) > 1:
+                        entry["class_name"] = list(arr)
+                    elif isinstance(arr, list) and len(arr) == 1:
+                        entry["class_name"] = arr[0]
+                    else:
+                        entry["class_name"] = arr
+                else:
+                    entry[key] = info[key]
+            if "cam_id" not in entry:
+                entry["cam_id"] = -1
+            templates[agent] = entry
+            continue
         for i, name in enumerate(names):
             new_dict[name] = {
                 "agent_type": agent,
@@ -64,4 +92,4 @@ def convert_dict(old_dict):
                     new_dict[name][key] = info[key][i]
                 else:
                     new_dict[name][key] = info[key]
-    return new_dict
+    return new_dict, templates

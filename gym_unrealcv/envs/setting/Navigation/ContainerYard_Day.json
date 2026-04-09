@@ -1,0 +1,197 @@
+{
+    "env_name": "ContainerYard_Day",
+    "env_bin": "UE4_ExampleScene_Linux/UE4_ExampleScene/Binaries/Linux/UE4_ExampleScene",
+    "env_map": "ContainerYard_Day",
+    "env_bin_win": "UE4_ExampleScene_Win\\UE4_ExampleScene\\Binaries\\Win64\\UE4_ExampleScene.exe",
+    "env_bin_mac": "UE4_ExampleScene_Mac/UE4_ExampleScene.app",
+    "third_cam": {
+        "cam_id": 0,
+        "pitch": -90,
+        "yaw": 0,
+        "roll": 0,
+        "height_top_view": 1106.892,
+        "fov": 90
+    },
+    "height": 106.892,
+    "interval": 1000,
+    "agents": {
+        "player": {
+            "name": [
+                "BP_Character_2"
+            ],
+            "cam_id": [
+                1
+            ],
+            "class_name": [
+                "bp_character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch"
+            ],
+            "move_action": [
+                [
+                    0,
+                    100
+                ],
+                [
+                    0,
+                    -100
+                ],
+                [
+                    15,
+                    50
+                ],
+                [
+                    -15,
+                    50
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    100
+                ],
+                "low": [
+                    -30,
+                    -100
+                ]
+            }
+        }
+    },
+    "safe_start": [
+        [
+            -3040.0,
+            -5400.0,
+            106.892
+        ],
+        [
+            -3110.172,
+            -3660.395,
+            60.0
+        ],
+        [
+            -4731.804,
+            -5391.728,
+            60.0
+        ],
+        [
+            -2149.677,
+            -6955.025,
+            60.0
+        ],
+        [
+            -4030.06,
+            -6528.206,
+            60.0
+        ],
+        [
+            -1916.391,
+            -6851.87,
+            60.0
+        ],
+        [
+            -3450.546,
+            -4047.822,
+            60.0
+        ],
+        [
+            -2639.423,
+            -3674.721,
+            60.0
+        ],
+        [
+            -2673.78,
+            -6221.576,
+            60.0
+        ],
+        [
+            -2594.978,
+            -6644.651,
+            60.0
+        ],
+        [
+            -4230.645,
+            -4356.258,
+            60.0
+        ]
+    ],
+    "reset_area": [
+        -4731.804,
+        -1916.391,
+        -6955.025,
+        -3660.395,
+        60.0,
+        106.892
+    ],
+    "random_init": false,
+    "env": {
+        "interactive_door": []
+    },
+    "obj_num": 3755,
+    "size": 187497.73952000003,
+    "area": 468744.34880000004,
+    "bbox": [
+        484.12,
+        968.24,
+        0.4
+    ]
+}

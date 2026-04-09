@@ -12,7 +12,7 @@ class RandomPopulationWrapper(Wrapper):
         self.random_tracker_id = random_tracker
 
         self.reset_type = int(env.spec.id.split('-')[-1][-1])
-        if 'track_train' in env.unwrapped.env_name and  self.reset_type>0:
+        if ('track_train' in env.unwrapped.env_name or 'FlexibleRoom' in env.unwrapped.env_name) and  self.reset_type>0:
             env.unwrapped.objects_list=["cube1", "cube2_7", "cube3", "cube4", "cube5",
                 "cylinder1", "cylinder2", "cylinder3", "cylinder4", "cylinder5",
                 "cone1", "cone2", "cone3", "cone4", "cone5","sphere1","sphere2","sphere3","sphere4","sphere5"]
@@ -25,16 +25,16 @@ class RandomPopulationWrapper(Wrapper):
 
     def reset(self, **kwargs):
         env = self.env.unwrapped
-        if not env.launched:  # we need to launch the environment
-            env.launched = env.launch_ue_env()
-            env.init_agents()
-            env.init_objects()
-
         if self.min_num == self.max_num:
             env.num_agents = self.min_num
         else:
             # Randomize the number of agents
             env.num_agents = np.random.randint(self.min_num, self.max_num)
+        if not env.launched:  # we need to launch the environment
+            env.launched = env.launch_ue_env()
+            env.init_agents()
+            env.init_objects()
+
         env.set_population(env.num_agents)
         if self.random_tracker_id:
             env.tracker_id = env.sample_tracker()
@@ -55,9 +55,9 @@ class RandomPopulationWrapper(Wrapper):
             elif env.unwrapped.reset_type==4:
                 env.unwrapped.environment_augmentation(player_mesh=True, player_texture=True, light=True, background_texture=False,layout=True, layout_texture=True)
             elif env.unwrapped.reset_type == 5:
-                env.unwrapped.environment_augmentation(player_mesh=True, player_texture=True, light=True,background_texture=True, layout=True, layout_texture=True)
+                env.unwrapped.environment_augmentation(player_mesh=True, player_texture=True, light=True,background_texture=False, layout=True, layout_texture=True)
             elif env.unwrapped.reset_type == 6:
-                env.unwrapped.environment_augmentation(player_mesh=True, player_texture=True, light=True,background_texture=False, layout=True, layout_texture=False)
+                env.unwrapped.environment_augmentation(player_mesh=True, player_texture=True, light=True,background_texture=True, layout=True, layout_texture=True)
 
         states = self.env.reset(**kwargs)
         return states

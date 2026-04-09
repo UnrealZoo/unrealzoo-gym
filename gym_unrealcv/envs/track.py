@@ -20,13 +20,15 @@ class Track(UnrealCv_base):
                  action_type='Discrete',  # 'discrete', 'continuous'
                  observation_type='Color',  # 'color', 'depth', 'rgbd', 'Gray'
                  resolution=(160, 160),
-                 reset_type = 0
+                 reset_type = 0,
+                 num_agents=2,
                  ):
         super(Track, self).__init__(setting_file=env_file,  # the setting file to define the task
                                          action_type=action_type,  # 'discrete', 'continuous'
                                          observation_type=observation_type,  # 'color', 'depth', 'rgbd', 'Gray'
                                          resolution=resolution,
-                                    reset_type=reset_type)
+                                    reset_type=reset_type,
+                                    num_agents=num_agents)
         self.count_lost = 0
         self.max_lost_steps = 20
         self.agents_category = ['player']
@@ -61,8 +63,9 @@ class Track(UnrealCv_base):
     def reset(self):
         # initialize the environment
         observations = super(Track, self).reset()
+
         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
-        print(target_pos)
+        # print(target_pos)
         self.unrealcv.nav_to_goal(self.player_list[self.target_id], target_pos)
         time.sleep(1)
         super(Track, self).random_app()
@@ -72,19 +75,25 @@ class Track(UnrealCv_base):
             if obj == self.player_list[self.target_id]:
                 self.unrealcv.set_obj_color(obj, (255, 255, 255))
             else:
-                if random.random() < 0.9:
-                    if obj not in self.objects_list and obj not in self.player_list:
-                        try:
-                            self.unrealcv.set_obj_color(obj, (0, 0, 0))
-                        except:
-                            pass
-                else:
-                    random_color=color = np.random.randint(100, 255, 3)
-                    if obj not in self.objects_list and obj not in self.player_list:
-                        try:
-                            self.unrealcv.set_obj_color(obj, random_color)
-                        except:
-                            pass
+                if 'floor' in obj.lower() or 'wall' in obj.lower():
+                    if random.random()<0.5:
+                        self.unrealcv.set_obj_color(obj, (0, 0, 0))
+                    else:
+                        random_color = color = np.random.randint(100, 255, 3)
+                        self.unrealcv.set_obj_color(obj, random_color)
+            #     if random.random() < 0.9:
+            #         if obj not in self.objects_list and obj not in self.player_list:
+            #             try:
+            #                 self.unrealcv.set_obj_color(obj, (0, 0, 0))
+            #             except:
+            #                 pass
+            #     else:
+            #         random_color=color = np.random.randint(100, 255, 3)
+            #         if obj not in self.objects_list and obj not in self.player_list:
+            #             try:
+            #                 self.unrealcv.set_obj_color(obj, random_color)
+            #             except:
+            #                 pass
         ##############
         time.sleep(1)
         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
@@ -95,23 +104,23 @@ class Track(UnrealCv_base):
         self.unrealcv.set_obj_location(tracker_name, cam_pos_exp)
         self.unrealcv.set_obj_rotation(tracker_name, [0, yaw_exp, 0])
         # reset if cannot see the target at initial frame
-        # try:
-        #     while self.unwrapped.unrealcv.check_visibility(self.cam_list[self.tracker_id],self.player_list[self.target_id]) == 0:
-        #         target_locations = self.sample_init_pose()
-        #         self.unrealcv.set_obj_location(self.player_list[self.target_id], target_locations[0])
-        #         self.unrealcv.set_cam(self.player_list[self.target_id],
-        #                               self.agents[self.player_list[self.target_id]]['relative_location'],
-        #                               self.agents[self.player_list[self.target_id]]['relative_rotation'])
-        #         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
-        #         # initialize the tracker
-        #         cam_pos_exp, yaw_exp = self.get_tracker_init_point(target_pos, self.reward_params["exp_distance"])
-        #         # set tracker location
-        #         tracker_name = self.player_list[self.tracker_id]
-        #         self.unrealcv.set_obj_location(tracker_name, cam_pos_exp)
-        #         self.unrealcv.set_obj_rotation(tracker_name, [0, yaw_exp, 0])
-        #         time.sleep(1)
-        # except:
-        #     pass
+        try:
+            while self.unwrapped.unrealcv.check_visibility(self.cam_list[self.tracker_id],self.player_list[self.target_id]) == 0 :
+                target_locations = self.sample_init_pose()
+                self.unrealcv.set_obj_location(self.player_list[self.target_id], target_locations[0])
+                self.unrealcv.set_cam(self.player_list[self.target_id],
+                                      self.agents[self.player_list[self.target_id]]['relative_location'],
+                                      self.agents[self.player_list[self.target_id]]['relative_rotation'])
+                target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
+                # initialize the tracker
+                cam_pos_exp, yaw_exp = self.get_tracker_init_point(target_pos, self.reward_params["exp_distance"])
+                # set tracker location
+                tracker_name = self.player_list[self.tracker_id]
+                self.unrealcv.set_obj_location(tracker_name, cam_pos_exp)
+                self.unrealcv.set_obj_rotation(tracker_name, [0, yaw_exp, 0])
+                time.sleep(1)
+        except:
+            pass
 
         # update the observation
         observations, self.obj_poses, self.img_show = self.update_observation(self.player_list, self.cam_list, self.cam_flag, self.observation_type)
@@ -209,41 +218,3 @@ class Track(UnrealCv_base):
         mask_percent = mask.sum()/(self.resolution[0] * self.resolution[1])
         return mask_percent
 
-    # def environment_augmentation(self, player_mesh=False, player_texture=False,
-    #                              light=False, background_texture=False,
-    #                              layout=False, layout_texture=False):
-    #     if player_mesh:  # random human mesh
-    #         for obj in self.player_list:
-    #             if self.agents[obj]['agent_type'] == 'player':
-    #                 if self.env_name == 'MPRoom':
-    #                     map_id = [2, 3, 6, 7, 9]
-    #                     spline = False
-    #                     app_id = np.random.choice(map_id)
-    #                 else:
-    #                     map_id = [1, 2, 3, 4]
-    #                     spline = True
-    #                     app_id = np.random.choice(map_id)
-    #                 self.unrealcv.set_appearance(obj, app_id)
-    #             if self.agents[obj]['agent_type'] == 'animal':
-    #                 map_id = [2, 5, 6, 7, 11, 12, 16]
-    #                 spline = True
-    #                 app_id = np.random.choice(map_id)
-    #                 self.unrealcv.set_appearance(obj, app_id, spline)
-    #     # random light and texture of the agents
-    #     if player_texture:
-    #         if self.env_name == 'MPRoom':  # random target texture
-    #             for obj in self.player_list:
-    #                 if self.agents[obj]['agent_type'] == 'player':
-    #                     self.unrealcv.random_player_texture(obj, self.textures_list, 3)
-    #     if light:
-    #         self.unrealcv.random_lit(self.env_configs["lights"])
-    #
-    #     # random the texture of the background
-    #     if background_texture:
-    #         self.unrealcv.random_texture(self.env_configs["backgrounds"], self.textures_list, 3)
-    #
-    #     # random place the obstacle
-    #     if layout:
-    #         self.unrealcv.clean_obstacles()
-    #         self.unrealcv.random_obstacles(self.objects_list, self.textures_list,
-    #                                        20, self.reset_area, self.start_area, layout_texture)

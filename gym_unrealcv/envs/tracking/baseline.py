@@ -226,7 +226,7 @@ class GoalNavAgentTest(object):
         return distance < 50
 
 class InternalNavAgent(object):
-    def __init__(self, env,goal_list=None, goal_area=None, max_len=200):
+    def __init__(self, env,goal_list=None, goal_area=None, max_len=100):
         self.step_counter = 0
         self.keep_steps = 0
         self.goal_area = goal_area
@@ -294,7 +294,7 @@ class InternalNavAgent(object):
         #     z = np.random.randint(goal_area[4], goal_area[5])
         #     goal = np.array([x, y, z])
 
-        x, y, z = self.env.unwrapped.unrealcv.generate_nav_goal(self.env.unwrapped.player_list[self.env.unwrapped.target_id], 1000,500)
+        x, y, z = self.env.unwrapped.unrealcv.generate_nav_goal(self.env.unwrapped.player_list[self.env.unwrapped.target_id], 5000,500)
         goal = np.array([x, y, z])
         # print('NavMesh Generated goal:', goal)
         return goal

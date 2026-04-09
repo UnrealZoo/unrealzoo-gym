@@ -1,4 +1,5 @@
 import os.path
+import re
 import time
 import warnings
 
@@ -33,7 +34,8 @@ class UnrealCv_base(gym.Env):
                  action_type='Discrete',  # 'discrete', 'continuous'
                  observation_type='Color',  # 'color', 'depth', 'rgbd', 'Gray'
                  resolution=(160, 160),
-                 reset_type = 0
+                 reset_type = 0,
+                 num_agents=2,
                  ):
         """
         Initialize the UnrealCv_base environment.
@@ -44,6 +46,7 @@ class UnrealCv_base(gym.Env):
             observation_type (str): Type of observation space ('Color', 'Depth', 'Rgbd', 'Gray').
             resolution (tuple): Resolution of the observation space.
             reset_type (int): Type of reset.
+            num_agents (int): Initial capacity for template-only JSON (empty agent names); wrapper/set_population may change count.
         """
         setting = misc.load_env_setting(setting_file)
         self.env_name = setting['env_name']
@@ -52,14 +55,10 @@ class UnrealCv_base(gym.Env):
         self.cam_id = [setting['third_cam']['cam_id']]
         self.agent_configs = setting['agents']
         self.env_configs = setting["env"]
-        self.agents = misc.convert_dict(self.agent_configs)
+        self.agents, self.agent_templates = misc.convert_dict(self.agent_configs)
+        self.num_agents = int(num_agents)
+        self._spawn_from_templates = len(self.agents) == 0 and len(self.agent_templates) > 0
         self.reset_type = reset_type
-        # TODO: it is useless.
-        self.character = {
-            'player': [],  # the list of player to control
-            'npc': [],  # the list of Non-player character
-            'freeze': [],  # the list of player that exists in the scene, but it is frozen
-        }
 
         self.height_top_view = setting['third_cam']['height_top_view']
 
@@ -90,21 +89,31 @@ class UnrealCv_base(gym.Env):
         self.agents_category = ['player'] # the agent category we use in the env
         self.protagonist_id = 0
 
-        # init agents
-        self.player_list = list(self.agents.keys())
-        self.cam_list = [self.agents[player]['cam_id'] for player in self.player_list]
-
-        # define action space
         self.action_type = action_type
         assert self.action_type in ['Discrete', 'Continuous', 'Mixed']
-        self.action_space = [self.define_action_space(self.action_type, self.agents[obj]) for obj in self.player_list]
-
-        # define observation space,
-        # color, depth, rgbd,...
         self.observation_type = observation_type
         assert self.observation_type in ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose','MaskDepth','ColorMask']
-        self.observation_space = [self.define_observation_space(self.cam_list[i], self.observation_type, resolution)
-                                  for i in range(len(self.player_list))]
+
+        # init agents (pre-placed from JSON, or empty slots for template-only JSON until set_population)
+        if self._spawn_from_templates:
+            tpl = self.agent_templates[sorted(self.agent_templates.keys())[0]]
+            self.player_list = []
+            self.action_space = [self.define_action_space(self.action_type, tpl) for _ in range(self.num_agents)]
+            self.observation_space = [
+                self.define_observation_space(-1, self.observation_type, resolution) for _ in range(self.num_agents)
+            ]
+            self.cam_list = [-1] * self.num_agents
+        else:
+            self.player_list = list(self.agents.keys())
+            self.cam_list = [self.agents[player]['cam_id'] for player in self.player_list]
+
+            # define action space
+            self.action_space = [self.define_action_space(self.action_type, self.agents[obj]) for obj in self.player_list]
+
+            # define observation space,
+            # color, depth, rgbd,...
+            self.observation_space = [self.define_observation_space(self.cam_list[i], self.observation_type, resolution)
+                                      for i in range(len(self.player_list))]
 
         # config unreal env
         if 'linux' in sys.platform:
@@ -190,7 +199,7 @@ class UnrealCv_base(gym.Env):
                     # self.unrealcv.set_move_bp(obj, [0, 100])
                     # self.unrealcv.set_max_speed(obj, 100)
                     continue
-                    # self.unrealcv.set_phy(obj, 1)
+                    self.unrealcv.set_phy(obj, 1)
             elif self.agents[obj]['agent_type'] == 'drone':
                 self.unrealcv.set_move_bp(obj, [0, 0, 0, 0])
                 self.unrealcv.set_phy(obj, 1)
@@ -387,7 +396,7 @@ class UnrealCv_base(gym.Env):
 
         return info
 
-    def add_agent(self, name, loc, refer_agent):
+    def add_agent(self, name, loc, refer_agent, register_spaces=True):
         """
         Add a new agent to the environment.
 
@@ -400,6 +409,7 @@ class UnrealCv_base(gym.Env):
             dict: New agent configuration.
         """
         new_dict = refer_agent.copy()
+        new_dict['agent_type'] = refer_agent.get('agent_type', 'player')
         cam_num = self.unrealcv.get_camera_num()
         self.unrealcv.new_obj(refer_agent['class_name'], name, random.sample(self.safe_start, 1)[0])
         self.player_list.append(name)
@@ -416,6 +426,49 @@ class UnrealCv_base(gym.Env):
         self.action_space.append(self.define_action_space(self.action_type, agent_info=new_dict))
         self.observation_space.append(self.define_observation_space(new_dict['cam_id'], self.observation_type, self.resolution))
         self.unrealcv.set_phy(name, 0)
+        return new_dict
+
+
+    def add_agent_fromPath(self, name, loc, refer_agent, register_spaces=True):
+        """Spawn via UE soft path; list asset_path -> random entry. register_spaces False for pre-padded template slots."""
+        new_dict = refer_agent.copy()
+        new_dict['agent_type'] = refer_agent.get('agent_type', 'player')
+        cam_num = self.unrealcv.get_camera_num()
+        ap = refer_agent.get('asset_path')
+        if isinstance(ap, list):
+            if len(ap) == 0:
+                raise ValueError('asset_path list is empty')
+            path = random.choice(ap).strip()
+        elif isinstance(ap, str):
+            path = ap.strip()
+        else:
+            raise TypeError('asset_path must be str or list of str')
+        if not path:
+            raise ValueError('asset_path is empty')
+        spawn_loc = list(loc) if loc is not None else random.sample(self.safe_start, 1)[0]
+        self.unrealcv.new_obj_fromPath(path, name, spawn_loc)
+        new_dict['asset_path'] = path
+        new_dict.pop('class_name', None)
+        if self.unrealcv.get_camera_num() > cam_num:
+            new_dict['cam_id'] = cam_num
+        else:
+            new_dict['cam_id'] = -1
+        if register_spaces:
+            self.player_list.append(name)
+            self.cam_list.append(new_dict['cam_id'])
+        self.unrealcv.set_obj_scale(name, refer_agent['scale'])
+        self.unrealcv.set_obj_color(name, np.random.randint(0, 255, 3))
+        self.unrealcv.set_random(name, 0)
+        self.unrealcv.set_interval(self.interval, name)
+        self.unrealcv.set_obj_location(name, spawn_loc)
+        if register_spaces:
+            self.action_space.append(self.define_action_space(self.action_type, agent_info=new_dict))
+            self.observation_space.append(self.define_observation_space(new_dict['cam_id'], self.observation_type, self.resolution))
+        at = refer_agent.get('agent_type', 'player')
+        if at in ('player', 'target'):
+            self.unrealcv.set_phy(name, 0)
+        else:
+            self.unrealcv.set_phy(name, 1)
         return new_dict
 
     def remove_agent(self, name):
@@ -605,7 +658,7 @@ class UnrealCv_base(gym.Env):
         if layout:
             self.unrealcv.clean_obstacles()
             self.unrealcv.random_obstacles(self.objects_list, self.textures_list,
-                                           random.randint(5,len(self.objects_list)), self.reset_area, self.start_area, layout_texture)
+                                           random.randint(len(self.objects_list)-1,len(self.objects_list)), self.reset_area, self.start_area, layout_texture)
 
     def get_pose_states(self, obj_pos):
         # get the relative pose of each agent and the absolute location and orientation of the agent
@@ -639,6 +692,8 @@ class UnrealCv_base(gym.Env):
         self.unrealcv = Character_API(port=env_port, ip=env_ip, resolution=self.resolution, comm_mode=self.comm_mode)
         # self.unrealcv.client.request('r.Vulkan.EnableDefrag=0')
         self.unrealcv.set_map(self.env_name)
+        self.unrealcv.config_ue(quality=self.render_quality, Lumen=self.use_lumen)
+
         return True
 
     def init_agents(self):
@@ -650,7 +705,8 @@ class UnrealCv_base(gym.Env):
             self.unrealcv.set_random(obj, 0)
             self.unrealcv.set_interval(self.interval, obj)
 
-        self.unrealcv.build_color_dict(self.player_list)
+        if self.player_list:
+            self.unrealcv.build_color_dict(self.player_list)
         self.cam_flag = self.get_cam_flag(self.observation_type)
 
     def init_objects(self):
@@ -667,12 +723,45 @@ class UnrealCv_base(gym.Env):
             return None
 
     def set_population(self, num_agents):
-        while len(self.player_list) < num_agents:
-            refer_agent = self.agents[random.choice(list(self.agents.keys()))]
-            name = f'{refer_agent["agent_type"]}_EP{self.count_eps}_{len(self.player_list)}'
-            self.agents[name] = self.add_agent(name, random.choice(self.safe_start), refer_agent)
-        while len(self.player_list) > num_agents:
+        """Resize agents; template-only maps spawn here (after wrapper sets num_agents)."""
+        self.num_agents = int(num_agents)
+        # tpl = self._default_agent_template() if self.agent_templates else None
+        tpl = self.agent_configs[self.agents_category[0]]
+        while len(self.action_space) < self.num_agents:
+            self.action_space.append(self.define_action_space(self.action_type, tpl))
+            self.observation_space.append(
+                self.define_observation_space(-1, self.observation_type, self.resolution)
+            )
+            self.cam_list.append(-1)
+
+        while len(self.player_list) < self.num_agents:
+            refer_agent = random.choice(list(self.agents.values())) if self.agents else tpl
+            if refer_agent is None:
+                raise ValueError('No agent template or existing agent to clone from.')
+            # name = f'{refer_agent["agent_type"]}_EP{self.count_eps}_{len(self.player_list)}'
+            name = f'{self.agents_category[0]}_EP{self.count_eps}_{len(self.player_list)}'
+
+            loc = random.choice(self.safe_start)
+            if self._spawn_from_templates:
+                new_dict = self.add_agent_fromPath(name, loc, refer_agent, register_spaces=False)
+                new_dict['cam_id'] = -1
+                self.agents[name] = new_dict
+                self.player_list.append(name)
+                idx = len(self.player_list) - 1
+                self.cam_list[idx] = -1
+                self.action_space[idx] = self.define_action_space(self.action_type, new_dict)
+                self.observation_space[idx] = self.define_observation_space(
+                    -1, self.observation_type, self.resolution
+                )
+            else:
+                self.agents[name] = self.add_agent_fromPath(name, loc, refer_agent, register_spaces=True)
+
+        while len(self.player_list) > self.num_agents:
             self.remove_agent(self.player_list[-1])  # remove the last one
+
+        if getattr(self, 'unrealcv', None) and self.player_list:
+            self.unrealcv.build_color_dict(self.player_list)
+            self.cam_flag = self.get_cam_flag(self.observation_type)
 
     def set_npc(self):
         # TODO: set the NPC agent
@@ -766,7 +855,7 @@ class UnrealCv_base(gym.Env):
         # 获取所有相机位置
         cam_locs = []
         for cam_id in range(0,self.unrealcv.get_camera_num()):
-            print(cam_id)
+            # print(cam_id)
             cam_loc = self.unrealcv.get_cam_location(cam_id)
             cam_locs.append(cam_loc)
 
@@ -789,3 +878,10 @@ class UnrealCv_base(gym.Env):
             # 更新cam_list中对应的相机ID
             agent_idx = self.player_list.index(obj)
             self.cam_list[agent_idx] = nearest_cam_id
+
+        if self.observation_type != 'Pose':
+            for i, obj in enumerate(self.player_list):
+                cid = self.agents[obj]['cam_id']
+                self.observation_space[i] = self.define_observation_space(
+                    cid, self.observation_type, self.resolution
+                )
