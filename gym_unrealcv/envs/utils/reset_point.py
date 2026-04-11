@@ -2,7 +2,7 @@ import random
 from operator import itemgetter
 import math
 import numpy as np
-class ResetPoint():
+class ResetPoint:
     def __init__(self, setting, type, init_pose):
         self.reset_type = type
         #self.testpoints = setting['test_xy']
