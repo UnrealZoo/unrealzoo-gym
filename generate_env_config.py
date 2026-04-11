@@ -206,7 +206,7 @@ if __name__ == '__main__':
             'PostSoviet_Village', 'Old_Town', 'AsianMedivalCity', 'StonePineForest', 'TemplesOfCambodia_01_01_Exterior',
             'AbandonedDistrict'
         ]
-        env_map = maps[0]
+        env_map = maps
     else:
         maps = [env_map]
     # print(len(maps))
@@ -379,4 +379,5 @@ if __name__ == '__main__':
 
 
     unrealcv.client.disconnect()
+
     ue_binary.close()

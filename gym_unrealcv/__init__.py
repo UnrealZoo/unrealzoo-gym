@@ -112,7 +112,7 @@ maps = [
             'Cabin_Lake','UniversityClassroom','Tokyo','CommandCenter','JapanTrainStation_Optimised','Hotel_Corridor','Museum','ForestGasStation',
             'KoreanPalace','CourtYard','Chinese_Landscape_Demo','EnglishCollege','OperaHouse','AsianTemple','Pyramid','PlanetOutDoor',
             'Map_ChemicalPlant_1','Hangar','Science_Fiction_valley_town','RussianWinterTownDemo01','LookoutTower','LV_Bazaar','OperatingRoom',
-            'PostSoviet_Village','Old_Town','AsianMedivalCity','StonePineForest','TemplesOfCambodia_01_01_Exterior','AbandonedDistrict'
+            'PostSoviet_Village','Old_Town','AsianMedivalCity','StonePineForest','TemplesOfCambodia_01_01_Exterior','AbandonedDistrict','FlexibleRoom'
         ]
 Tasks = ['Rendezvous', 'Rescue', 'Track','Navigation','NavigationMulti']
 Observations = ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose','MaskDepth','ColorMask']

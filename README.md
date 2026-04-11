@@ -1,21 +1,21 @@
 UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI
 ===
+### ICCV 2025 (Highlights🚀)
+
+[📄 Paper](https://arxiv.org/abs/2412.20977) \| [🌐 Project Page](http://unrealzoo.site/) \| [📝 Document](https://unrealzoo.notion.site/) \| [🤖 ModelScope](https://www.modelscope.cn/organization/UnrealZoo) \| 
+[🎬 YouTube](https://www.youtube.com/watch?v=Xe2VmsJYTAU)
 ![framework](doc/figs/overview.png)
-[FangWei Zhong](https://fangweizhong.xyz/), [Kui Wu](), [Chu-ran Wang ](), [Hao Chen](), [Hai Ci](), [Zhoujun Li](), [Yizhou Wang]()
 
-Beijing Normal University, BeiHang University, Peking University, National University of Singapore and The Hong Kong Polytechnic University.
-
-ICCV 2025
 # 🔥 News
-- We released the full version of UnrealZoo environment package, built on UE5.5 which contains **100+ scenes**.
+- 2025/09 We update package to **v1.0.4**, which supports optical flow rendering and fixes some camera-related bugs.  
+- 2025/07 We released the full version of UnrealZoo environment package, built on UE5.5 which contains **100+ scenes**.
   - **UnrealZoo_UE5_5_V1.0.1** is available for download, which contains 100+ scenes and playable entities, with a total size of **67GB**.
   - We integrate the latest chaos system for vehicles, enabling more realistic animation(enter/exit) and visual effect(collision, explode, fire, etc.).
   - The **object interaction(pick/drop)** now is available, you could spawn the object anywhere in the map and interact with it, just use one command to change its appearance.
-- New Download Link in 🤖ModelScope is released for fast downloading the UE4/UE5 binary.
-- Paper Link: [UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI](https://arxiv.org/abs/2412.20977)
-- Comprehensive documentation and Scene Gallery are available in [Notion Page](/doc) 
-- Project website is available at [UnrealZoo](https://unrealzoo.github.io/)
-
+- 2025/03 New Download Link in 🤖[ModelScope](https://www.modelscope.cn/organization/UnrealZoo) is released for fast downloading the UE4/UE5 binary.
+- 2024/12 Paper Link: [UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI](https://arxiv.org/abs/2412.20977)
+- 2024/12 Comprehensive documentation and Scene Gallery are available in [Notion Page](https://unrealzoo.notion.site/scene-gallery) 
+- 2024/12 Project website is available at [UnrealZoo](http://unrealzoo.site/)
 
 
 # Table of Contents
@@ -185,8 +185,9 @@ We released the full version of UnrealZoo environment package, built on UE5.5 wh
 | UE4_ExampleScene                  | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB       |
 | UE5_ExampleScene                  | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB      |
 | UE4_Collection_Preview (60+ maps) | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | **\>48GB** |
-| **UnrealZoo_UE5_5_Win64_V1.0.1**  | [Cloud](https://bhpan.buaa.edu.cn/link/AA76893329C22345BD8F4B5365FB10231E) |    ~67GB |
-| **UnrealZoo_UE5_5_Linux_V1.0.1**  | [Cloud]( https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58)         |    ~67GB |
+|**UnrealZoo_UE5_5_Mac_V1.0.3** | [Cloud](https://pan.baidu.com/s/1lUqQYEkn7mfXd8G8F2tQGA?pwd=xvxh)|    ~67GB |
+| **UnrealZoo_UE5_5_Win64_V1.0.6**  | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files)  |    ~72GB |
+| **UnrealZoo_UE5_5_Linux_V1.0.5**  | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |    ~72GB |
 
 
 Then unzip and move the downloaded binary to the `UnrealEnv` folder, which is our default location for binaries, the folder structures are as follows:
@@ -234,13 +235,20 @@ We have predefined a naming rule to launch different environment maps and their 
 #### Hint 💡 
 - If your mouse cursor disappears after the game launches, press ``` ` ``` (the key above Tab) to release the mouse cursor from the game.
 
-#### 1. Specify the environment location in the terminal. 
+#### 1. Specify the environment location： 
+ ##### Option 1: In the terminal. 
  - Default path to UnrealEnv is in user home directory under .unrealcv  
    - Windows: C:\\Users\\{username}\\.unrealcv\\UnrealEnv
    - Linux: /home/{username}/.unrealcv/UnrealEnv
    - Mac: /Users/{username}/.unrealcv/UnrealEnv
 ```
 export UnrealEnv=/your/path/to/UnrealEnv
+```
+##### Option 2: In the example code:
+Add environment variable in the example code
+```
+import os
+os.environ['UnrealEnv']="/your/path/to/UnrealEnv"
 ```
 #### 2. Run random agents
 User could choose a map from the available map list, and run the random agent to interact with the environment.
@@ -318,11 +326,11 @@ Please refer to the [wrapper](doc/wrapper.md) for more details.
 - We provide a document for adding a new environment in unrealzoo-gym. Please refer to the [addEnv](doc/addEnv.md) for more details.
 
 # 🗓️ TODO List
-- [ ]  Release an all-in-one package of the collected environments
+- [x]  Release an all-in-one package of the collected environments
 - [ ]  Add gym interface for heterogeneous mutli-agent co-operation.
-- [ ]  Expand the list of supported interactive actions.
-- [ ]  Add more detailed examples for reinforcement learning agents.
-- [ ]  Add more detailed examples for large vision-language models.
+- [x]  Expand the list of supported interactive actions.
+- [x]  Add more detailed examples for reinforcement learning agents.
+- [x]  Add more detailed examples for large vision-language models.
 
 ## License and Acknowledgments
 The UnrealZoo project is licensed under the Apache 2.0. 
@@ -341,12 +349,10 @@ We acknowledge the following projects for their contributions to the UnrealZoo p
 If you use UnrealZoo in your research, please consider citing:
 
 ```bibtex
-@misc{zhong2024unrealzooenrichingphotorealisticvirtual,
-      title={UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI}, 
-      author={Fangwei Zhong and Kui Wu and Churan Wang and Hao Chen and Hai Ci and Zhoujun Li and Yizhou Wang},
-      year={2024},
-      eprint={2412.20977},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2412.20977}, 
+@inproceedings{zhong2025unrealzoo,
+  title={Unrealzoo: Enriching Photo-realistic Virtual Worlds for Embodied AI},
+  author={Zhong, Fangwei and Wu, Kui and Wang, Churan and Chen, Hao and Ci, Hai and Li, Zhoujun and Wang, Yizhou},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={5769--5779},
+  year={2025}
 }
