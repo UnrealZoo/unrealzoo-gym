@@ -1,6 +1,7 @@
 import os.path
 import time
 import warnings
+import logging
 
 import cv2
 import gym
@@ -11,6 +12,8 @@ from unrealcv.launcher import RunUnreal
 from gym_unrealcv.envs.agent.character import Character_API
 import random
 import sys
+
+logger = logging.getLogger(__name__)
 ''' 
 It is a base env for general purpose agent-env interaction, including single/multi-agent navigation, tracking, etc.
 Observation : raw color image and depth
@@ -202,7 +205,7 @@ class UnrealCv_base(gym.Env):
             # set view point
             self.unrealcv.set_cam(obj, self.agents[obj]['relative_location'], self.agents[obj]['relative_rotation'])
 
-        # 匹配真正cam
+        # Match actual cameras to active agents.
         self.unrealcv.cam = self.unrealcv.get_camera_config()
         self.update_camera_assignments()
         # set global view to the top location
@@ -436,10 +439,15 @@ class UnrealCv_base(gym.Env):
         self.agents.pop(name)
         st_time=time.time()
         time.sleep(1)
-        print(f'waiting for remove agent {name}...')
-        while self.unrealcv.get_camera_num() >len(last_cam_list)+1: #UE4 需要+1 ,UE5 不用?
-            pass
-        print('Remove finished!')
+        logger.info('waiting for remove agent %s...', name)
+        timeout_seconds = 10.0
+        poll_interval = 0.1
+        while self.unrealcv.get_camera_num() >len(last_cam_list)+1: # UE4 requires +1, UE5 does not
+            if time.time() - st_time > timeout_seconds:
+                logger.error('Timeout while waiting to remove agent %s', name)
+                break
+            time.sleep(poll_interval)
+        logger.info('remove finished')
 
     def remove_cam(self, name):
         """
@@ -728,7 +736,7 @@ class UnrealCv_base(gym.Env):
         flag[1] = observation_type == 'Color' or observation_type == 'Rgbd' or use_color or observation_type == 'ColorMask'
         flag[2] = observation_type == 'Mask' or use_mask or observation_type == 'MaskDepth' or observation_type == 'ColorMask'
         flag[3] = observation_type == 'Depth' or observation_type == 'Rgbd' or use_depth or observation_type == 'MaskDepth'
-        print('cam_flag:', flag)
+        logger.debug('cam_flag: %s', flag)
         return flag
 
     def sample_from_area(self, area, num):
@@ -761,31 +769,31 @@ class UnrealCv_base(gym.Env):
 
     def update_camera_assignments(self):
         """
-        更新所有智能体的相机分配，确保每个智能体使用最近的相机
+        Update camera assignments so each agent uses the nearest camera.
         """
-        # 获取所有相机位置
+        # Get all camera locations.
         cam_locs = []
         for cam_id in range(0,self.unrealcv.get_camera_num()):
-            print(cam_id)
+            logger.debug('camera id: %s', cam_id)
             cam_loc = self.unrealcv.get_cam_location(cam_id)
             cam_locs.append(cam_loc)
 
-        # 为每个智能体匹配最近相机并更新
+        # Match each agent to the nearest camera and update metadata.
         for obj in self.player_list:
-            # 获取智能体位置 (包含位置和旋转信息)
+            # Get agent location.
             obj_loc = self.unrealcv.get_obj_location(obj)
 
             dis_list = []
             for loc in cam_locs:
-                # 计算距离 (使用3D欧氏距离)
+                # Compute 3D Euclidean distance.
                 distance = self.unrealcv.get_distance(loc, obj_loc, 3)
                 dis_list.append(distance)
 
-            # 找到最小距离的索引 (即相机ID)
+            # Find nearest camera id.
             nearest_cam_id = dis_list.index(min(dis_list))
 
-            # 更新智能体的相机ID
+            # Update camera id for the agent.
             self.agents[obj]['cam_id'] = nearest_cam_id
-            # 更新cam_list中对应的相机ID
+            # Update corresponding camera id in cam_list.
             agent_idx = self.player_list.index(obj)
             self.cam_list[agent_idx] = nearest_cam_id
