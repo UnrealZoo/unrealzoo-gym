@@ -31,3 +31,8 @@ packages = ["gym_unrealcv"]
 
 [tool.setuptools.dynamic]
 version = {attr = "gym_unrealcv.__version__"}
+
+[project.optional-dependencies]
+gymnasium = [
+    "gymnasium>=0.29,<1.1"
+]
