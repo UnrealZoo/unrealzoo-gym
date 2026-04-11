@@ -12,7 +12,7 @@ os.environ['UnrealEnv']='E:\\UnrealEnv'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-ContinuousColor-v5',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-FlexibleRoom-ContinuousColor-v5',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')
