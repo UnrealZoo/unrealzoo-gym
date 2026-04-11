@@ -155,6 +155,23 @@ class Character_API(UnrealCv_API):
             res = self.client.request(cmd.format(player=player, id=id), -1)
         return id
 
+    def set_animal_appearance(self, player, id):
+        """
+        Animal meshes on BP_Character: blueprint exposes set_animal_app (indices typically 0..27).
+
+        Args:
+            player (str): The identifier of the spawned character.
+            id (int): Animal mesh / appearance index.
+
+        Returns:
+            int: The appearance ID that was set.
+        """
+        cmd = f'vbp {player} set_animal_app {id}'
+        res = None
+        while res is None:
+            res = self.client.request(cmd, -1)
+        return id
+
     def move_cam_2d(self, cam_id, angle, distance):
         """
             Move the camera in 2D as a mobile agent.
@@ -383,7 +400,7 @@ class Character_API(UnrealCv_API):
         cmd = [f'vset /objects/spawn_from_path {obj_class_path} {obj_name}',
                 f'vset /object/{obj_name}/location {x} {y} {z}',
                 f'vset /object/{obj_name}/rotation {pitch} {yaw} {roll}',
-                f'vbp {obj_name} set_phy 0'
+                # f'vbp {obj_name} set_phy 0'
                 ]
        
         self.client.request(cmd, -1)
@@ -647,7 +664,7 @@ class Character_API(UnrealCv_API):
 
         return speed
     def check_visibility(self, tracker_cam_id,target_obj):
-        mask = self.read_image(tracker_cam_id, 'object_mask', 'fast')
+        mask = self.read_image(tracker_cam_id, 'object_mask', 'direct')
         mask, bbox = self.get_bbox(mask, target_obj, normalize=False)
         mask_percent = mask.sum()/(self.resolution[0] * self.resolution[1])
         return mask_percent

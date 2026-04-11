@@ -461,14 +461,17 @@ class UnrealCv_base(gym.Env):
         self.unrealcv.set_random(name, 0)
         self.unrealcv.set_interval(self.interval, name)
         self.unrealcv.set_obj_location(name, spawn_loc)
+        at = new_dict.get('agent_type', 'player')
+        if at == 'animal':
+            self.unrealcv.set_animal_appearance(name, int(np.random.randint(0, 28)))
         if register_spaces:
             self.action_space.append(self.define_action_space(self.action_type, agent_info=new_dict))
             self.observation_space.append(self.define_observation_space(new_dict['cam_id'], self.observation_type, self.resolution))
-        at = refer_agent.get('agent_type', 'player')
-        if at in ('player', 'target'):
-            self.unrealcv.set_phy(name, 0)
-        else:
-            self.unrealcv.set_phy(name, 1)
+        # at = refer_agent.get('agent_type', 'player')
+        # if at in ('player', 'target'):
+        #     self.unrealcv.set_phy(name, 0)
+        # else:
+        #     self.unrealcv.set_phy(name, 1)
         return new_dict
 
     def remove_agent(self, name):
@@ -605,20 +608,23 @@ class UnrealCv_base(gym.Env):
         The appearance is selected from a predefined range of IDs for each category.
 
         Categories:
-            - player: IDs from 1 to 18
-            - animal: IDs from 0 to 26
+            - player: IDs from 1 to 18 (set_app)
+            - animal: IDs from 0 to 27 inclusive (set_animal_app on BP_Character)
         """
         app_map = {
             'player': range(1, 19),
-            'animal': range(0, 27),
-            'drone':range(0,1)
+            'animal': range(0, 28),
+            'drone': range(0, 1)
         }
         for obj in self.player_list:
             category = self.agents[obj]['agent_type']
             if category not in app_map.keys():
                 continue
             app_id = np.random.choice(app_map[category])
-            self.unrealcv.set_appearance(obj, app_id)
+            if category == 'animal':
+                self.unrealcv.set_animal_appearance(obj, app_id)
+            else:
+                self.unrealcv.set_appearance(obj, app_id)
 
     def environment_augmentation(self, player_mesh=False, player_texture=False,
                                  light=False, background_texture=False,
@@ -629,18 +635,24 @@ class UnrealCv_base(gym.Env):
         The appearance is selected from a predefined range of IDs for each category.
 
         Categories:
-            - player: IDs from 1 to 18
-            - animal: IDs from 0 to 26
+            - player: IDs from 1 to 18 (set_app)
+            - animal: IDs from 0 to 27 inclusive (set_animal_app)
         """
         app_map = {
             'player': range(1, 19),
-            'animal': range(0, 27),
-            'drone': range(0,1)
+            'animal': range(0, 28),
+            'drone': range(0, 1)
         }
-        if player_mesh:  # random human mesh
+        if player_mesh:  # random human / animal mesh (API differs by agent_type)
             for obj in self.player_list:
-                app_id = np.random.choice(app_map[self.agents[obj]['agent_type']])
-                self.unrealcv.set_appearance(obj, app_id)
+                at = self.agents[obj]['agent_type']
+                if at not in app_map:
+                    continue
+                app_id = np.random.choice(app_map[at])
+                if at == 'animal':
+                    self.unrealcv.set_animal_appearance(obj, app_id)
+                else:
+                    self.unrealcv.set_appearance(obj, app_id)
         # random light and texture of the agents
         if player_texture:
             if self.env_name == 'MPRoom':  # random target texture
@@ -725,8 +737,13 @@ class UnrealCv_base(gym.Env):
     def set_population(self, num_agents):
         """Resize agents; template-only maps spawn here (after wrapper sets num_agents)."""
         self.num_agents = int(num_agents)
-        # tpl = self._default_agent_template() if self.agent_templates else None
-        tpl = self.agent_configs[self.agents_category[0]]
+        # Use agent_templates[cat] so refer_agent carries agent_type (animal vs player mesh APIs).
+        # Raw agent_configs[cat] from JSON has no agent_type; add_agent_fromPath would default to 'player'.
+        cat = self.agents_category[0]
+        if cat in self.agent_templates:
+            tpl = self.agent_templates[cat]
+        else:
+            tpl = {**self.agent_configs[cat], 'agent_type': cat}
         while len(self.action_space) < self.num_agents:
             self.action_space.append(self.define_action_space(self.action_type, tpl))
             self.observation_space.append(

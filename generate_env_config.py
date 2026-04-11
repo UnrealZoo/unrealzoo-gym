@@ -17,10 +17,10 @@ class_name and asset_path come from dicts below (no pre-placed pawns required).
 '''
 
 # --- spawn_from_path: use asset_path dict (strings or lists); ** = prefix placeholder, optional --asset-prefix ---
-# Legacy blueprint names for JSON class_name arrays (kept for reference).
+# "animal" shares BP_Character with "player"; UE differentiates meshes via set_animal_app vs set_app (see Character_API / base_env).
 class_name = {
     "player": "bp_character_C",
-    "animal": "BP_animal_C",
+    "animal": "bp_character_C",
     "drone": "BP_drone01_C",
     # "car": "BP_BaseCar_C", #for UE4 binary`
     # "motorbike": "MotorBikes_C",#for UE4 binary
@@ -32,7 +32,7 @@ class_name = {
 # Manual UE asset soft paths (use ** for the prefix segment). Not used with class_name dict above (kept for reference).
 asset_path = {
     "player": "	/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
-    "animal": "/Game/Animal_pack_ultra_2/BP_animal.BP_animal_C",
+    "animal": "	/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
     "drone": "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C",
     "car": [
         "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
@@ -233,7 +233,7 @@ if __name__ == '__main__':
     # parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Linux/Linux/UnrealZoo_UE5_5/Binaries/Linux/UnrealZoo_UE5_5', help='The path to the UE4Editor binary')
     # parser.add_argument('--env-bin', default='WarSimulation_Win64\\WarSimulation\\Binaries\\Win64\\WarSimulation.exe', help='The path to the UE4Editor binary')
 
-    parser.add_argument('--env-map', default='all', help='The map to load')
+    parser.add_argument('--env-map', default='Greek_Island', help='The map to load')
     # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
     parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
 
@@ -255,7 +255,7 @@ if __name__ == '__main__':
     env_bin = args.env_bin
     env_map = args.env_map
     if args.env_map == 'all':
-        maps = ['FlexibleRoom'
+        maps = ['FlexibleRoom',
             'Greek_Island', 'supermarket', 'Brass_Gardens', 'Brass_Palace', 'Brass_Streets',
             'EF_Gus', 'EF_Lewis_1', 'EF_Lewis_2', 'EF_Grounds', 'TemplePlaza', 'Eastern_Garden', 'Western_Garden',
             'Colosseum_Desert',
