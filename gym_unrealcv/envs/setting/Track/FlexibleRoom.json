@@ -1,0 +1,514 @@
+{
+    "env_name": "FlexibleRoom",
+    "env_bin": "UnrealZoo_UE5_6_Win64_v1.0.3\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "env_map": "FlexibleRoom",
+    "env_bin_win": "UnrealZoo_UE5_6_Win64_v1.0.3\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "env_bin_mac": "UnrealZoo_UE5_6_Win64_v1.0.3\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "third_cam": {
+        "cam_id": 0,
+        "pitch": -90,
+        "yaw": 0,
+        "roll": 0,
+        "height_top_view": 1193.15,
+        "fov": 90
+    },
+    "height": 193.15,
+    "interval": 1000,
+    "agents": {
+        "player": {
+            "class_name": [
+                "bp_character_C"
+            ],
+            "asset_path": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch"
+            ],
+            "move_action": [
+                [
+                    0,
+                    100
+                ],
+                [
+                    0,
+                    -100
+                ],
+                [
+                    15,
+                    50
+                ],
+                [
+                    -15,
+                    50
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    100
+                ],
+                "low": [
+                    -30,
+                    -100
+                ]
+            }
+        },
+        "animal": {
+            "class_name": [
+                "bp_character_C"
+            ],
+            "asset_path": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    0,
+                    200
+                ],
+                [
+                    0,
+                    -200
+                ],
+                [
+                    15,
+                    100
+                ],
+                [
+                    -15,
+                    100
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    200
+                ],
+                "low": [
+                    -30,
+                    -200
+                ]
+            }
+        },
+        "drone": {
+            "class_name": [
+                "BP_drone01_C"
+            ],
+            "asset_path": [
+                "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C"
+            ],
+            "internal_nav": false,
+            "scale": [
+                0.1,
+                0.1,
+                0.1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    0.5,
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    -0.5,
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0.5,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    -0.5,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    0.5,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    -0.5,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    -1
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                "low": [
+                    -1,
+                    -1,
+                    -1,
+                    -1
+                ]
+            }
+        },
+        "car": {
+            "class_name": [
+                "BP_Hatchback_child_base_C"
+            ],
+            "asset_path": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_police.BP_Hatchback_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_taxi.BP_Hatchback_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_base.BP_Sedan_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_extras.BP_Sedan_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_police.BP_Sedan_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_taxi.BP_Sedan_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_base.BP_SUV_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_extras.BP_SUV_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_police.BP_SUV_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_taxi.BP_SUV_child_taxi_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    1,
+                    0
+                ],
+                [
+                    -0.3,
+                    0
+                ],
+                [
+                    0.5,
+                    1
+                ],
+                [
+                    0.5,
+                    -1
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    1,
+                    1
+                ],
+                "low": [
+                    0,
+                    -1
+                ]
+            }
+        },
+        "motorbike": {
+            "class_name": [
+                "BP_BaseBike_C"
+            ],
+            "asset_path": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Base.BP_Custom_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Extras.BP_Custom_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Police.BP_Custom_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Base.BP_Enduro_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Extras.BP_Enduro_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Police.BP_Enduro_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Base.BP_Naked_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Extras.BP_Naked_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Police.BP_Naked_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    1,
+                    0
+                ],
+                [
+                    -0.3,
+                    0
+                ],
+                [
+                    0.5,
+                    1
+                ],
+                [
+                    0.5,
+                    -1
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    1,
+                    1
+                ],
+                "low": [
+                    0,
+                    -1
+                ]
+            }
+        }
+    },
+    "safe_start": [
+        [
+            -1080.0,
+            1140.0,
+            193.15
+        ],
+        [
+            65.467,
+            1030.06,
+            152.522
+        ],
+        [
+            276.757,
+            1843.0,
+            152.522
+        ],
+        [
+            -1864.257,
+            -37.952,
+            152.522
+        ],
+        [
+            -1080.0,
+            -0.0,
+            152.522
+        ],
+        [
+            -779.221,
+            1227.915,
+            152.522
+        ],
+        [
+            -1905.239,
+            402.468,
+            152.522
+        ],
+        [
+            -1080.0,
+            988.0,
+            152.522
+        ],
+        [
+            -136.981,
+            1035.235,
+            152.522
+        ],
+        [
+            -197.134,
+            346.233,
+            152.522
+        ],
+        [
+            -0.0,
+            1140.0,
+            152.522
+        ]
+    ],
+    "reset_area": [
+        -1905.239,
+        276.757,
+        -37.952,
+        1843.0,
+        152.522,
+        193.15
+    ],
+    "random_init": false,
+    "env": {
+        "interactive_door": [],
+        "Extra_Vehicles": {
+            "car": [
+                "BP_Hatchback_child_extras_C",
+                "BP_Hatchback_child_police_C",
+                "BP_Hatchback_child_taxi_C",
+                "BP_Sedan_child_base_C",
+                "BP_Sedan_child_extras_C",
+                "BP_Sedan_child_police_C",
+                "BP_Sedan_child_taxi_C",
+                "BP_SUV_child_base_C",
+                "BP_SUV_child_extras_C",
+                "BP_SUV_child_police_C",
+                "BP_SUV_child_taxi_C"
+            ],
+            "motorbike": [
+                "BP_Custom_Base_C",
+                "BP_Custom_Extras_C",
+                "BP_Custom_Police_C",
+                "BP_Enduro_Base_C",
+                "BP_Enduro_Extras_C",
+                "BP_Enduro_Police_C",
+                "BP_Naked_Base_C",
+                "BP_Naked_Extras_C",
+                "BP_Naked_Police_C",
+                "BP_BaseBike_TwoPassengers_C"
+            ]
+        },
+        "Pickable_object": {
+            "class_name": "BP_GrabMoveDrop_C"
+        }
+    },
+    "obj_num": 80,
+    "size": 0.0,
+    "area": 1952.288,
+    "bbox": [
+        49.4,
+        39.52,
+        0.0
+    ]
+}
