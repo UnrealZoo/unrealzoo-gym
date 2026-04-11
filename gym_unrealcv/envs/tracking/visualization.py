@@ -1,4 +1,8 @@
 import cv2
+
+from gym_unrealcv.envs.utils.display import safe_imshow
+
+
 def show_info(info, action_type='discrete'):
     cv_img = info['Color'].copy()
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -47,6 +51,5 @@ def show_info(info, action_type='discrete'):
         cv2.circle(cv_img, (collision_x + int(width * 0.05), collision_y - 30), 15, (0, 255, 0), -1)
 
 
-    cv2.imshow('info_show', cv_img)
-    cv2.waitKey(1)
+    safe_imshow('info_show', cv_img)
 

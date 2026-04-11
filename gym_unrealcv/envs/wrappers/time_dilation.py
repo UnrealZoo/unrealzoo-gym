@@ -1,4 +1,3 @@
-import gym
 from gym import Wrapper
 import time
 
