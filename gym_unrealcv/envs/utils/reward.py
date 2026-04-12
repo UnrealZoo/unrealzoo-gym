@@ -9,6 +9,9 @@ class Reward():
         self.reward_th = 0.1
         self.dis2target_last = 0
 
+    def reset(self, initial_distance: float = 0) -> None:
+        self.dis2target_last = initial_distance
+
     def reward_bbox(self, boxes):
         reward = 0
 
@@ -28,7 +31,7 @@ class Reward():
 
         return reward, boxes
 
-    def get_bbox_reward(self, box):
+    def get_bbox_reward(self, box) -> float:
         # get reward of single box considering the size and position of box
         (xmin, ymin), (xmax, ymax) = box
         boxsize = (ymax - ymin) * (xmax - xmin)
@@ -38,7 +41,10 @@ class Reward():
         reward = discount * boxsize
         return reward
 
-    def reward_distance(self, dis2target_now):
+    def reward_distance(self, dis2target_now: float) -> float:
+        if self.dis2target_last <= 0:
+            self.dis2target_last = dis2target_now
+            return 0
         reward = (self.dis2target_last - dis2target_now) / max(self.dis2target_last, 100)
         self.dis2target_last = dis2target_now
 
