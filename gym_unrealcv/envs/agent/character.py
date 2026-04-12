@@ -72,8 +72,11 @@ class Character_API(UnrealCv_API):
             self.img_color = self.read_image(cam_id, 'lit', mode)
             self.img_gray = self.img_color.mean(2)
             self.img_gray = np.expand_dims(self.img_gray, -1)
+            state = self.img_gray
         elif observation_type == 'Pose':
             state = self.get_pose() # fake pose
+        else:
+            raise ValueError('Unknown observation type: {}'.format(observation_type))
         return state
 
     def get_pose(self, cam_id, newest=True):

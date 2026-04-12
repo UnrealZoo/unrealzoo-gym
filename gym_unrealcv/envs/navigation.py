@@ -39,8 +39,6 @@ class Navigation(UnrealCv_base):
             raise ValueError('target_list in task_file should not be empty')
 
         self.player = self.player_list
-
-        self.observation_type = observation_type
         # assert self.observation_type == 'Color' or self.observation_type == 'Depth' or self.observation_type == 'Rgbd' or self.observation_type == 'Mask'
         # self.observation_space = self.unrealcv.define_observation(self.cam_id, self.observation_type, 'direct')
 
