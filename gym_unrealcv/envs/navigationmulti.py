@@ -23,7 +23,7 @@ class NavigationMulti(UnrealCv_base):
                  resolution=(160, 160),
                  reset_type=0
                  ):
-        super(NavigationMulti, self).__init__(setting_file=env_file,  # the setting file to define the task
+        super().__init__(setting_file=env_file,  # the setting file to define the task
                                     action_type=action_type,  # 'discrete', 'continuous'
                                     observation_type=observation_type,  # 'color', 'depth', 'rgbd', 'Gray'
                                     resolution=resolution,
