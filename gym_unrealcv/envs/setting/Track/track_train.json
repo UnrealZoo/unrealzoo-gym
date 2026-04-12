@@ -14,6 +14,7 @@
     },
     "height": 218.15,
     "interval": 1000,
+    "random_init": false,
     "agents": {
         "player": {
             "name": [
