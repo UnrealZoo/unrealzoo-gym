@@ -1,0 +1,14 @@
+{
+  "typeCheckingMode": "off",
+  "reportMissingImports": "none",
+  "reportMissingTypeStubs": "none",
+  "exclude": [
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "**/__pycache__",
+    "build",
+    "dist"
+  ]
+}
