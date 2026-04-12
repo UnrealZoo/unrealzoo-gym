@@ -4,12 +4,17 @@ import math
 import time
 import json
 import re
+import logging
 from io import BytesIO
 import PIL.Image
 from gym_unrealcv.envs.utils import misc
+
+logger = logging.getLogger(__name__)
+
+
 class Character_API(UnrealCv_API):
     def __init__(self, port=9000, ip='127.0.0.1', resolution=(160, 120), comm_mode='tcp'):
-        super(Character_API, self).__init__(port=port, ip=ip, resolution=resolution, mode=comm_mode)
+        super().__init__(port=port, ip=ip, resolution=resolution, mode=comm_mode)
         self.obstacles = []
         self.targets = []
         self.img_color = np.zeros((resolution[1], resolution[0], 3))
@@ -24,6 +29,14 @@ class Character_API(UnrealCv_API):
             'carry':self.carry_body,
             'drop':self.drop_body
         }
+
+    def _request_with_retry(self, cmd, timeout=None, retries=100, delay=0.01):
+        for _ in range(retries):
+            res = self.client.request(cmd, timeout) if timeout is not None else self.client.request(cmd)
+            if res is not None:
+                return res
+            time.sleep(delay)
+        raise RuntimeError(f'UnrealCV request failed after {retries} retries: {cmd}')
 
     def init_mask_color(self, targets=None):
         if targets == 'all':
@@ -91,12 +104,12 @@ class Character_API(UnrealCv_API):
             return_cmd (bool, optional): If True, return the command string instead of executing it. Defaults to False.
 
         Returns:
-            float: The speed that was set.
+            float | str: The speed that was set, or command string when return_cmd is True.
         """
         cmd = f'vbp {player} set_speed {speed}'
-        res = None
-        while res is None:
-            res = self.client.request(cmd)
+        if return_cmd:
+            return cmd
+        self._request_with_retry(cmd)
         return speed
 
     def set_acceleration(self, player, acc):
@@ -111,9 +124,7 @@ class Character_API(UnrealCv_API):
             float: The acceleration that was set.
         """
         cmd = f'vbp {player} set_acc {acc}'
-        res = None
-        while res is None:
-            res = self.client.request(cmd.format(player=player, acc=acc))
+        self._request_with_retry(cmd)
         return acc
 
     def set_appearance(self, player, id):
@@ -128,9 +139,7 @@ class Character_API(UnrealCv_API):
                int: The appearance ID that was set.
            """
         cmd = f'vbp {player} set_app {id}'
-        res = None
-        while res is None:
-            res = self.client.request(cmd.format(player=player, id=id), -1)
+        self._request_with_retry(cmd, -1)
         return id
 
     def move_cam_2d(self, cam_id, angle, distance):
@@ -155,9 +164,7 @@ class Character_API(UnrealCv_API):
                 float: The speed of the player.
         """
         cmd = f'vbp {player} get_speed'
-        res = None
-        while res is None:
-            res = self.client.request(cmd)
+        res = self._request_with_retry(cmd)
         return self.decoder.string2vector(res)[0]
 
     def get_angle(self, player):
@@ -171,9 +178,7 @@ class Character_API(UnrealCv_API):
                float: The angle of the player.
         """
         cmd = f'vbp {player} get_angle'
-        res = None
-        while res is None:
-            res = self.client.request(cmd)
+        res = self._request_with_retry(cmd)
         return self.decoder.string2vector(res)[0]
 
     def reset_player(self, player):
@@ -184,9 +189,7 @@ class Character_API(UnrealCv_API):
                 player (str): The identifier of the player.
         """
         cmd = f'vbp {player} reset'
-        res=None
-        while res is None:
-            res = self.client.request(cmd)
+        self._request_with_retry(cmd)
 
     def set_phy(self, obj, state):
         """
@@ -196,16 +199,12 @@ class Character_API(UnrealCv_API):
                 state (int): The physics state to set (0 or 1).
         """
         cmd = f'vbp {obj} set_phy {state}'
-        res=None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def set_rotation(self,obj,yaw):
         #set drone's rotation ('set_obj_rotation' doesn't work for drone)
         cmd = f'vbp {obj} set_rotation {yaw}'
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
 
     def simulate_physics(self, objects):
@@ -221,26 +220,20 @@ class Character_API(UnrealCv_API):
         cmd = f'vbp {player} set_move {params_str}'
         if return_cmd:
             return cmd
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     # functions for character actions
     def set_jump(self, player, return_cmd=False):
         cmd = f'vbp {player} set_jump'
         if return_cmd:
             return cmd
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def set_crouch(self, player, return_cmd=False):
         cmd = f'vbp {player} set_crouch'
         if return_cmd:
             return cmd
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def set_liedown(self, player, directions=(100, 100), return_cmd=False):
         frontback = directions[0]
@@ -248,26 +241,20 @@ class Character_API(UnrealCv_API):
         cmd = f'vbp {player} set_liedown {frontback} {leftright}'
         if return_cmd:
             return cmd
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def set_standup(self, player, return_cmd=False):
         cmd = f'vbp {player} set_standup'
         if return_cmd:
             return cmd
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def set_animation(self, player, anim_id, return_cmd=False):
         return self.animation_dict[anim_id](player, return_cmd=return_cmd)
 
     def get_hit(self, player):
         cmd = f'vbp {player} get_hit'
-        res = None
-        while res is None:
-            res = self.client.request(cmd)
+        res = self._request_with_retry(cmd)
         if '1' in res:
             return True
         if '0' in res:
@@ -275,15 +262,11 @@ class Character_API(UnrealCv_API):
 
     def set_random(self, player, value=1):
         cmd = f'vbp {player} set_random {value}'
-        res=None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def set_interval(self, player, interval):
         cmd = f'vbp {player} set_interval {interval}'
-        res = None
-        while res is None:
-            res = self.client.request(cmd, -1)
+        self._request_with_retry(cmd, -1)
 
     def init_objects(self, objects):
         self.objects_dict = dict()
@@ -398,10 +381,9 @@ class Character_API(UnrealCv_API):
         cmd = f'vbp {player} generate_nav_goal {radius_max} {radius_min} '
         res = self.client.request(cmd)
         answer_dict = json.loads(res)
-        try:
-            loc = answer_dict["nav_goal"]
-        except:
-            loc = answer_dict["Nav_goal"]
+        loc = answer_dict.get("nav_goal") or answer_dict.get("Nav_goal")
+        if loc is None:
+            raise KeyError(f"Missing nav goal key in response, available keys: {list(answer_dict.keys())}")
         coordinates = re.findall(r"[-+]?\d*\.\d+|\d+", loc)
         # Convert the numbers to floats and store them in an array
         coordinates = [float(coordinate) for coordinate in coordinates]
@@ -492,8 +474,9 @@ class Character_API(UnrealCv_API):
         decoders = [self.decoder.decode_map[self.decoder.cmd2key(cmd)] for cmd in cmd_list]
         try:
             res_list = self.batch_cmd(cmd_list, decoders)
-        except:
-            print('batch cmd error')
+        except Exception as exc:
+            logger.error('batch cmd error: %s', exc)
+            raise
         obj_pose_list = []
         cam_pose_list = []
         img_list = []
