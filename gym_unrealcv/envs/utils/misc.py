@@ -31,12 +31,10 @@ def validate_env_setting(setting, filename=''):
     if not any(key in setting for key in ['env_bin', 'env_bin_mac', 'env_bin_win']):
         raise KeyError(f'Missing env binary path in {filename}: one of env_bin/env_bin_mac/env_bin_win is required')
 
-    return setting
 
 def load_env_setting(filename):
-    ext = os.path.splitext(filename)[1]
-    if ext not in ['.json']:
-        raise ValueError(ext + ' is not supported')
+    file_ext = os.path.splitext(filename)[1]
+    assert file_ext in ['.json'], file_ext + ' is not supported'
     with open(get_settingpath(filename)) as f:
         setting = json.load(f)
     return validate_env_setting(setting, filename=filename)

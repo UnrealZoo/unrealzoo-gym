@@ -131,6 +131,8 @@ class UnrealCv_base(gym.Env):
             env_bin = setting['env_bin_mac']
         elif 'win' in sys.platform:
             env_bin = setting['env_bin_win']
+        else:
+            raise RuntimeError('Unsupported platform: {}'.format(sys.platform))
         if 'env_map' in setting.keys():
             env_map = setting['env_map']
         else:
@@ -243,8 +245,18 @@ class UnrealCv_base(gym.Env):
         Close the environment and disconnect from UnrealCV.
         """
         if self.launched:
-            self.unrealcv.client.disconnect()
-            self.ue_binary.close()
+            try:
+                if hasattr(self, 'unrealcv') and hasattr(self.unrealcv, 'client'):
+                    self.unrealcv.client.disconnect()
+            finally:
+                self.ue_binary.close()
+                self.launched = False
+
+    def __del__(self):
+        try:
+            self.close()
+        except Exception:
+            pass
 
     def render(self, mode='rgb_array', close=False):
         """
@@ -464,7 +476,10 @@ class UnrealCv_base(gym.Env):
         time.sleep(1)
         print(f'waiting for remove agent {name}...')
         while self.unrealcv.get_camera_num() >len(last_cam_list)+1: #UE4 需要+1 ,UE5 不用?
-            pass
+            if time.time() - st_time > 10:
+                print('remove agent timeout, continue with current camera state')
+                break
+            time.sleep(0.01)
         print('Remove finished!')
 
     def remove_cam(self, name):
