@@ -10,9 +10,10 @@ class NavAgents(Wrapper):
         self.nav_list = []
         self.agents = []
         self.mask_agent = mask_agent
-        self.reset()
 
     def step(self, action):
+        if not self.nav_list:
+            raise RuntimeError('NavAgents wrapper must be reset before step.')
         # the action is a list of actions for each agent, the length of the action is the number of agents
         env = self.env.unwrapped
         new_action = []

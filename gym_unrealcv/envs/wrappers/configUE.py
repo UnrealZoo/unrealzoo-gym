@@ -14,11 +14,7 @@ class ConfigUEWrapper(Wrapper):
         env.unwrapped.sleep_time = sleep_time
         env.unwrapped.resolution = resolution
         env.unwrapped.comm_mode = comm_mode
-
-    def step(self, action):
-        obs, reward, done, info = self.env.step(action)
-        return obs, reward, done, info
-
-    def reset(self, **kwargs):
-        states = self.env.reset(**kwargs)
-        return states
+        env.unwrapped.observation_space = [
+            env.unwrapped.define_observation_space(cam_id, env.unwrapped.observation_type, resolution)
+            for cam_id in env.unwrapped.cam_list
+        ]
