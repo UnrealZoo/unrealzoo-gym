@@ -21,12 +21,14 @@ class Rescue(UnrealCv_base):
                                          action_type=action_type,  # 'discrete', 'continuous'
                                          observation_type=observation_type,  # 'color', 'depth', 'rgbd', 'Gray'
                                          resolution=resolution)
+        self.task_config = self.load_task_setting(task_file)
         self.count_reach = 0
-        self.max_reach_steps = 5
-        self.distance_threshold = 200
+        self.max_reach_steps = self.task_config.get('max_reach_steps', 5)
+        self.distance_threshold = self.task_config.get('distance_threshold', 200)
         self.agents_category = ['player']
         self.injured_agent = None
-        self.reward_type = 'shared'  # 'sparse', 'shared', 'individual'
+        self.injured_agent_name = self.task_config.get('injured_agent_name', 'injured_person')
+        self.reward_type = self.task_config.get('reward_type', 'shared')  # 'sparse', 'shared', 'individual'
         ## TODO: add trigger action
 
     def step(self, action):
@@ -51,7 +53,7 @@ class Rescue(UnrealCv_base):
             # add the injured person
             class_name = 'bp_character_C'
             loc = random.choice(self.safe_start)
-            self.injured_agent = 'injured_person'
+            self.injured_agent = self.injured_agent_name
             self.unrealcv.new_obj(class_name, self.injured_agent, loc)
             self.unrealcv.set_phy(self.injured_agent, 0)
         else:

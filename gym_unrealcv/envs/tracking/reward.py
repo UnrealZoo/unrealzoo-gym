@@ -1,9 +1,14 @@
 import numpy as np
-class Reward():
-    '''
-    define different type reward function
-    '''
 
+class Reward():
+    """
+    Define different type reward function.
+    Magic number constants for reward calculation.
+    """
+    # Reward bounds
+    REWARD_MIN = -1.0
+    REWARD_MAX = 1.0
+    
     def __init__(self, setting):
 
         self.dis_exp = setting['exp_distance']
@@ -15,6 +20,19 @@ class Reward():
         self.r_tracker = 0
         self.dis2target = self.dis_exp
         self.angle2target = 0
+        self.dis2target_initial = None  # Must be set via reset() to prevent first-step spike
+
+    def reset(self, initial_distance):
+        """Reset reward state for new episode.
+        
+        Args:
+            initial_distance (float): Distance to target at start of episode.
+        """
+        self.dis2target_initial = initial_distance
+        self.dis2target = initial_distance
+        self.angle2target = 0
+        self.r_target = 0
+        self.r_tracker = 0
 
     def reward_distance(self, dis2target_now, direction_error, dis_exp=None):
         #  reward = (100.0 / max(dis2target_now,100)) * np.cos(direction_error/360.0*np.pi)
@@ -28,7 +46,7 @@ class Reward():
         e_dis_relative = e_dis / dis_exp
         # reward = 1 - min(e_dis_relative, 1) - min(direction_error, 1)
         reward = 1 - direction_error - e_dis_relative
-        reward = max(reward, -1)
+        reward = max(reward, self.REWARD_MIN)
         self.r_tracker = reward
         return reward
 
@@ -41,6 +59,6 @@ class Reward():
         # reward = 1 - 2 * min(abs(e_dis_relative), 1) + min(abs(direction_error/(np.pi/4)), 2)
         # reward = 1 - min(e_dis, 1) - min(direction_error, 1)
         reward = -self.r_tracker - w * (e_dis + direction_error)
-        reward = max(reward, -1)
+        reward = max(reward, self.REWARD_MIN)
         self.r_target = reward
         return reward

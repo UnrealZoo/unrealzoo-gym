@@ -1,0 +1,14 @@
+{
+  "reward_type": "dense",
+  "max_lost_steps": 30,
+  "distance_threshold": 120,
+  "tracker_id": 0,
+  "target_id": 1,
+  "reward_params": {
+    "min_distance": 120,
+    "max_direction": 60,
+    "max_distance": 900,
+    "exp_distance": 300,
+    "exp_angle": 0
+  }
+}

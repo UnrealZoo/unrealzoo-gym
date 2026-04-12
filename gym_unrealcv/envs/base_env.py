@@ -28,6 +28,12 @@ class UnrealCv_base(gym.Env):
     Action: Discrete, Continuous, Mixed
     Done: defined by the task wrapper
     """
+    # Supported observation modes
+    SUPPORTED_OBSERVATION_MODES = ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose', 'MaskDepth', 'ColorMask']
+    
+    # Supported action types
+    SUPPORTED_ACTION_TYPES = ['Discrete', 'Continuous', 'Mixed']
+    
     def __init__(self,
                  setting_file,  # the setting file to define the task
                  action_type='Discrete',  # 'discrete', 'continuous'
@@ -96,13 +102,25 @@ class UnrealCv_base(gym.Env):
 
         # define action space
         self.action_type = action_type
-        assert self.action_type in ['Discrete', 'Continuous', 'Mixed']
+        if self.action_type not in self.SUPPORTED_ACTION_TYPES:
+            raise ValueError(
+                f"Unsupported action_type '{self.action_type}'. "
+                f"Supported types: {', '.join(self.SUPPORTED_ACTION_TYPES)}"
+            )
         self.action_space = [self.define_action_space(self.action_type, self.agents[obj]) for obj in self.player_list]
 
         # define observation space,
         # color, depth, rgbd,...
         self.observation_type = observation_type
-        assert self.observation_type in ['Color', 'Depth', 'Rgbd', 'Gray', 'CG', 'Mask', 'Pose','MaskDepth','ColorMask']
+        if self.observation_type not in self.SUPPORTED_OBSERVATION_MODES:
+            # Find similar modes for helpful error message
+            similar = [m for m in self.SUPPORTED_OBSERVATION_MODES 
+                      if m.lower() == observation_type.lower()]
+            hint = f" Did you mean '{similar[0]}'?" if similar else ""
+            raise ValueError(
+                f"Unsupported observation_type '{self.observation_type}'. "
+                f"Supported modes: {', '.join(self.SUPPORTED_OBSERVATION_MODES)}{hint}"
+            )
         self.observation_space = [self.define_observation_space(self.cam_list[i], self.observation_type, resolution)
                                   for i in range(len(self.player_list))]
 
@@ -119,6 +137,14 @@ class UnrealCv_base(gym.Env):
             env_map = None
 
         self.ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
+
+    def load_task_setting(self, task_file):
+        if task_file is None:
+            return {}
+        task_setting = misc.load_env_setting(task_file)
+        if not isinstance(task_setting, dict):
+            raise ValueError('Task setting file should contain a JSON object')
+        return task_setting
 
     def step(self, actions):
         """
