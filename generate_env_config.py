@@ -8,13 +8,42 @@ import json
 import copy
 import numpy as np
 import os
-# os.environ['UnrealEnv']='/home/wuk/DataDisk/UnrealEnv/'
-os.environ['UnrealEnv']='I:\\UnrealProject\\UnrealZoo_UE5_6\\Binaries'
-# os.environ['UnrealEnv']='E:\\UnrealEnv'
+import sys
+os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
 '''
 Probe a map (navmesh, doors, cameras) and write env JSON. Agents are template-only: no name/cam_id;
 class_name and asset_path come from dicts below (no pre-placed pawns required).
 '''
+
+# --- Binary paths (relative to UnrealEnv), per platform ---
+# Edit these when packaging names or folder layout change. Used for JSON fields and for default launch binary.
+# Use the literal substring {map} anywhere you need the current --env-map name inserted.
+ENV_BIN_TEMPLATE_LINUX = "UnrealZoo_UE5_6_Linux_v2.0.2/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6"
+ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_6_Win64_v2.0.2/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe"
+ENV_BIN_TEMPLATE_MAC = "UnrealZoo_UE5_6_Mac/UnrealZoo_UE5_6/Binaries/Mac/UnrealZoo_UE5_6.app/Contents/MacOS/UnrealZoo_UE5_6"
+
+
+def format_env_bin_template(template: str, env_map: str) -> str:
+    """Apply {map} substitution for paths written to env JSON."""
+    return template.replace("{map}", env_map)
+
+
+def env_bin_template_for_platform() -> str:
+    """Template used for this OS when resolving the launch binary under UnrealEnv."""
+    if sys.platform == "win32":
+        return ENV_BIN_TEMPLATE_WIN
+    if sys.platform == "darwin":
+        return ENV_BIN_TEMPLATE_MAC
+    return ENV_BIN_TEMPLATE_LINUX
+
+
+def launch_binary_abs(unreal_env: str, template: str, env_map: str) -> str:
+    """UnrealEnv + relative template path (with {map} applied), normalized for the current OS."""
+    rel = format_env_bin_template(template, env_map)
+    rel_norm = rel.replace("\\", "/")
+    parts = [p for p in rel_norm.split("/") if p]
+    return os.path.normpath(os.path.join(unreal_env, *parts))
+
 
 # --- spawn_from_path: use asset_path dict (strings or lists); ** = prefix placeholder, optional --asset-prefix ---
 # "animal" shares BP_Character with "player"; UE differentiates meshes via set_animal_app vs set_app (see Character_API / base_env).
@@ -85,7 +114,7 @@ player_config = {
         },
         "head_action": [
             [0, 0, 0], [0, 30, 0], [0, -30, 0]],
-        "animation_action": ["stand", "jump", "crouch"],
+        "animation_action": ["stand", "jump", "crouch","open_door","enter_vehicle","pickup"],
         "move_action": [
             [0, 100], [0, -100], [15, 50], [-15, 50], [30, 0], [-30, 0], [0, 0]
         ],
@@ -102,6 +131,13 @@ animal_config = {
         "scale": [1, 1, 1],
         "relative_location": [20, 0, 0],
         "relative_rotation": [0, 0, 0],
+        "head_action_continuous": {
+            "high": [15, 15, 15],
+            "low":  [-15, -15, -15]
+        },
+        "head_action": [
+        [0, 0, 0], [0, 30, 0], [0, -30, 0]],
+        "animation_action": ["stand", "jump", "crouch","open_door","enter_vehicle","pickup"],
         "move_action": [
             [0, 200],
             [0, -200],
@@ -226,14 +262,13 @@ def fill_agent_class_and_paths(agents_dict, asset_prefix=""):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    # parser.add_argument('--env-bin', default='UE4_ExampleScene_Win/UE4_ExampleScene/Binaries/Win64/UE4_ExampleScene.exe', help='The path to the UE4Editor binary')
-    # parser.add_argument('--env-bin', default='UE5_ExampleScene_Win64\Compile_unrealcv5_4\Binaries\Win64\Compile_unrealcv5_4.exe', help='The path to the UE4Editor binary')
-    # parser.add_argument('--env-bin', default='Collection_WinNoEditor\WindowsNoEditor\Collection\Binaries\Win64\Collection.exe', help='The path to the UE4Editor binary')
-    parser.add_argument('--env-bin', default='UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe', help='The path to the UE4Editor binary')
-    # parser.add_argument('--env-bin', default='UnrealZoo_UE5_5_Linux/Linux/UnrealZoo_UE5_5/Binaries/Linux/UnrealZoo_UE5_5', help='The path to the UE4Editor binary')
-    # parser.add_argument('--env-bin', default='WarSimulation_Win64\\WarSimulation\\Binaries\\Win64\\WarSimulation.exe', help='The path to the UE4Editor binary')
+    parser.add_argument(
+        '--env-bin',
+        default=None,
+        help='Override UE binary for this run; default is os.environ["UnrealEnv"] + platform template (Linux/Win/Mac).',
+    )
 
-    parser.add_argument('--env-map', default='Greek_Island', help='The map to load')
+    parser.add_argument('--env-map', default='Map_ChemicalPlant_1', help='The map to load')
     # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
     parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
 
@@ -252,7 +287,6 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
     asset_prefix = args.asset_prefix or ''
-    env_bin = args.env_bin
     env_map = args.env_map
     if args.env_map == 'all':
         maps = ['FlexibleRoom',
@@ -288,7 +322,18 @@ if __name__ == '__main__':
         env_map = maps[0]
     else:
         maps = [env_map]
-    # print(len(maps))
+
+    unreal_env = os.environ.get("UnrealEnv")
+    if args.env_bin:
+        env_bin = args.env_bin
+    else:
+        if not unreal_env:
+            raise SystemExit(
+                'Set environment variable UnrealEnv to the root folder that contains the relative binary paths '
+                '(same root as in generated JSON), or pass --env-bin explicitly.'
+            )
+        env_bin = launch_binary_abs(unreal_env, env_bin_template_for_platform(), env_map)
+
     ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
     env_ip, env_port = ue_binary.start(args.use_docker, parse_resolution(args.resolution), args.display, args.use_opengl, args.offscreen, args.nullrhi, str(args.gpu_id))
     unrealcv = UnrealCv_API(env_port, env_ip, parse_resolution(args.resolution), 'tcp')  # 'tcp' or 'unix', 'unix' is only for local machine in Linux
@@ -329,15 +374,18 @@ if __name__ == '__main__':
                 "Extra_Vehicles":Addition_Vechicles,
                 "Pickable_object":{
                     "class_name": "BP_GrabMoveDrop_C",
+                },
+                "targets": {
+                    "Point": []
                 }
             }
         }
 
         env_config['env_name'] = env_map
         env_config['env_map'] = env_map
-        env_config['env_bin'] = ue_binary.env_bin
-        env_config['env_bin_win'] = ue_binary.env_bin.replace("/", "\\").replace("Linux", "Win")
-        env_config['env_bin_mac'] = ue_binary.env_bin
+        env_config['env_bin'] = format_env_bin_template(ENV_BIN_TEMPLATE_LINUX, env_map)
+        env_config['env_bin_win'] = format_env_bin_template(ENV_BIN_TEMPLATE_WIN, env_map)
+        env_config['env_bin_mac'] = format_env_bin_template(ENV_BIN_TEMPLATE_MAC, env_map)
 
         # time.sleep(1)
         cam_num = unrealcv.get_camera_num()

@@ -406,15 +406,18 @@ class PoseTracker(object):
 class DronePoseTracker(object):
     def __init__(self, expected_distance = 250, expected_angle = 0):
 
-        self.velocity_high = 1
-        self.velocity_low = -1
-        self.angle_high = 1
-        self.angle_low = -1
+        self.velocity_high = 0.3
+        self.velocity_low = -0.3
+        self.angle_high = 0.5
+        self.angle_low = -0.5
         self.expected_distance = expected_distance
         self.expected_angle = expected_angle
         from simple_pid import PID
-        self.angle_pid = PID(1, 0.01, 0, setpoint=1)
-        self.velocity_pid = PID(5, 0.1, 0.05, setpoint=1)
+
+        # self.angle_pid = PID(1, 0.01, 0, setpoint=1)
+        # self.velocity_pid = PID(5, 0.1, 0.05, setpoint=1)
+        self.angle_pid = PID(0.1, 0.01, 0, setpoint=1)
+        self.velocity_pid = PID(0.01, 0, 0.001, setpoint=1)
 
     def act(self, pose, target_pose):
         delt_yaw = misc.get_direction(pose, target_pose) # get the angle between current pose and goal in x-y plane

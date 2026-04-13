@@ -1,6 +1,8 @@
+import warnings
 import numpy as np
 from gym_unrealcv.envs.base_env import UnrealCv_base
 from gym_unrealcv.envs.utils import misc, reward
+from gym_unrealcv.envs.navigation import NAV_TARGETS_EMPTY_MSG
 
 '''
 It is a general env for multi agent to collabrate to find a target object.
@@ -31,8 +33,10 @@ class NavigationMulti(UnrealCv_base):
 
 
         # self.cam_id = self.setting['cam_id']
-        self.target_list =self.env_configs['targets']['Point']
-        self.target_id=self.target_list[0]
+        self.target_list = self.env_configs['targets']['Point']
+        self.target_id = self.target_list[0] if self.target_list else None
+        if not self.target_list:
+            warnings.warn(NAV_TARGETS_EMPTY_MSG, UserWarning, stacklevel=2)
 
         self.observation_type = observation_type
         # assert self.observation_type == 'Color' or self.observation_type == 'Depth' or self.observation_type == 'Rgbd' or self.observation_type == 'Mask'
@@ -51,6 +55,20 @@ class NavigationMulti(UnrealCv_base):
 
 
         self.count_steps = 0
+
+    def set_navigation_targets(self, point_names):
+        """Set Point target actor names (UE object names). Use before reset or after connect; empty list clears targets."""
+        if isinstance(point_names, str):
+            point_names = [point_names]
+        self.target_list = list(point_names)
+        self.env_configs['targets']['Point'] = list(point_names)
+        self.target_id = self.target_list[0] if self.target_list else None
+        if not self.target_list:
+            self.targets_pos = {}
+            return
+        if getattr(self, 'unrealcv', None) is not None and getattr(self.unrealcv, 'client', None):
+            self.targets_pos = self.unrealcv.build_pose_dic(self.target_list)
+            self.unrealcv.set_obj_color(self.target_list[0], (255, 255, 255))
 
     def step(self, action):
         obs, rewards, done, info = super(NavigationMulti, self).step(action)
@@ -86,34 +104,34 @@ class NavigationMulti(UnrealCv_base):
         #             self.reset_module.success_waypoint(self.count_steps)
         # else:
 
-        # get reward
-        # select_target_by_distance可以根据任务setting 需要更改
-        # distance, self.target_id = [self.select_target_by_distance(info['Pose'][i][:3], self.targets_pos) for i in range(len(self.player_list))]
-        distance = np.array([self.unrealcv.get_distance(info['Pose'][i][:3], self.targets_pos[self.target_id],n=3) for i in range(len(self.player_list))])
-        distance_min = np.min(distance)
-        distance_min_id=np.argmin(distance)
-        info['Target'] = self.targets_pos[self.target_id]
+        if self.target_list and self.targets_pos and self.target_id is not None:
+            distance = np.array([self.unrealcv.get_distance(info['Pose'][i][:3], self.targets_pos[self.target_id], n=3) for i in range(len(self.player_list))])
+            distance_min = np.min(distance)
+            distance_min_id = np.argmin(distance)
+            info['Target'] = self.targets_pos[self.target_id]
+            info['Direction'] = [misc.get_direction(info['Pose'][i], np.array(self.targets_pos[self.target_id])) for i in range(len(self.player_list))]
 
-        info['Direction'] = [misc.get_direction(info['Pose'][i], np.array(self.targets_pos[self.target_id])) for i in range(len(self.player_list))]
+            if 'distance' in self.reward_type:
+                relative_oir_norm = np.fabs(info['Direction']) / 90.0
+                reward_norm = np.array([np.tanh(self.reward_function.reward_distance(distance[i]) - relative_oir_norm) for i in range(len(self.player_list))])
+                info['Reward'] = reward_norm
+            else:
+                info['Reward'] = 0
 
-        # calculate reward according to the distance to target object
-        if 'distance' in self.reward_type:
-            # info['Reward'] = self.reward_function.reward_distance(distance)
-            relative_oir_norm = np.fabs(info['Direction']) / 90.0
-            reward_norm = np.array([np.tanh(self.reward_function.reward_distance(distance[i]) - relative_oir_norm) for i in range(len(self.player_list))])
-            info['Reward'] = reward_norm
+            if info['Collision'] > 100:
+                info['Reward'] = -1
+                info['Done'] = True
+            if distance_min < 300 and np.fabs(info['Direction'][distance_min_id]) < 10:
+                info['Success'] = True
+                info['Done'] = True
+                info['Reward'] = 100
         else:
-            info['Reward'] = 0
-
-        # if frequent collision detected, the episode is done and reward is -1
-        if info['Collision'] > 100:
-            info['Reward'] = -1
-            info['Done'] = True
-        print(distance_min,np.fabs(info['Direction'][distance_min_id]))
-        if distance_min < 300 and np.fabs(info['Direction'][distance_min_id]) < 10:
-            info['Success'] = True
-            info['Done'] = True
-            info['Reward'] = 100
+            info['Target'] = None
+            info['Direction'] = [0.0 for _ in self.player_list]
+            info['Reward'] = np.zeros(len(self.player_list))
+            if info['Collision'] > 100:
+                info['Reward'] = -1 * np.ones(len(self.player_list))
+                info['Done'] = True
 
 
         # save the trajectory
@@ -128,9 +146,13 @@ class NavigationMulti(UnrealCv_base):
         observations = super(NavigationMulti, self).reset()
 
         current_pose = self.unrealcv.get_pose(self.cam_id[self.protagonist_id])
-        self.targets_pos = self.unrealcv.build_pose_dic(self.target_list)
-
-        self.unrealcv.set_obj_color(self.target_list[0], (255, 255, 255))
+        if self.target_list:
+            self.targets_pos = self.unrealcv.build_pose_dic(self.target_list)
+            self.unrealcv.set_obj_color(self.target_list[0], (255, 255, 255))
+            self.target_id = self.target_list[0]
+        else:
+            self.targets_pos = {}
+            self.target_id = None
         # state = self.unrealcv.get_observation(self.cam_id, self.observation_type)
         observations, self.obj_poses, self.img_show = self.update_observation(self.player_list, self.cam_list, self.cam_flag, self.observation_type)
 
@@ -138,8 +160,9 @@ class NavigationMulti(UnrealCv_base):
         self.trajectory.append(current_pose)
         self.trigger_count = 0
         self.count_steps = 0
-        self.reward_function.dis2target_initial, self.targetID_last = \
-            self.select_target_by_distance(current_pose, self.targets_pos)
+        if self.targets_pos:
+            self.reward_function.dis2target_initial, self.targetID_last = \
+                self.select_target_by_distance(current_pose, self.targets_pos)
 
         return observations
 

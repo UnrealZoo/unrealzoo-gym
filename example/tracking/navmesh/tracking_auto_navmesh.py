@@ -18,12 +18,12 @@ import numpy as np
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
 from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
 import os
-os.environ['UnrealEnv']='E:\\UnrealEnv'
+os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-FlexibleRoom-ContinuousColor-v0',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-DowntownWest-ContinuousColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')
@@ -58,7 +58,6 @@ if __name__ == '__main__':
             agents_num = len(env.action_space)
             tracker_id = env.unwrapped.tracker_id
             target_id = env.unwrapped.target_id
-            # trackers = [PoseTracker(env.action_space[i], env.unwrapped.exp_distance) for i in range(agents_num) ]
             trackers = PoseTracker(env.action_space[env.unwrapped.protagonist_id], env.unwrapped.reward_params['exp_distance'])
             count_step = 0
             t0 = time.time()
@@ -67,8 +66,6 @@ if __name__ == '__main__':
             print('eps:', eps, 'agents_num:', agents_num)
             while True:
                 obj_poses = env.unwrapped.obj_poses
-                # actions = [trackers[i].act(obj_poses[i], obj_poses[target_id]) for i in range(agents_num)]
-
                 action = trackers.act(obj_poses[tracker_id], obj_poses[target_id])
                 obs, rewards, done, _ = env.step([action])
                 C_rewards += rewards

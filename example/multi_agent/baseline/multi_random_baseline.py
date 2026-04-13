@@ -10,7 +10,7 @@ import time
 import numpy as np
 import os
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation, configUE
-os.environ['UnrealEnv']='E:\\UnrealEnv'
+os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
 
 class RandomAgent(object):
     """The world's simplest agent!"""

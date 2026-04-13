@@ -245,17 +245,17 @@ export UnrealEnv=/your/path/to/UnrealEnv
 #### 2. Run random agents
 User could choose a map from the available map list, and run the random agent to interact with the environment.
 ```
-python ./example/random_agent_multi.py -e UnrealTrack-track_train-ContinuousColor-v0
+python ./example/multi_agent/baseline/multi_random_baseline.py -e UnrealTrack-track_train-ContinuousColor-v0
 ```
 #### 3. Run a rule-based tracking agent 
 ```
-python ./example/tracking_demo.py -e UnrealTrack-Greek_Island-ContinuousColor-v0
+python ./example/tracking/basic/tracking_auto_basic.py -e UnrealTrack-Greek_Island-ContinuousColor-v0
 ```
 
 #### 4. Run a keyboard tracking agent 
 Use the "I", "J", "K", and "L" keys to control the agent's movement.
 ```
-python ./example/keyboard_agent.py -e UnrealTrack-Old_Town-MixedColor-v0
+python ./example/tracking/keyboard/tracking_keyboard_manual.py -e UnrealTrack-Old_Town-MixedColor-v0
 ```
 #### 5. Run a keyboard Navigation agent
 Use the "I", "J", "K", and "L" keys to control the agent's movement.  
@@ -264,7 +264,7 @@ Up Arrow(⬆️): Look up.
 Down Arrow(⬇️): Look down.  
 (Double "Jump" will trigger the agent to climb)
 ```
-python ./example/Keyboard_NavigationAgent.py -e UnrealNavigation-Demo_Roof-MixedColor-v0
+python ./example/navigation/keyboard/navigation_keyboard_human.py -e UnrealNavigation-Demo_Roof-MixedColor-v0
 ```
 Control the agent to navigate to the target location by using the keyboard. 
 

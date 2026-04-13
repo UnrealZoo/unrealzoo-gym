@@ -21,8 +21,8 @@ class Character_API(UnrealCv_API):
             'liedown': self.set_liedown,
             'open_door': self.set_open_door,
             'enter_vehicle': self.enter_exit_car,
-            'carry':self.carry_body,
-            'drop':self.drop_body
+            'pickup': self.set_pickup,
+            'drop': self.drop_body,
         }
     def config_ue(self, resolution=(320, 240), quality=1, disable_all_screen_messages=True, Lumen=False):
         """
@@ -480,16 +480,24 @@ class Character_API(UnrealCv_API):
         res = self.client.request(cmd, -1)
         return res
 
-    def enter_exit_car(self, obj, player_index):
+    def enter_exit_car(self, obj, player_index=0, return_cmd=False):
         # enter or exit the car for a player.
         # If the player is already in the car, it will exit the car. Otherwise, it will enter the car.
         cmd = f'vbp {obj} enter_exit_car {player_index}'
+        if return_cmd:
+            return cmd
         res = self.client.request(cmd, -1)
         return res
 
-    def set_open_door(self, player, state, return_cmd=False):
+    def set_open_door(self, player, state=1, return_cmd=False):
         # state: 0 close, 1 open
         cmd = f'vbp {player} set_open_door {state}'
+        if return_cmd:
+            return cmd
+        else:
+            self.client.request(cmd, -1)
+    def set_pickup(self,player,return_cmd=False):
+        cmd = f'vbp {player} set_pickup'
         if return_cmd:
             return cmd
         else:
@@ -750,3 +758,29 @@ class Character_API(UnrealCv_API):
                       np.sin(angle/180*np.pi), np.cos(angle/180*np.pi),
                       distance]
         return obs_vector, distance, angle
+    def find_path(self,obj,loc):
+        # find the path to the goal location, return a list of waypoints
+        x, y, z = loc
+        cmd = f'vbp {obj} find_path {x} {y} {z}'
+        res = self.client.request(cmd)
+        path = []
+        try:
+            parsed = json.loads(res)
+            if isinstance(parsed, dict) and 'Path' in parsed:
+                path_str = parsed['Path']
+            else:
+                path_str = res
+        except Exception:
+            path_str = res
+        path_str_list = re.split(r'[;\\n]+', path_str)
+        for path_str in path_str_list:
+            path_str = path_str.strip()
+            if not path_str:
+                continue
+            coordinates = re.findall(r"[-+]?\d*\.\d+|\d+", path_str)
+            coordinates = [float(coordinate) for coordinate in coordinates]
+            if len(coordinates) >= 3:
+                path.append(coordinates[:3])
+            else:
+                path.append(coordinates)
+        return path

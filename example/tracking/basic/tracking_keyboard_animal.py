@@ -4,6 +4,9 @@ from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augme
 from pynput import keyboard
 import time
 import cv2
+import os
+os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
+
 class RandomAgent(object):
     """The world's simplest agent!"""
     def __init__(self, action_space):
@@ -22,6 +25,7 @@ key_state = {
     'space': False,
     '1': False,
     '2': False,
+'3': False,
     'head_up': False,
     'head_down': False
 }
@@ -71,6 +75,8 @@ def get_key_action():
         action[2] = 3
     if key_state['2']:
         action[2] = 4
+    if key_state['3']:
+        action[2] = 5
     if key_state['head_up']:
         action[1] = 1
     if key_state['head_down']:
@@ -86,7 +92,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     # parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-ContinuousMask-v4',
     #                     help='Select the environment to run')
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealNavigation-SuburbNeighborhood_Day-MixedColor-v0',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-DowntownWest-MixedColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=10, help='random seed')
@@ -98,7 +104,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     env = gym.make(args.env_id)
     env = configUE.ConfigUEWrapper(env, offscreen=False, resolution=(240, 240))
-    env.unwrapped.agents_category=['player'] #choose the agent type in the scene
+    env.unwrapped.agents_category=['animal'] #choose the agent type in the scene
 
     if int(args.time_dilation) > 0:  # -1 means no time_dilation
         env = time_dilation.TimeDilationWrapper(env, int(args.time_dilation))
@@ -106,7 +112,9 @@ if __name__ == '__main__':
         env = early_done.EarlyDoneWrapper(env, int(args.early_done))
     if args.monitor:
         env = monitor.DisplayWrapper(env)
-    # env = augmentation.RandomPopulationWrapper(env, 2, 2, random_target=False)
+    env = augmentation.RandomPopulationWrapper(env, 2, 2, random_target=False)
+    env = agents.NavAgents(env, mask_agent=False)
+    agent = RandomAgent(env.action_space[0])
     rewards = 0
     done = False
     Total_rewards = 0
@@ -114,7 +122,7 @@ if __name__ == '__main__':
     env.seed(int(args.seed))
     obs = env.reset()
     t0 = time.time()
-    print('Use the "I", "J", "K", and "L" keys to control the agent movement, "Space" to jump, and "Up" and "Down" to adjust the agents view. (Double "Jump" will trigger the agent to climb)')
+    print('Use the "I", "J", "K", and "L" keys to control the agent  movement.')
     while True:
         action = get_key_action()
         obs, rewards, done, info = env.step([action])
@@ -122,11 +130,8 @@ if __name__ == '__main__':
         cv2.waitKey(1)
         count_step += 1
         if done:
-            if info['Success']:
-                print('Success')
-            else:
-                print('Failed')
             fps = count_step / (time.time() - t0)
+            print('Success')
             print('Fps:' + str(fps))
             break
     env.close()

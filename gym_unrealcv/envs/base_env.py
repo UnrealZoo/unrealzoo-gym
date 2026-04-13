@@ -209,7 +209,9 @@ class UnrealCv_base(gym.Env):
         for i, obj in enumerate(self.player_list):
             self.unrealcv.set_obj_location(obj, init_poses[i])
             # set view point
-            self.unrealcv.set_cam(obj, self.agents[obj]['relative_location'], self.agents[obj]['relative_rotation'])
+            if self.agents[obj]['agent_type'] != 'drone': #drone will automatically adjust its view point
+                self.unrealcv.set_cam(obj, self.agents[obj]['relative_location'], self.agents[obj]['relative_rotation'])
+            
 
         # 匹配真正cam
         self.unrealcv.cam = self.unrealcv.get_camera_config()
@@ -608,7 +610,7 @@ class UnrealCv_base(gym.Env):
         The appearance is selected from a predefined range of IDs for each category.
 
         Categories:
-            - player: IDs from 1 to 18 (set_app)
+            - player: human IDs from 1 to 18 (set_app); robot dog IDs from 20 to 33 (set_app, manually assign when needed)
             - animal: IDs from 0 to 27 inclusive (set_animal_app on BP_Character)
         """
         app_map = {
@@ -635,7 +637,7 @@ class UnrealCv_base(gym.Env):
         The appearance is selected from a predefined range of IDs for each category.
 
         Categories:
-            - player: IDs from 1 to 18 (set_app)
+            - player: human IDs from 1 to 18 (set_app); robot dog IDs from 20 to 33 (set_app, manually assign when needed)
             - animal: IDs from 0 to 27 inclusive (set_animal_app)
         """
         app_map = {
@@ -737,26 +739,48 @@ class UnrealCv_base(gym.Env):
     def set_population(self, num_agents):
         """Resize agents; template-only maps spawn here (after wrapper sets num_agents)."""
         self.num_agents = int(num_agents)
+
+        # Backward compatible behavior:
+        # - agents_category has one item: repeat that category for all slots
+        # - agents_category length == population: use per-slot categories
+        # - otherwise: fallback to first category
+        categories_cfg = list(self.agents_category) if isinstance(self.agents_category, (list, tuple)) else [self.agents_category]
+        if len(categories_cfg) == 1:
+            desired_categories = [categories_cfg[0]] * self.num_agents
+        elif len(categories_cfg) == self.num_agents:
+            desired_categories = categories_cfg
+        else:
+            warnings.warn(
+                f"agents_category length ({len(categories_cfg)}) does not match population ({self.num_agents}); "
+                f"fallback to homogeneous category '{categories_cfg[0]}'."
+            )
+            desired_categories = [categories_cfg[0]] * self.num_agents
+
         # Use agent_templates[cat] so refer_agent carries agent_type (animal vs player mesh APIs).
         # Raw agent_configs[cat] from JSON has no agent_type; add_agent_fromPath would default to 'player'.
-        cat = self.agents_category[0]
-        if cat in self.agent_templates:
-            tpl = self.agent_templates[cat]
-        else:
-            tpl = {**self.agent_configs[cat], 'agent_type': cat}
+        def template_for_category(cat):
+            if cat in self.agent_templates:
+                return self.agent_templates[cat]
+            if cat in self.agent_configs:
+                return {**self.agent_configs[cat], 'agent_type': cat}
+            raise KeyError(f"Category '{cat}' not found in agent templates/configs.")
+
         while len(self.action_space) < self.num_agents:
-            self.action_space.append(self.define_action_space(self.action_type, tpl))
+            slot_idx = len(self.action_space)
+            slot_cat = desired_categories[slot_idx]
+            slot_tpl = template_for_category(slot_cat)
+            self.action_space.append(self.define_action_space(self.action_type, slot_tpl))
             self.observation_space.append(
                 self.define_observation_space(-1, self.observation_type, self.resolution)
             )
             self.cam_list.append(-1)
 
         while len(self.player_list) < self.num_agents:
-            refer_agent = random.choice(list(self.agents.values())) if self.agents else tpl
-            if refer_agent is None:
-                raise ValueError('No agent template or existing agent to clone from.')
+            slot_idx = len(self.player_list)
+            slot_cat = desired_categories[slot_idx]
+            refer_agent = template_for_category(slot_cat)
             # name = f'{refer_agent["agent_type"]}_EP{self.count_eps}_{len(self.player_list)}'
-            name = f'{self.agents_category[0]}_EP{self.count_eps}_{len(self.player_list)}'
+            name = f'{slot_cat}_EP{self.count_eps}_{slot_idx}'
 
             loc = random.choice(self.safe_start)
             if self._spawn_from_templates:

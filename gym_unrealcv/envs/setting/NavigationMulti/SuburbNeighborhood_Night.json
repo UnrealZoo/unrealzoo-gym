@@ -1,26 +1,29 @@
 {
-    "env_name": "MiddleEast",
-    "env_bin": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
-    "env_map": "MiddleEast",
-    "env_bin_win": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
-    "env_bin_mac": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "env_name": "SuburbNeighborhood_Night",
+    "env_bin": "UE4_ExampleScene_Linux/UE4_ExampleScene/Binaries/Linux/UE4_ExampleScene",
+    "env_map": "SuburbNeighborhood_Night",
+    "env_bin_win": "UE4_ExampleScene_Win\\UE4_ExampleScene\\Binaries\\Win64\\UE4_ExampleScene.exe",
+    "env_bin_mac": "UE4_ExampleScene_Mac/UE4_ExampleScene.app",
     "third_cam": {
         "cam_id": 0,
         "pitch": -90,
         "yaw": 0,
         "roll": 0,
-        "height_top_view": 2320.0,
+        "height_top_view": 1142.79,
         "fov": 90
     },
-    "height": 1320.0,
+    "height": 142.79,
     "interval": 1000,
     "agents": {
         "player": {
+            "name": [
+                "BP_Character_2"
+            ],
+            "cam_id": [
+                2
+            ],
             "class_name": [
                 "bp_character_C"
-            ],
-            "asset_path": [
-                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -68,9 +71,13 @@
                 ]
             ],
             "animation_action": [
-                "stand",
+              "stand",
                 "jump",
-                "crouch"
+                "crouch",
+                "open_door",
+                "enter_vehicle",
+                "pickup",
+                "drop"
             ],
             "move_action": [
                 [
@@ -114,11 +121,14 @@
             }
         },
         "animal": {
+            "name": [
+                "BP_animal_2"
+            ],
+            "cam_id": [
+                1
+            ],
             "class_name": [
                 "BP_animal_C"
-            ],
-            "asset_path": [
-                "/Game/Animal_pack_ultra_2/BP_animal.BP_animal_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -178,11 +188,14 @@
             }
         },
         "drone": {
+            "name": [
+                "BP_Drone01_2"
+            ],
+            "cam_id": [
+                3
+            ],
             "class_name": [
                 "BP_drone01_C"
-            ],
-            "asset_path": [
-                "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C"
             ],
             "internal_nav": false,
             "scale": [
@@ -272,22 +285,14 @@
             }
         },
         "car": {
-            "class_name": [
-                "BP_Hatchback_child_base_C"
+            "name": [
+                "BP_BaseCar_2"
             ],
-            "asset_path": [
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_police.BP_Hatchback_child_police_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_taxi.BP_Hatchback_child_taxi_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_base.BP_Sedan_child_base_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_extras.BP_Sedan_child_extras_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_police.BP_Sedan_child_police_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_taxi.BP_Sedan_child_taxi_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_base.BP_SUV_child_base_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_extras.BP_SUV_child_extras_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_police.BP_SUV_child_police_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_taxi.BP_SUV_child_taxi_C"
+            "cam_id": [
+                5
+            ],
+            "class_name": [
+                "BP_BaseCar_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -339,20 +344,14 @@
             }
         },
         "motorbike": {
-            "class_name": [
-                "BP_BaseBike_C"
+            "name": [
+                "MotorBikes_2"
             ],
-            "asset_path": [
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Base.BP_Custom_Base_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Extras.BP_Custom_Extras_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Police.BP_Custom_Police_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Base.BP_Enduro_Base_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Extras.BP_Enduro_Extras_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Police.BP_Enduro_Police_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Base.BP_Naked_Base_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Extras.BP_Naked_Extras_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Police.BP_Naked_Police_C",
-                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C"
+            "cam_id": [
+                4
+            ],
+            "class_name": [
+                "MotorBikes_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -406,109 +405,131 @@
     },
     "safe_start": [
         [
-            -1070.0,
-            -1250.0,
-            262.907
+            1530.0,
+            110.023,
+            142.79
         ],
         [
-            -2252.912,
-            -551.0,
-            190.556
+            1540.0,
+            -140.016,
+            98.15
         ],
         [
-            315.985,
-            -872.15,
-            240.0
+            2150.991,
+            -1474.758,
+            110.0
         ],
         [
-            -216.687,
-            -2565.0,
-            190.0
+            2979.689,
+            -7.407,
+            120.0
         ],
         [
-            -56.866,
-            -1461.648,
-            190.0
+            1069.833,
+            -840.658,
+            83.257
         ],
         [
-            3.713,
-            -41.275,
-            1320.0
+            2044.42,
+            -1139.345,
+            110.0
         ],
         [
-            599.579,
-            -1453.004,
-            190.0
+            1262.227,
+            1449.47,
+            120.0
         ],
         [
-            -1800.135,
-            -233.028,
-            240.0
+            934.0,
+            1576.0,
+            130.0
         ],
         [
-            -1003.483,
-            -2599.966,
-            248.765
+            2011.486,
+            -560.66,
+            70.0
         ],
         [
-            304.0,
-            -281.995,
-            190.0
+            1753.015,
+            -228.013,
+            58.753
         ],
         [
-            -1733.661,
-            -1923.048,
-            250.0
+            47.216,
+            162.138,
+            56.839
+        ],
+        [
+            1670.447,
+            872.0,
+            80.0
+        ],
+        [
+            1007.531,
+            169.965,
+            8.492
+        ],
+        [
+            1010.0,
+            -180.0,
+            -2.134
         ]
     ],
     "reset_area": [
-        -2252.912,
-        599.579,
-        -2599.966,
-        -41.275,
-        190.0,
-        1320.0
+        47.216,
+        2979.689,
+        -1474.758,
+        1576.0,
+        -2.134,
+        142.79
     ],
     "random_init": false,
     "env": {
-        "interactive_door": [],
-        "Extra_Vehicles": {
-            "car": [
-                "BP_Hatchback_child_extras_C",
-                "BP_Hatchback_child_police_C",
-                "BP_Hatchback_child_taxi_C",
-                "BP_Sedan_child_base_C",
-                "BP_Sedan_child_extras_C",
-                "BP_Sedan_child_police_C",
-                "BP_Sedan_child_taxi_C",
-                "BP_SUV_child_base_C",
-                "BP_SUV_child_extras_C",
-                "BP_SUV_child_police_C",
-                "BP_SUV_child_taxi_C"
-            ],
-            "motorbike": [
-                "BP_Custom_Base_C",
-                "BP_Custom_Extras_C",
-                "BP_Custom_Police_C",
-                "BP_Enduro_Base_C",
-                "BP_Enduro_Extras_C",
-                "BP_Enduro_Police_C",
-                "BP_Naked_Base_C",
-                "BP_Naked_Extras_C",
-                "BP_Naked_Police_C",
-                "BP_BaseBike_TwoPassengers_C"
+        "interactive_door": [
+            "BP_Door_main10",
+            "BP_Door_main11",
+            "BP_Door_main12",
+            "BP_Door_main13",
+            "BP_Door_main14",
+            "BP_Door_main15",
+            "BP_Door_main16",
+            "BP_Door_main17",
+            "BP_Door_main18",
+            "BP_Door_main19",
+            "BP_Door_main2",
+            "BP_Door_main20",
+            "BP_Door_main21",
+            "BP_Door_main22",
+            "BP_Door_main23_18",
+            "BP_Door_main24",
+            "BP_Door_main25",
+            "BP_Door_main26",
+            "BP_Door_main27",
+            "BP_Door_main3_2",
+            "BP_Door_main4",
+            "BP_Door_main5",
+            "BP_Door_main6_5",
+            "BP_Door_main7_2",
+            "BP_Door_main8_5",
+            "BP_Door_main9_2",
+            "BP_Door_main_1",
+            "BP_Door_garage2_5",
+            "BP_Door_garage3_5",
+            "BP_Door_garage4_9",
+            "BP_Door_garage_14"
+        ],
+        "targets": {
+            "Point": [
+                "BP_Car_Gray"
             ]
-        },
-        "Pickable_object": {
-            "class_name": "BP_GrabMoveDrop_C"
         }
     },
-    "obj_num": 1288,
-    "size": 620827.5839999999,
-    "area": 29284.319999999996,
+    "obj_num": 2535,
+    "size": 228800.0,
+    "area": 22000.0,
     "bbox": [
-        148.2,
-        197.6,
-        21.2
+        200.0,
+        110.0,
+        10.4
     ]
 }

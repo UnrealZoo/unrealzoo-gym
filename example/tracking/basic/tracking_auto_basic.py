@@ -18,12 +18,12 @@ import numpy as np
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
 from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
 import os
-os.environ['UnrealEnv']='E:\\UnrealEnv'
+os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-VictorianTrainStation-ContinuousColor-v0',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-FlexibleRoom-ContinuousColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=0, help='random seed')

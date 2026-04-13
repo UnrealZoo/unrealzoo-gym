@@ -1,9 +1,9 @@
 {
     "env_name": "Map_ChemicalPlant_1",
-    "env_bin": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "env_bin": "UnrealZoo_UE5_6_Linux_v2.0.2/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
     "env_map": "Map_ChemicalPlant_1",
-    "env_bin_win": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
-    "env_bin_mac": "UnrealZoo_UE5_6_Win64_v2.0.1\\UnrealZoo_UE5_6\\Binaries\\Win64\\UnrealZoo_UE5_6.exe",
+    "env_bin_win": "UnrealZoo_UE5_6_Win64_v2.0.2/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
+    "env_bin_mac": "UnrealZoo_UE5_6_Mac/UnrealZoo_UE5_6/Binaries/Mac/UnrealZoo_UE5_6.app/Contents/MacOS/UnrealZoo_UE5_6",
     "third_cam": {
         "cam_id": 0,
         "pitch": -90,
@@ -70,7 +70,10 @@
             "animation_action": [
                 "stand",
                 "jump",
-                "crouch"
+                "crouch",
+                "open_door",
+                "enter_vehicle",
+                "pickup"
             ],
             "move_action": [
                 [
@@ -115,10 +118,10 @@
         },
         "animal": {
             "class_name": [
-                "BP_animal_C"
+                "bp_character_C"
             ],
             "asset_path": [
-                "/Game/Animal_pack_ultra_2/BP_animal.BP_animal_C"
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
             ],
             "internal_nav": true,
             "scale": [
@@ -135,6 +138,43 @@
                 0,
                 0,
                 0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch",
+                "open_door",
+                "enter_vehicle",
+                "pickup"
             ],
             "move_action": [
                 [
@@ -506,6 +546,9 @@
         },
         "Pickable_object": {
             "class_name": "BP_GrabMoveDrop_C"
+        },
+        "targets": {
+            "Point": []
         }
     },
     "obj_num": 14787,

@@ -71,9 +71,13 @@
                 ]
             ],
             "animation_action": [
-                "stand",
+              "stand",
                 "jump",
-                "crouch"
+                "crouch",
+                "open_door",
+                "enter_vehicle",
+                "pickup",
+                "drop"
             ],
             "move_action": [
                 [
