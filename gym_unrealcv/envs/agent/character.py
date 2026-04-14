@@ -3,6 +3,7 @@ import numpy as np
 import math
 import time
 import json
+import os
 import re
 from io import BytesIO
 import PIL.Image
@@ -550,6 +551,8 @@ class Character_API(UnrealCv_API):
 
     def get_pose_img_batch(self, objs_list, cam_ids, img_flag=[False, True, False, False]):
         # get pose and image of objects in objs_list from cameras in cam_ids
+        profile_enabled = False
+        t_total_start = time.perf_counter() if profile_enabled else 0.0
         cmd_list = []
         decoder_list = []
         [use_cam_pose, use_color, use_mask, use_depth] = img_flag
@@ -572,16 +575,34 @@ class Character_API(UnrealCv_API):
                 # cmd_list.append(self.get_image(cam_id, 'depth', 'bmp', return_cmd=True))
 
         decoders = [self.decoder.decode_map[self.decoder.cmd2key(cmd)] for cmd in cmd_list]
+        t_batch_start = time.perf_counter() if profile_enabled else 0.0
+        t_request_ms = 0.0
+        t_decode_ms = 0.0
         try:
-            res_list = self.batch_cmd(cmd_list, decoders)
+            if profile_enabled:
+                # Expand batch_cmd into request+decode for detailed attribution.
+                t_request_start = time.perf_counter()
+                res_list = self.client.request(cmd_list)
+                t_request_ms = (time.perf_counter() - t_request_start) * 1000.0
+
+                t_decode_start = time.perf_counter()
+                if decoders is not None:
+                    for i, res in enumerate(res_list):
+                        res_list[i] = decoders[i](res)
+                t_decode_ms = (time.perf_counter() - t_decode_start) * 1000.0
+            else:
+                res_list = self.batch_cmd(cmd_list, decoders)
         except:
             print('batch cmd error')
+            res_list = []
+        t_batch_ms = (time.perf_counter() - t_batch_start) * 1000.0 if profile_enabled else 0.0
         obj_pose_list = []
         cam_pose_list = []
         img_list = []
         mask_list = []
         depth_list = []
         # start to read results
+        t_unpack_start = time.perf_counter() if profile_enabled else 0.0
         start_point = 0
         for i, obj in enumerate(objs_list):
             obj_pose_list.append(res_list[start_point] + res_list[start_point+1])
@@ -610,6 +631,18 @@ class Character_API(UnrealCv_API):
                 depth_list.append(image)  # 500 is the default max depth of most depth cameras
                 # depth_list.append(res_list[start_point])  # 500 is the default max depth of most depth cameras
                 start_point += 1
+
+        if profile_enabled:
+            t_unpack_ms = (time.perf_counter() - t_unpack_start) * 1000.0
+            t_total_ms = (time.perf_counter() - t_total_start) * 1000.0
+            active_cams = sum(1 for cam_id in cam_ids if cam_id >= 0)
+            est_per_cam_ms = (t_batch_ms / active_cams) if active_cams > 0 else 0.0
+            print(
+                f"[IMG_PROFILE] cams={active_cams} cmds={len(cmd_list)} "
+                f"request_ms={t_request_ms:.2f} decoder_ms={t_decode_ms:.2f} "
+                f"batch_ms={t_batch_ms:.2f} unpack_ms={t_unpack_ms:.2f} "
+                f"total_ms={t_total_ms:.2f} est_batch_per_cam_ms={est_per_cam_ms:.2f}"
+            )
 
         return obj_pose_list, cam_pose_list, img_list, mask_list, depth_list
 
