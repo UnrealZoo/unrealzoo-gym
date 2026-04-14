@@ -462,8 +462,12 @@ class UnrealCv_base(gym.Env):
         self.unrealcv.set_obj_color(name, np.random.randint(0, 255, 3))
         self.unrealcv.set_random(name, 0)
         self.unrealcv.set_interval(self.interval, name)
-        self.unrealcv.set_obj_location(name, spawn_loc)
         at = new_dict.get('agent_type', 'player')
+        # Vehicle should stay static until explicit interaction/control.
+        # Apply before set_obj_location as requested by demos.
+        if at in ('car', 'motorbike'):
+            self.unrealcv.set_phy(name, 0)
+        self.unrealcv.set_obj_location(name, spawn_loc)
         if at == 'animal':
             self.unrealcv.set_animal_appearance(name, int(np.random.randint(0, 28)))
         if register_spaces:
@@ -533,14 +537,21 @@ class UnrealCv_base(gym.Env):
         elif action_type == 'Continuous':
             return spaces.Box(low=np.array(agent_info["move_action_continuous"]['low']),
                               high=np.array(agent_info["move_action_continuous"]['high']), dtype=np.float32)
-        else:  # Hybrid
+        else:  # Hybridk
+            # For non-interactive agents (e.g. car/bike/drone) that only expose movement controls,
+            # keep Mixed consistent with Continuous (2/4 DoF) and do not append fake head/animation branches.
+            has_head = "head_action" in agent_info.keys()
+            has_anim = "animation_action" in agent_info.keys()
+            if (not has_head) and (not has_anim):
+                return spaces.Box(low=np.array(agent_info["move_action_continuous"]['low']),
+                                  high=np.array(agent_info["move_action_continuous"]['high']), dtype=np.float32)
             move_space = spaces.Box(low=np.array(agent_info["move_action_continuous"]['low']),
                                     high=np.array(agent_info["move_action_continuous"]['high']), dtype=np.float32)
             turn_space = spaces.Discrete(2)
             animation_space = spaces.Discrete(2)
-            if "head_action" in agent_info.keys():
+            if has_head:
                 turn_space = spaces.Discrete(len(agent_info["head_action"]))
-            if "animation_action" in agent_info.keys():
+            if has_anim:
                 animation_space = spaces.Discrete(len(agent_info["animation_action"]))
             return spaces.Tuple((move_space, turn_space, animation_space))
 

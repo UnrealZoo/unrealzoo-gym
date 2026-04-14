@@ -397,11 +397,17 @@ class Character_API(UnrealCv_API):
         # spawn, set obj pose, enable physics
         [x, y, z] = loc
         [pitch, yaw, roll] = rot
-        cmd = [f'vset /objects/spawn_from_path {obj_class_path} {obj_name}',
-                f'vset /object/{obj_name}/location {x} {y} {z}',
-                f'vset /object/{obj_name}/rotation {pitch} {yaw} {roll}',
-                # f'vbp {obj_name} set_phy 0'
-                ]
+        if 'drone' not in obj_class_path:
+            cmd = [f'vset /objects/spawn_from_path {obj_class_path} {obj_name}',
+                    f'vset /object/{obj_name}/location {x} {y} {z}',
+                    f'vset /object/{obj_name}/rotation {pitch} {yaw} {roll}',
+                    f'vbp {obj_name} set_phy 0'
+                    ]
+        else:
+            cmd = [f'vset /objects/spawn_from_path {obj_class_path} {obj_name}',
+                    f'vset /object/{obj_name}/location {x} {y} {z}',
+                    f'vset /object/{obj_name}/rotation {pitch} {yaw} {roll}',
+                    ]
        
         self.client.request(cmd, -1)
         return obj_name

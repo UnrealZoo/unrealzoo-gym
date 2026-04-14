@@ -156,26 +156,26 @@ animal_config = {
 drone_config = {
         "class_name": [],
         "asset_path": [],
-    "internal_nav": False,
-    "scale": [0.1, 0.1, 0.1],
-    "relative_location": [0, 0, 0],
-    "relative_rotation": [0, 0, 0],
-    "move_action": [
-        [0.5, 0, 0, 0],
-        [-0.5, 0, 0, 0],
-        [0, 0.5, 0, 0],
-        [0, -0.5, 0, 0],
-        [0, 0, 0.5, 0],
-        [0, 0, -0.5, 0],
-        [0, 0, 0, 1],
-        [0, 0, 0, -1],
-        [0, 0, 0, 0]
-    ],
-    "move_action_continuous": {
-        "high": [1, 1, 1, 1],
-        "low": [-1, -1, -1, -1]
-    }
-    }
+        "internal_nav": False,
+        "scale": [0.1, 0.1, 0.1],
+        "relative_location": [0, 0, 0],
+        "relative_rotation": [0, 0, 0],
+        "move_action": [
+            [0.5, 0, 0, 0],
+            [-0.5, 0, 0, 0],
+            [0, 0.5, 0, 0],
+            [0, -0.5, 0, 0],
+            [0, 0, 0.5, 0],
+            [0, 0, -0.5, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, -1],
+            [0, 0, 0, 0]
+        ],
+        "move_action_continuous": {
+            "high": [1, 1, 1, 1],
+            "low": [-1, -1, -1, -1]
+        }
+        }
 car_config = {
         "class_name": [],
         "asset_path": [],
