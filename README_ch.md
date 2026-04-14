@@ -7,7 +7,7 @@
 <p align="center"><i>▶️ 点击观看完整演示视频</i></p>
 
 <!-- Title -->
-<h1>UnrealZoo v3.0</h1>
+<h1>UnrealZoo</h1>
 <h3>开箱即用的多智能体具身智能训练平台</h3>
 <p>Production-Ready 的照片级虚拟环境，支持 100+ 场景、10+ 智能体实时协作</p>
 
@@ -26,6 +26,11 @@
   <img src="https://img.shields.io/badge/🚀-Out%20of%20the%20Box-blueviolet" />
   <img src="https://img.shields.io/badge/👥-Multi--Agent-ff69b4" />
   <img src="https://img.shields.io/badge/🎮-Ready%20to%20Use-9cf" />
+</p>
+
+<!-- Language Switch -->
+<p align="center">
+  <a href="README.md">🇺🇸 English</a> | 🇨🇳 中文
 </p>
 
 <!-- Quick Links -->
@@ -436,14 +441,11 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 如果 UnrealZoo 对你的研究有帮助，请引用：
 
 ```bibtex
-@misc{zhong2024unrealzooenrichingphotorealisticvirtual,
-  title={UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI}, 
-  author={Fangwei Zhong and Kui Wu and Churan Wang and Hao Chen and Hai Ci and Zhoujun Li and Yizhou Wang},
-  year={2024},
-  eprint={2412.20977},
-  archivePrefix={arXiv},
-  primaryClass={cs.AI},
-  url={https://arxiv.org/abs/2412.20977}, 
+@inproceedings{zhong2025unrealzoo,
+  title={UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI},
+  author={Zhong, Fangwei and Wu, Kui and Wang, Churan and Chen, Hao and Ci, Hai and Li, Zhoujun and Wang, Yizhou},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year={2025}
 }
 ```
 

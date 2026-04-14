@@ -1,352 +1,474 @@
-UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI
-===
-![framework](doc/figs/overview.png)
-[FangWei Zhong](https://fangweizhong.xyz/), [Kui Wu](), [Chu-ran Wang ](), [Hao Chen](), [Hai Ci](), [Zhoujun Li](), [Yizhou Wang]()
+<div align="center">
 
-Beijing Normal University, BeiHang University, Peking University, National University of Singapore and The Hong Kong Polytechnic University.
+<!-- Hero Banner -->
+<a href="https://youtu.be/Xe2VmsJYTAU">
+  <img src="https://img.youtube.com/vi/Xe2VmsJYTAU/maxresdefault.jpg" width="100%" alt="UnrealZoo Demo Video">
+</a>
+<p align="center"><i>▶️ Click to watch full demo video</i></p>
 
-ICCV 2025
-# 🔥 News
-- We released the full version of UnrealZoo environment package, built on UE5.5 which contains **100+ scenes**.
-  - **UnrealZoo_UE5_5_V1.0.1** is available for download, which contains 100+ scenes and playable entities, with a total size of **67GB**.
-  - We integrate the latest chaos system for vehicles, enabling more realistic animation(enter/exit) and visual effect(collision, explode, fire, etc.).
-  - The **object interaction(pick/drop)** now is available, you could spawn the object anywhere in the map and interact with it, just use one command to change its appearance.
-- New Download Link in 🤖ModelScope is released for fast downloading the UE4/UE5 binary.
-- Paper Link: [UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI](https://arxiv.org/abs/2412.20977)
-- Comprehensive documentation and Scene Gallery are available in [Notion Page](/doc) 
-- Project website is available at [UnrealZoo](https://unrealzoo.github.io/)
+<!-- Title -->
+<h1>UnrealZoo</h1>
+<h3>Production-Ready Multi-Agent Embodied AI Training Platform</h3>
+<p>Photo-realistic virtual environments with 100+ scenes, 10+ agents real-time collaboration</p>
 
+<!-- Badges -->
+<p align="center">
+  <img src="https://img.shields.io/badge/UE-5.6-blue?style=flat-square&logo=unrealengine" />
+  <img src="https://img.shields.io/badge/Python-3.8+-green?style=flat-square&logo=python" />
+  <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20Win%20%7C%20Mac-orange?style=flat-square" />
+  <img src="https://img.shields.io/badge/Scenes-100+-purple?style=flat-square" />
+  <img src="https://img.shields.io/badge/Agents-10+-ff69b4?style=flat-square" />
+  <img src="https://img.shields.io/badge/ICCV-2025-red?style=flat-square" />
+</p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/✅-Production%20Ready-success" />
+  <img src="https://img.shields.io/badge/🚀-Out%20of%20the%20Box-blueviolet" />
+  <img src="https://img.shields.io/badge/👥-Multi--Agent-ff69b4" />
+  <img src="https://img.shields.io/badge/🎮-Ready%20to%20Use-9cf" />
+</p>
 
-# Table of Contents
+<!-- Language Switch -->
+<p align="center">
+  🇺🇸 English | <a href="README_ch.md">🇨🇳 中文</a>
+</p>
 
-1. [What is UnrealZoo?](#what-is-unrealzoo)
-   - [Key Features](#key-features)
-   - [Framework](#framework)
-2. [Quick Installation](#quick-installation)
-   - [Dependencies](#dependencies)
-   - [Install UnrealZoo-Gym](#install-gym-unrealzoo)
-   - [Prepare UE Binary](#prepare-ue-binary)
-3. [Run the Example Code](#run-the-example-code)
-4. [Build your agent](#build-your-agent)
-5. [Documentation](#documentation)
-6. [TODO List](#todo-list)
-7. [License and Acknowledgments](#license-and-acknowledgments)
-8. [Citation](#citation)
+<!-- Quick Links -->
+<p align="center">
+  <a href="#-quick-start"><b>🚀 Quick Start</b></a> •
+  <a href="http://unrealzoo.site/"><b>🌐 Website</b></a> •
+  <a href="https://arxiv.org/abs/2412.20977"><b>📄 Paper</b></a> •
+  <a href="doc/user_guide_latest.md"><b>📖 Docs</b></a> •
+  <a href="CHANGELOG.md"><b>📝 Changelog</b></a>
+</p>
 
+</div>
 
-## What is UnrealZoo?
+---
 
-UnrealZoo is a rich collection of photo-realistic 3D virtual worlds built on Unreal Engine, designed to reflect the complexity and variability of the open worlds. 
-There are various playable entities for embodied AI, including human characters, robots, vehicles, and animals.
+## 📖 Overview
+
+<img src="doc/figs/overview.png" width="100%" alt="UnrealZoo Overview">
+
+UnrealZoo is a rich collection of photo-realistic 3D virtual worlds built on Unreal Engine, designed to reflect the complexity and variability of open worlds. There are various playable entities for embodied AI, including human characters, robots, vehicles, and animals.
+
 Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of easy-to-use Python APIs and tools for various potential applications, such as data annotation and collection, environment augmentation, distributed training, and benchmarking agents.
 
-**💡This repository provides the gym interface based on UnrealCV APIs for UE-based environments, which is compatible with OpenAI Gym and supports the high-level agent-environment interactions in UnrealZoo.**
+**💡 This repository provides the gym interface based on UnrealCV APIs for UE-based environments, which is compatible with OpenAI Gym and supports the high-level agent-environment interactions in UnrealZoo.**
 
-### Key Features
-- **Photorealistic**: High-quality graphics rendering empowered by Unreal Engine (4.27/5.4).
-- **Large-scale**: 100+ Scenes, the largest one covers 16km².
-- **Diverse Scenes**: landscape🏜️🏞️🏝️, historic architecture⛩️🛕🏰, settlement🏘️🏙️, industrial zone🏭🏗️, facilities🤽🏻‍♂️🚉🏪...
-- **Diverse Bodies**: human🚶🏻‍♂️️🚶🏻, robot🤖, vehicles🚗🏍️🛩️,animals🐘🐕🐎🐧🐢🐖🐏🐂...
-- **Diverse Actions**: running🏃🏻‍♂️, climbing🧗🏻, sitting🧘🏻, jumping, squatting, pick-up...
-- **Easy-to-use**: Pre-build UE binaries, integrated with optimized UnrealCV, are to be used without any prior knowledge of UE.
-- **Cross-platform**: Runs on Linux, Windows, macOS
-- **Flexible Python APIs**: Provide UnrealCV Python APIs and Gym Interfaces for various potential applications.
-- **Multi-agent Interactions**: Real-time interaction of 10+ vision-based agents👩‍👩‍👧‍👧 in one scene.
+---
 
-### Framework
-![framework](doc/figs/framework.png)
+## 🔥 What's New
 
-[//]: # (- ```UnrealCV``` is the basic bridge between ```Unreal Engine``` and ```OpenAI Gym```.)
+> **UnrealZoo v3.0 is released!** This is our biggest update yet, bringing complete heterogeneous multi-agent collaboration capabilities, out-of-the-box interaction systems, and a comprehensive upgrade to the UnrealCV+ Plugin.
 
-[//]: # (- ```OpenAI Gym``` is a toolkit for developing an RL algorithm, compatible with most numerical computation libraries, such as TensorFlow or PyTorch. )
-- The ```Unreal Engine Environments (Binary)``` contains the scenes and playable entities.
-- The ```UnrealCV+ Server``` is built in the UE binary as a plugin, including modules for rendering , data capture, object/agent control, and command parsing. We have optimized the rendering pipeline and command system in the server.
-- The ```UnrealCV+ Client``` provides Python-based utility functions for launching the binary, connecting with the server, and interacting with UE environments. It uses IPC sockets and batch commands for optimized performance.
-- The ```OpenAI Gym Interface``` provides agent-level interface for agent-environment interactions, which has been widely used in the community. Our gym interface supports customizing the task in a configuration file and contains a toolkit with a set of gym wrappers for environment augmentation, population control, etc.
+### 🚀 v3.0 Core Updates
 
-## Quick Installation
-### Dependencies
-- UnrealCV
-- Gym
-- CV2
-- Matplotlib
-- Numpy
-- Docker(Optional)
-- Nvidia-Docker(Optional)
- 
-We recommend you use [anaconda](https://www.continuum.io/downloads) to install and manage your Python environment.
-```CV2``` is used for image processing, like extracting object masks and bounding boxes. ```Matplotlib``` is used for visualization.
-### Install UnrealZoo-Gym
+| Feature | Status | Description |
+|------|------|----------------------------------------|
+| **Heterogeneous Multi-Agent Collaboration** | ✅ Released | Ground + UAV formation following (UE built-in navigation / Python external navigation API examples) |
+| **Template-based Agent Spawn** | ✅ Released | Runtime dynamic agent generation with mixed category support |
+| **Enhanced Interaction System** | ✅ Released | Door open / vehicle enter-exit / pickup / crouch / jump / climb, with API-keyboard mapping for easy understanding |
+| **NavMesh Path Planning** | ✅ Released | Calculate shortest path waypoints via API, support autonomous agent navigation control and waypoint export |
 
-It is easy to install unrealzoo-gym, just run
+### 🔌 UnrealCV+ Plugin Upgrade
+
+| Feature | Description |
+|------|------------------------|
+| **PAK Runtime Mounting** | Dynamically extend content resources without rebuilding the project |
+| **Panoramic Camera Support** | 360° equirectangular image generation |
+| **C++ Video Recording Pipeline** | More efficient large-scale collection workflow |
+| **Capture Performance Boost** | UE5.6 Lumen rendering capture performance significantly improved |
+| **Stable CID Camera Identifier** | Long-term script configuration compatibility |
+| **Scene/Actor Annotation** | Support for data annotation workflows |
+
+📄 [View Full Changelog](CHANGELOG.md) | 📚 [View Notion Technical Docs](https://www.notion.so/unrealzoo/placeholder)
+
+### 📦 Environment Package Download
+
+| Version | Content | Size | Download |
+|------|------|------|------|
+| **UE5.6 Full Version** | 100+ scenes, Chaos physics | ~67GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo) / [Baidu Netdisk](https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58) |
+| UE5 Demo Version | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
+| UE4 Demo Version | 6 example scenes | ~3GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
+
+### 📜 Development History
+
+<details>
+<summary><b>Click to view historical updates</b></summary>
+
+#### 2024-12: Paper Release
+- 📝 Paper: [UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI](https://arxiv.org/abs/2412.20977)
+- 🌐 Website: [unrealzoo.github.io](https://unrealzoo.github.io/)
+- 📚 Notion Docs: [Scene Gallery](https://www.notion.so/Scene-Gallery-a801475ff98943159da66f641f4c38b2)
+
+#### 2025-01: UE5.6 Full Environment Package
+- ✅ 100+ scenes, 67GB full package
+- ✅ Chaos physics system (vehicles, collisions, explosions, fire)
+- ✅ Object interaction system (pickup/drop)
+- ✅ Appearance switching system (player/animal categories merged)
+- ✅ Cross-platform binary support (Win/Mac/Linux auto-configuration)
+- ✅ ModelScope China mirror (high-speed download channel)
+
+#### 2025-04: v3.0 Official Release
+- ✅ Heterogeneous multi-agent collaboration
+- ✅ Template-based Agent Spawn
+- ✅ Full enhanced interaction system demo code (API-keyboard mapping)
+- ✅ NavMesh path planning and task application demo code
+- ✅ UnrealCV+ Plugin comprehensive upgrade
+
+</details>
+
+[View Full Changelog](CHANGELOG.md)
+
+---
+
+## ⚡ 30-Second Quick Start
+
+```bash
+# 1. Install
+pip install -e .
+
+# 2. Set environment path
+export UnrealEnv=/path/to/UnrealEnv
+
+# 3. Run multi-agent tracking demo
+python example/multi_agent/baseline/multi_random_baseline.py \
+  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
 ```
-git clone https://github.com/UnrealZoo/unrealzoo-gym.git
-cd unrealzoo-gym
-pip install -e . 
+
+> 💡 **Tip**: First run requires downloading UE5 environment package (67GB), we recommend using [ModelScope](https://modelscope.cn/datasets/UnrealZoo) China mirror for faster download
+
+---
+
+## 🌟 Core Features
+
+<div align="center">
+
+| 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
+|:---:|:---:|:---:|:---:|
+| Urban/Natural/Architectural/Industrial | Real-time collaboration in same scene | Enter/Drive/Exit | Pickup/Carry/Place |
+| 16km² max scene size | Humanoid/Vehicle/Animal | Realistic vehicle animations | Spawn at arbitrary locations |
+
+| ⚡ **UE5.6 Chaos** | 🎮 **Out of the Box** | 🐕 **Diverse Entities** | 🌐 **Cross-Platform** |
+|:---:|:---:|:---:|:---:|
+| Collision/Explosion/Fire | pip install and run | Humanoid/Vehicle/Animal | Linux/Win/Mac |
+| Physics-level realism | No UE knowledge required | Real-time appearance switching | Pre-compiled binaries |
+
+</div>
+
+---
+
+## 🎬 System Interaction Demo
+
+<div align="center">
+
+**🚗 Vehicle Interaction**
+
+<div align="center">
+
+| | | |
+|:---:|:---:|:---:|
+| ![](doc/figs/interactiondemo_gif/vehicle/car.gif) | ![](doc/figs/interactiondemo_gif/vehicle/motorbike.gif) | ![](doc/figs/interactiondemo_gif/vehicle/enter_exit_car.gif) |
+
+</div>
+
+**🤸 Actions & Interactions**
+
+<table><tr>
+<td><img src="doc/figs/interactiondemo_gif/action/squat.gif" height="180"></td>
+<td><img src="doc/figs/interactiondemo_gif/action/kick.gif" height="180"></td>
+<td><img src="doc/figs/interactiondemo_gif/action/climb.gif" height="180"></td>
+<td><img src="doc/figs/interactiondemo_gif/action/climb_ladder.gif" height="180"></td>
+<td><img src="doc/figs/interactiondemo_gif/action/climb_woman.gif" height="180"></td>
+</tr></table>
+
+**🤖 Diverse Controllable Agents**
+
+<div align="center">
+
+| Drone | Robot Dog | Multi-Agent Collaboration |
+|:---:|:---:|:---:|
+| ![](doc/figs/interactiondemo_gif/drone.gif) | ![](doc/figs/interactiondemo_gif/mobilerobot.gif) | ![](doc/figs/interactiondemo_gif/cooperation/cooperation.gif) |
+
+</div>
+
+</div>
+
+---
+
+## 🎮 Interaction Demo (Example Code)
+
+<details open>
+<summary><b>🎯 Multi-Agent Tracking</b></summary>
+
+```bash
+python example/tracking/basic/tracking_auto_basic.py \
+  -e UnrealTrack-Greek_Island-ContinuousColor-v0
 ```
-While installing gym-unrealcv, dependencies including OpenAI Gym, UnrealCV, numpy and matplotlib are installed.
 
-### Prepare UE Binary
-Before running the environments, you need to prepare unreal binaries. To accommodate users' local memory limitations, we provide two different lightweight environment options based on **UE4 and UE5**. A larger preview-version environment package, which currently contain 50 scene maps (>60GB), is also available for download **here**. The full version of the UnrealZoo environment package will be released soon.
 
-**UE4 Example Scenes**
-<table>
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE4_ExampleScene/track_train.png" width="480" height="200">  
-        <figcaption style="text-align: center;">Track Train</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE4_ExampleScene/Greek_island.png" width="480" height="200">  
-        <figcaption style="text-align: center;">Greek Island</figcaption>
-      </figure>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE4_ExampleScene/Containeryard_Day.png" width="480" height="200">  
-        <figcaption style="text-align: center;">ContainerYard_Day</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE4_ExampleScene/ContainerYard_Night.png" width="480" height="200">  
-        <figcaption style="text-align: center;">ContainerYard_Night</figcaption>
-      </figure>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE4_ExampleScene/SuburbNeighborhood_Day.png" width="480" height="200">  
-        <figcaption style="text-align: center;">SuburbNeighborhood_Day</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE4_ExampleScene/SuburbNeighborhood_Night.png" width="480" height="200">  
-        <figcaption style="text-align: center;">SuburbNeighborhood_Night</figcaption>
-      </figure>
-    </td>
+</details>
 
-  </tr>
-</table>
+<details>
+<summary><b>🧭 Keyboard Navigation (with Interactions)</b></summary>
+
+```bash
+python example/navigation/keyboard/navigation_keyboard_human.py \
+  -e UnrealNavigation-Demo_Roof-MixedColor-v0
+```
+
+**Controls**:
+- `I/J/K/L` - Move
+- `↑/↓` - Look up/down
+- `F` - Open door | `H` - Enter/Exit vehicle | `E` - Pickup | `Ctrl` - Crouch | `Space` - Jump | `Space x 2` - Climb
+
+<img src="doc/figs/navigation/map.png" width="48%"> <img src="doc/figs/navigation/target.png" width="48%">
+
+</details>
+
+<details>
+<summary><b>🚁 Heterogeneous Air-Ground Collaboration (v3.0 New Feature)</b></summary>
+
+```bash
+python example/multi_agent/HeterogeneousCooperation/Aerial-Ground-Cooperative.py \
+  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
+```
+
+3 ground agents + 1 UAV collaborative tracking
+
+</details>
+
+<details>
+<summary><b>🎮 Drone Keyboard Control</b></summary>
+
+```bash
+python example/navigation/keyboard/navigation_keyboard_drone.py \
+  -e UnrealNavigation-Demo_Roof-ContinuousColor-v0
+```
+
+**Controls**:
+- `W/S` - Forward/Back | `A/D` - Left/Right | `E/Q` - Ascend/Descend | `J/L` - Yaw
+
+</details>
+
+---
+
+## 🏗️ Technical Architecture
+
+<img src="doc/figs/framework.png" width="100%" alt="UnrealZoo Framework">
+
+### Architecture Overview
+
+- **Unreal Engine Environments (Binary)**: UE5.6 runtime environment containing scenes and playable entities
+- **UnrealCV+ Server**: Plugin built into UE binary, including rendering, data capture, object/agent control, command parsing modules. We optimized the rendering pipeline and command system
+- **UnrealCV+ Client**: Python-based utility functions for launching binaries, connecting to servers, and interacting with UE environments. Uses IPC sockets and batch commands for performance optimization
+- **OpenAI Gym Interface**: Agent-level environment interaction interface, supports task customization via configuration files, includes Gym Wrappers toolkit for environment augmentation and population control
+
+### Data Flow
+
+```
+User Algorithm (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ UnrealCV Server ←→ UE5.6 Environment
+                                              (Socket/WebSocket)
+```
+
+---
+
+## 🌍 Scene Gallery
+
+<div align="center">
 
 **UE5 Example Scenes**
-<table>
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE5_ExampleScene/ChemicalFactory.png" width="480" height="200">  
-        <figcaption style="text-align: center;"> ChemicalFactory</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE5_ExampleScene/ModularOldTown.png" width="480" height="200">  
-        <figcaption style="text-align: center;">Modular Old Town</figcaption>
-      </figure>
-    </td>
 
-  </tr>
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE5_ExampleScene/MiddleEast.png" width="480" height="200">  
-        <figcaption style="text-align: center;">MiddleEast</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/UE5_ExampleScene/Roof-City.png" width="480" height="200">  
-        <figcaption style="text-align: center;">Roof-City</figcaption>
-      </figure>
-    </td>
- 
-  </tr>
-</table> 
+<img src="doc/figs/UE5_ExampleScene/ChemicalFactory.png" width="32%">
+<img src="doc/figs/UE5_ExampleScene/ModularOldTown.png" width="32%">
+<img src="doc/figs/UE5_ExampleScene/MiddleEast.png" width="32%">
 
-**Preview-version Environment Package (UE4_Collection_Preview)**  
-The preview-version environment package contains **60+ scene maps** in total, the detailed map name can be found here [EnvLists](doc/EnvLists.md).
+<img src="doc/figs/UE5_ExampleScene/Roof-City.png" width="32%">
+<img src="doc/figs/UE4_ExampleScene/SuburbNeighborhood_Day.png" width="32%">
+<img src="doc/figs/UE4_ExampleScene/Greek_island.png" width="32%">
 
-**Full version Environment Package (UnrealZoo_UE5_5_V1.0.1)**
-We released the full version of UnrealZoo environment package, built on UE5.5 which contains **100+ scenes**. All maps in the **[scene gallery](https://www.notion.so/Scene-Gallery-a801475ff98943159da66f641f4c38b2)** are included.
+**More Scenes**: [Scene Gallery](http://unrealzoo.site/)
 
+---
 
-🗂️**You can load the above binaries using script `python load_env.py -e {Environment}` or from the following link:**
+**🎮 UnrealZoo Custom Task Example**  
 
-| Environment                       | Download Link                                                              | Size       |
-|-----------------------------------|----------------------------------------------------------------------------|------------|
-| UE4_ExampleScene                  | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB       |
-| UE5_ExampleScene                  | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB      |
-| UE4_Collection_Preview (60+ maps) | [🤖ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | **\>48GB** |
-| **UnrealZoo_UE5_5_Win64_V1.0.1**  | [Cloud](https://bhpan.buaa.edu.cn/link/AA76893329C22345BD8F4B5365FB10231E) |    ~67GB |
-| **UnrealZoo_UE5_5_Linux_V1.0.1**  | [Cloud]( https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58)         |    ~67GB |
+<img src="doc/figs/interactiondemo_gif/navigation.gif" width="80%">  
 
+**3D Spatial Navigation Task**
 
-Then unzip and move the downloaded binary to the `UnrealEnv` folder, which is our default location for binaries, the folder structures are as follows:
-```
-unrealzoo-gym/  
-|-- docs/                  
-|-- example/                
-|-- gym_unrealcv/              
-|   |-- envs/    
-|   |   |-- agent/     
-|   |-- setting/
-|   |   |-- env_config/                   # environment config json file location  
-...
-|-- generate_env_config.py                    # generate environment config json file
-...
+</div>
 
-UnrealEnv/                    # Binary default location
-|-- Collection_WinNoEditor/   # Binary folder
-|-- UE4_Example_Scene/        # Binary folder
-...
+---
 
-```
-If there is a permission issue, run the command ```chmod +x ./``` under the ```UnrealEnv``` folder path to give the necessary permissions.
-#### Available Map Name in Exemplar Binary
+## 📊 Performance Metrics
 
-| UE4                     | UE5                     |
-|-------------------------|-------------------------|
-| track\_train            | Map\_ChemicalPlant\_1   |
-| Greek\_Island           | Old\_Town               |
-| ContainerYard\_Day      | MiddleEast              |
-| ContainerYard\_Night    | Demo\_Roof              |
-| SuburbNeighborhood\_Day |                         |
-| SuburbNeighborhood\_Night|                        |
+| Metric | Value | Description |
+|------|------|------|
+| **Scene Scale** | 16 km² | Maximum single scene area |
+| **Scene Count** | 100+ | Pre-built photo-realistic scenes |
+| **Agent Count** | 10+ | Real-time interaction in same scene |
+| **Rendering Performance** | 60+ FPS | Real-time multi-modal rendering |
+| **Physics Engine** | Chaos | UE5.6 native physics |
+| **Package Size** | 67 GB | UE5 full version |
+| **Download Channels** | GitHub + ModelScope | China acceleration mirror |
 
-#### Naming rule
-We have predefined a naming rule to launch different environment maps and their corresponding task interfaces.  
-```Unreal{task}-{MapName}-{ActionSpace}{ObservationType}-v{version} ```
-- ```{task}```: the name of the task, we currently support: ```Track```,```Navigation```,```Rendezvous```.
-- ```{MapName}```: the name of the map you want to run, ```track_train```, ```Greek_Island```, etc.
-- ```{ActionSpace}```: the action space of the agent, ```Discrete```, ```Continuous```, ```Mixed```. (Only Mixed type support interactive actions)
-- ```{ObservationType}```: the observation type of the agent, ```Color```, ```Depth```, ```Rgbd```, ```Gray```, ```CG```, ```Mask```, ```Pose```,```MaskDepth```,```ColorMask```.
-- ```{version}```: works on ```track_train``` map, ```0-5``` various the augmentation factor(light, obstacles, layout, textures).
+---
 
-## Run the Example Code
-#### Hint 💡 
-- If your mouse cursor disappears after the game launches, press ``` ` ``` (the key above Tab) to release the mouse cursor from the game.
+## 🚀 Quick Start
 
-#### 1. Specify the environment location in the terminal. 
- - Default path to UnrealEnv is in user home directory under .unrealcv  
-   - Windows: C:\\Users\\{username}\\.unrealcv\\UnrealEnv
-   - Linux: /home/{username}/.unrealcv/UnrealEnv
-   - Mac: /Users/{username}/.unrealcv/UnrealEnv
-```
-export UnrealEnv=/your/path/to/UnrealEnv
-```
-#### 2. Run random agents
-User could choose a map from the available map list, and run the random agent to interact with the environment.
-```
-python ./example/multi_agent/baseline/multi_random_baseline.py -e UnrealTrack-track_train-ContinuousColor-v0
-```
-#### 3. Run a rule-based tracking agent 
-```
-python ./example/tracking/basic/tracking_auto_basic.py -e UnrealTrack-Greek_Island-ContinuousColor-v0
+### Step 1: Install Dependencies
+
+```bash
+git clone https://github.com/UnrealZoo/unrealzoo-gym.git
+cd unrealzoo-gym
+pip install -e .
 ```
 
-#### 4. Run a keyboard tracking agent 
-Use the "I", "J", "K", and "L" keys to control the agent's movement.
+### Step 2: Download Environment Package
+
+| Package | Download Link | Size |
+|--------|----------|------|
+| UE5 Full Version (Recommended) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo) / [☁️ Baidu Netdisk](https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58) | ~67GB |
+| UE5 Demo Scenes | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
+| UE4 Demo Scenes | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB |
+
+Extract to `UnrealEnv` directory:
+
+```bash
+export UnrealEnv=/path/to/UnrealEnv
 ```
-python ./example/tracking/keyboard/tracking_keyboard_manual.py -e UnrealTrack-Old_Town-MixedColor-v0
+
+### Step 3: Run Demos
+
+```bash
+# Multi-agent random policy
+python example/multi_agent/baseline/multi_random_baseline.py \
+  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
+
+# Keyboard control navigation
+python example/navigation/keyboard/navigation_keyboard_human.py \
+  -e UnrealNavigation-Demo_Roof-MixedColor-v0
 ```
-#### 5. Run a keyboard Navigation agent
-Use the "I", "J", "K", and "L" keys to control the agent's movement.  
-Space( ␣ ): Jump.  
-Up Arrow(⬆️): Look up.  
-Down Arrow(⬇️): Look down.  
-(Double "Jump" will trigger the agent to climb)
-```
-python ./example/navigation/keyboard/navigation_keyboard_human.py -e UnrealNavigation-Demo_Roof-MixedColor-v0
-```
-Control the agent to navigate to the target location by using the keyboard. 
 
-<table style="width: 100%; text-align: center;">
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/navigation/map.png" width="400" height="220">
-           <figcaption> Map Reference(Demo_Roof)</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/navigation/target.png" width="380" height="220">
-           <figcaption>Target Reference(Demo_Roof)</figcaption>
-      </figure>
-    </td>
-  </tr>
+> 💡 **Tip**: If mouse disappears, press `` ` `` (above Tab) to release mouse
 
-  <tr>
-    <td>
-      <figure>
-        <img src="./doc/figs/navigation/map_2.png" width="400" height="220">
-           <figcaption> Map Reference(SuburbNeighborhood_Day)</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure>
-        <img src="./doc/figs/navigation/target_2.png" width="380" height="220">
-           <figcaption>Target Reference(SuburbNeighborhood_Day)</figcaption>
-      </figure>
-    </td>
-  </tr>
-</table> 
+---
 
-## Build your agent
-You can build your agent based on the latest method in reinforcement learning, evaluating it in UnrealZoo.
-- Reinforcement Learning
-  - Online RL
-    - [Visual Navigation Agent]() comming soon..
+## 📦 Applications
 
-  - Offline RL
-    - [Embodied Visual Tracking Agent(ECCV24)](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
-- Large Vision-Language Model
-  
+<div align="center">
 
+### 🏆 EVT: Embodied Visual Tracking (ECCV 2024)
 
-## Documentation
-- We provide a set of wrappers for FPS control, population randomization, etc.
-Please refer to the [wrapper](doc/wrapper.md) for more details.
-- We provide a document for adding a new environment in unrealzoo-gym. Please refer to the [addEnv](doc/addEnv.md) for more details.
+**Embodied Visual Tracking Agent**
 
-# 🗓️ TODO List
-- [ ]  Release an all-in-one package of the collected environments
-- [ ]  Add gym interface for heterogeneous mutli-agent co-operation.
-- [ ]  Expand the list of supported interactive actions.
-- [ ]  Add more detailed examples for reinforcement learning agents.
-- [ ]  Add more detailed examples for large vision-language models.
+Active tracking algorithm based on Offline RL, trained and validated in UnrealZoo environments
 
-## License and Acknowledgments
-The UnrealZoo project is licensed under the Apache 2.0. 
-We acknowledge the following projects for their contributions to the UnrealZoo project:
-- [UnrealCV](https://unrealcv.org/)
-- [OpenAI Gym](https://gym.openai.com/)
-- [Unreal Engine](https://www.unrealengine.com/)
-- [The fantastic Plugins/Content from UE Marketplace](https://www.unrealengine.com/marketplace)
-  -  [Smart Locomotion](https://www.fab.com/zh-cn/listings/7f881534-bf40-493b-97b4-a917daa87af0)
-  -  [Animal Pack](https://www.fab.com/zh-cn/listings/856c42d7-58a3-4b95-8f70-1302e5bdafa0)
-  -  [Drivable Car](https://www.fab.com/zh-cn/listings/65a0844c-6be4-4e38-9d7a-b9697681a274)
-  - ...
+[📄 Paper](https://arxiv.org/abs/2412.20977) • [💻 Code](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
 
-## Citation
+---
 
-If you use UnrealZoo in your research, please consider citing:
+### 🚁 UAV-Flow: Flying-on-a-Word
+
+**Language-Guided UAV Control**
+
+Beihang University team uses UnrealZoo for simulation evaluation, supporting language-conditioned UAV imitation learning
+
+[🌐 Homepage](https://prince687028.github.io/UAV-Flow/) • [📄 Paper](https://arxiv.org/abs/2505.15725)
+
+---
+
+### 🧠 EmbRACE-3K: Embodied Reasoning
+
+**Embodied Reasoning in Complex Environments**
+
+HKU, Tsinghua, and BNU jointly built 3,000+ language-guided task dataset based on UnrealCV-Zoo framework
+
+[🌐 Homepage](https://mxllc.github.io/EmbRACE-3K/) • [📄 Paper](https://arxiv.org/abs/2507.10548)
+
+---
+
+### 🎯 ROCKET-2: Cross-View Goal Alignment
+
+**Cross-View Goal Alignment**
+
+Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy simulation training
+
+[🌐 Homepage](https://craftjarvis.github.io/ROCKET-2/) • [📄 Paper](https://arxiv.org/abs/2503.02505)
+
+> 💡 **Your project also uses UnrealZoo?** Welcome to submit a PR to add to this list!
+
+</div>
+
+---
+
+## 📖 Documentation
+
+| Document | Description |
+|------|------|
+| [User Guide](doc/user_guide_latest.md) | Complete usage guide (v3.0) |
+| [Wrapper Guide](doc/wrapper.md) | Environment wrapper APIs |
+| [Add Environment](doc/addEnv.md) | Custom environment tutorial |
+| [CHANGELOG](CHANGELOG.md) | Version update history |
+| [Example Index](example/README.md) | All example code |
+
+---
+
+## 🗓️ TODO List
+
+- ✅ Release an all-in-one package of the collected environments
+- ✅ Add gym interface for heterogeneous multi-agent co-operation
+- ✅ Expand the list of supported interactive actions
+- [ ] Add more detailed examples for reinforcement learning agents
+- [ ] Add more detailed examples for large vision-language models
+
+---
+
+## 🤝 Contributing & Support
+
+- 🌐 **Official Website**: [http://unrealzoo.site/](http://unrealzoo.site/)
+- 📧 **Contact Email**: [TBD]
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/UnrealZoo/unrealzoo-gym/discussions)
+
+If you find this helpful, please give us a ⭐ Star!
+
+---
+
+## 📄 Citation
+
+If UnrealZoo helps your research, please cite our ICCV 2025 paper:
 
 ```bibtex
-@misc{zhong2024unrealzooenrichingphotorealisticvirtual,
-      title={UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI}, 
-      author={Fangwei Zhong and Kui Wu and Churan Wang and Hao Chen and Hai Ci and Zhoujun Li and Yizhou Wang},
-      year={2024},
-      eprint={2412.20977},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2412.20977}, 
+@inproceedings{zhong2025unrealzoo,
+  title={UnrealZoo: Enriching Photo-realistic Virtual Worlds for Embodied AI},
+  author={Zhong, Fangwei and Wu, Kui and Wang, Churan and Chen, Hao and Ci, Hai and Li, Zhoujun and Wang, Yizhou},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year={2025}
 }
+```
+
+---
+
+## 📜 License & Acknowledgments
+
+This project is open-sourced under [Apache 2.0](LICENSE) license.
+
+Acknowledgments:
+- [UnrealCV](https://unrealcv.org/) — UE-Python communication bridge
+- [OpenAI Gym](https://gym.openai.com/) — RL environment interface standard
+- [Unreal Engine](https://www.unrealengine.com/) — Rendering engine
+- [Smart Locomotion](https://www.fab.com/zh-cn/listings/7f881534-bf40-493b-97b4-a917daa87af0) — Character animation
+- [Animal Pack](https://www.fab.com/zh-cn/listings/856c42d7-58a3-4b95-8f70-1302e5bdafa0) — Animal models
+- [Drivable Car](https://www.fab.com/zh-cn/listings/65a0844c-6be4-4e38-9d7a-b9697681a274) — Vehicle system
+
+---
+
+<div align="center">
+
+**[⬆ Back to Top](#)**
+
+Made with ❤️ by UnrealZoo Team
+
+</div>
