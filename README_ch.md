@@ -38,7 +38,8 @@
   <a href="#-quick-start"><b>🚀 Quick Start</b></a> •
   <a href="http://unrealzoo.site/"><b>🌐 Website</b></a> •
   <a href="https://arxiv.org/abs/2412.20977"><b>📄 Paper</b></a> •
-  <a href="doc/user_guide_latest.md"><b>📖 Docs</b></a> •
+  <a href="https://unrealzoo.notion.site/"><b>📚 Docs</b></a> •
+  <a href="doc/user_guide.md"><b>📖 User Guide </b></a> •
   <a href="CHANGELOG.md"><b>📝 Changelog</b></a>
 </p>
 
@@ -86,11 +87,11 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ### 📦 环境包下载
 
-| 版本 | 内容 | 大小 | 下载 |
-|------|------|------|------|
-| **UE5.6 完整版** | 100+ 场景，Chaos 物理 | ~67GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo) / [百度网盘](https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58) |
+| 版本 | 内容 | 大小    | 下载 |
+|------|------|-------|------|
+| **UE5.6 完整版** | 100+ 场景，Chaos 物理 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files)  |
 | UE5 示例版 | 4 个示例场景 | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
-| UE4 示例版 | 6 个示例场景 | ~3GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
+| UE4 示例版 | 6 个示例场景 | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
 
 ### 📜 发展历程
 

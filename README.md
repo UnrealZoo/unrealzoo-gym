@@ -38,7 +38,8 @@
   <a href="#-quick-start"><b>🚀 Quick Start</b></a> •
   <a href="http://unrealzoo.site/"><b>🌐 Website</b></a> •
   <a href="https://arxiv.org/abs/2412.20977"><b>📄 Paper</b></a> •
-  <a href="doc/user_guide_latest.md"><b>📖 Docs</b></a> •
+  <a href="https://unrealzoo.notion.site/"><b>📚 Docs</b></a> •
+  <a href="doc/user_guide.md"><b>📖 User Guide </b></a> •
   <a href="CHANGELOG.md"><b>📝 Changelog</b></a>
 </p>
 
@@ -82,15 +83,15 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
 | **Scene/Actor Annotation** | Support for data annotation workflows |
 
-📄 [View Full Changelog](CHANGELOG.md) | 📚 [View Notion Technical Docs](https://www.notion.so/unrealzoo/placeholder)
+📄 [View Full Changelog](CHANGELOG.md) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
 
 ### 📦 Environment Package Download
 
-| Version | Content | Size | Download |
-|------|------|------|------|
-| **UE5.6 Full Version** | 100+ scenes, Chaos physics | ~67GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo) / [Baidu Netdisk](https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58) |
+| Version | Content | Size  | Download |
+|------|------|-------|------|
+| **UE5.6 Full Version** | 100+ scenes, Chaos physics | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files)  |
 | UE5 Demo Version | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
-| UE4 Demo Version | 6 example scenes | ~3GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
+| UE4 Demo Version | 6 example scenes | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
 
 ### 📜 Development History
 
