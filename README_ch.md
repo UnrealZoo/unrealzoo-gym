@@ -203,7 +203,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 ## 🎮 交互演示 (Example Code)
 
-<details open>
+<details>
 <summary><b>📹 视频数据采集</b></summary>
 
 C++ 视频录制管线，支持大规模数据集高效采集

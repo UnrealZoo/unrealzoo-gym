@@ -2,7 +2,7 @@
     "env_name": "SuburbNeighborhood_Day",
     "env_bin": "UnrealZoo_UE5_6_Linux_v2.0.2/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
     "env_map": "SuburbNeighborhood_Day",
-    "env_bin_win": "UnrealZoo_UE5_6_Win64_v2.0.2/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
+    "env_bin_win": "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
     "env_bin_mac": "UnrealZoo_UE5_6_Mac/UnrealZoo_UE5_6/Binaries/Mac/UnrealZoo_UE5_6.app/Contents/MacOS/UnrealZoo_UE5_6",
     "third_cam": {
         "cam_id": 0,

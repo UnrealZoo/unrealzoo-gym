@@ -203,7 +203,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 ## 🎮 Interaction Demo (Example Code)
 
-<details open>
+<details>
 <summary><b>📹 Video Data Recording</b></summary>
 
 C++ video recording pipeline for efficient large-scale dataset collection
