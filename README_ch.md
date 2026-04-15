@@ -39,8 +39,6 @@
   <a href="http://unrealzoo.site/"><b>🌐 Website</b></a> •
   <a href="https://arxiv.org/abs/2412.20977"><b>📄 Paper</b></a> •
   <a href="https://unrealzoo.notion.site/"><b>📚 Docs</b></a> •
-  <a href="doc/user_guide.md"><b>📖 User Guide </b></a> •
-  <a href="CHANGELOG.md"><b>📝 Changelog</b></a>
 </p>
 
 </div>
