@@ -1,7 +1,7 @@
 {
-    "env_name": "Map_ChemicalPlant_1",
+    "env_name": "SuburbNeighborhood_Day_dooropen",
     "env_bin": "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
-    "env_map": "Map_ChemicalPlant_1",
+    "env_map": "SuburbNeighborhood_Day_dooropen",
     "env_bin_win": "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
     "env_bin_mac": "/wait/for/update",
     "third_cam": {
@@ -9,10 +9,10 @@
         "pitch": -90,
         "yaw": 0,
         "roll": 0,
-        "height_top_view": -11712.923,
+        "height_top_view": 1450.0,
         "fov": 90
     },
-    "height": -12712.923,
+    "height": 450.0,
     "interval": 1000,
     "agents": {
         "player": {
@@ -446,77 +446,114 @@
     },
     "safe_start": [
         [
-            4020.0,
-            -1410.0,
-            -12747.035
+            810.0,
+            -339.984,
+            98.15
         ],
         [
-            3500.0,
-            -1299.796,
-            -12712.923
+            930.0,
+            -1682.608,
+            450.0
         ],
         [
-            4435.33,
-            -2675.589,
-            -13435.0
+            260.231,
+            -1354.296,
+            109.253
         ],
         [
-            4068.257,
-            -2753.974,
-            -12755.0
+            380.651,
+            221.553,
+            50.0
         ],
         [
-            2626.474,
-            -1027.013,
-            -12742.405
+            747.126,
+            1458.0,
+            430.0
         ],
         [
-            4629.501,
-            -2284.017,
-            -12755.0
+            170.097,
+            463.85,
+            58.153999999999996
         ],
         [
-            3680.463,
-            -875.174,
-            -12755.0
+            2448.0,
+            -1373.549,
+            103.691
         ],
         [
-            5477.324,
-            -1095.465,
-            -12755.0
+            835.16,
+            1172.365,
+            94.971
         ],
         [
-            4655.519,
-            -2811.979,
-            -12755.0
+            -214.785,
+            -780.802,
+            67.09700000000001
         ],
         [
-            3620.023,
-            -2742.855,
-            -13145.0
+            507.451,
+            -200.242,
+            50.0
         ],
         [
-            2952.763,
-            -2187.777,
-            -13435.0
+            1152.804,
+            446.023,
+            67.783
         ],
         [
-            2809.942,
-            -2811.476,
-            -13435.0
+            949.454,
+            -173.824,
+            3.72
+        ],
+        [
+            290.217,
+            -159.996,
+            4.773
         ]
     ],
     "reset_area": [
-        2626.474,
-        5477.324,
-        -2811.979,
-        -875.174,
-        -13435.0,
-        -12712.923
+        -214.785,
+        2448.0,
+        -1682.608,
+        1458.0,
+        3.72,
+        450.0
     ],
     "random_init": false,
     "env": {
-        "interactive_door": [],
+        "interactive_door": [
+            "BP_Door_main10",
+            "BP_Door_main11",
+            "BP_Door_main12",
+            "BP_Door_main13",
+            "BP_Door_main14",
+            "BP_Door_main15",
+            "BP_Door_main16",
+            "BP_Door_main17",
+            "BP_Door_main18",
+            "BP_Door_main19",
+            "BP_Door_main2",
+            "BP_Door_main20",
+            "BP_Door_main21",
+            "BP_Door_main22",
+            "BP_Door_main23_18",
+            "BP_Door_main24",
+            "BP_Door_main25",
+            "BP_Door_main26",
+            "BP_Door_main27",
+            "BP_Door_main3_2",
+            "BP_Door_main4",
+            "BP_Door_main5",
+            "BP_Door_main6_5",
+            "BP_Door_main7_2",
+            "BP_Door_main8_5",
+            "BP_Door_main9_2",
+            "BP_Door_main_1",
+            "BP_Door_garage2_5",
+            "BP_Door_garage3_5",
+            "BP_Door_garage4_9",
+            "BP_Door_garage_14"
+        ],
         "Extra_Vehicles": {
             "car": [
                 "BP_Hatchback_child_extras_C",
@@ -551,12 +588,12 @@
             "Point": []
         }
     },
-    "obj_num": 14787,
-    "size": 8163667.977919999,
-    "area": 248135.80479999995,
+    "obj_num": 2461,
+    "size": 162809.66592,
+    "area": 21824.352,
     "bbox": [
-        612.56,
-        405.08,
-        32.9
+        199.2,
+        109.56,
+        7.46
     ]
 }

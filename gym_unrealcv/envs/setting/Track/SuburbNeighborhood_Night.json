@@ -1,7 +1,7 @@
 {
-    "env_name": "Map_ChemicalPlant_1",
+    "env_name": "SuburbNeighborhood_Night",
     "env_bin": "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
-    "env_map": "Map_ChemicalPlant_1",
+    "env_map": "SuburbNeighborhood_Night",
     "env_bin_win": "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
     "env_bin_mac": "/wait/for/update",
     "third_cam": {
@@ -9,10 +9,10 @@
         "pitch": -90,
         "yaw": 0,
         "roll": 0,
-        "height_top_view": -11712.923,
+        "height_top_view": 1105.0,
         "fov": 90
     },
-    "height": -12712.923,
+    "height": 105.0,
     "interval": 1000,
     "agents": {
         "player": {
@@ -446,77 +446,104 @@
     },
     "safe_start": [
         [
-            4020.0,
-            -1410.0,
-            -12747.035
+            760.0,
+            240.016,
+            98.15
         ],
         [
-            3500.0,
-            -1299.796,
-            -12712.923
+            1374.576,
+            -28.197,
+            50.094
         ],
         [
-            4435.33,
-            -2675.589,
-            -13435.0
+            -980.36,
+            834.0,
+            75.0
         ],
         [
-            4068.257,
-            -2753.974,
-            -12755.0
+            2477.884,
+            -575.738,
+            80.0
         ],
         [
-            2626.474,
-            -1027.013,
-            -12742.405
+            -988.171,
+            646.172,
+            68.59100000000001
         ],
         [
-            4629.501,
-            -2284.017,
-            -12755.0
+            1137.899,
+            586.519,
+            73.456
         ],
         [
-            3680.463,
-            -875.174,
-            -12755.0
+            999.271,
+            605.064,
+            68.264
         ],
         [
-            5477.324,
-            -1095.465,
-            -12755.0
+            1863.659,
+            -1142.84,
+            105.0
         ],
         [
-            4655.519,
-            -2811.979,
-            -12755.0
+            1033.316,
+            1238.977,
+            99.463
         ],
         [
-            3620.023,
-            -2742.855,
-            -13145.0
+            583.857,
+            282.866,
+            50.0
         ],
         [
-            2952.763,
-            -2187.777,
-            -13435.0
-        ],
-        [
-            2809.942,
-            -2811.476,
-            -13435.0
+            1113.347,
+            -57.892,
+            50.0
         ]
     ],
     "reset_area": [
-        2626.474,
-        5477.324,
-        -2811.979,
-        -875.174,
-        -13435.0,
-        -12712.923
+        -988.171,
+        2477.884,
+        -1142.84,
+        1238.977,
+        50.0,
+        105.0
     ],
     "random_init": false,
     "env": {
-        "interactive_door": [],
+        "interactive_door": [
+            "BP_Door_main10",
+            "BP_Door_main11",
+            "BP_Door_main12",
+            "BP_Door_main13",
+            "BP_Door_main14",
+            "BP_Door_main15",
+            "BP_Door_main16",
+            "BP_Door_main17",
+            "BP_Door_main18",
+            "BP_Door_main19",
+            "BP_Door_main2",
+            "BP_Door_main20",
+            "BP_Door_main21",
+            "BP_Door_main22",
+            "BP_Door_main23_18",
+            "BP_Door_main24",
+            "BP_Door_main25",
+            "BP_Door_main26",
+            "BP_Door_main27",
+            "BP_Door_main3_2",
+            "BP_Door_main4",
+            "BP_Door_main5",
+            "BP_Door_main6_5",
+            "BP_Door_main7_2",
+            "BP_Door_main8_5",
+            "BP_Door_main9_2",
+            "BP_Door_main_1",
+            "BP_Door_garage2_5",
+            "BP_Door_garage3_5",
+            "BP_Door_garage4_9",
+            "BP_Door_garage_14"
+        ],
         "Extra_Vehicles": {
             "car": [
                 "BP_Hatchback_child_extras_C",
@@ -551,12 +578,12 @@
             "Point": []
         }
     },
-    "obj_num": 14787,
-    "size": 8163667.977919999,
-    "area": 248135.80479999995,
+    "obj_num": 2528,
+    "size": 162591.4224,
+    "area": 21824.352,
     "bbox": [
-        612.56,
-        405.08,
-        32.9
+        199.2,
+        109.56,
+        7.45
     ]
 }

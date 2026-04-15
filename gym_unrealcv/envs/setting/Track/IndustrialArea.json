@@ -1,7 +1,7 @@
 {
-    "env_name": "Map_ChemicalPlant_1",
+    "env_name": "IndustrialArea",
     "env_bin": "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
-    "env_map": "Map_ChemicalPlant_1",
+    "env_map": "IndustrialArea",
     "env_bin_win": "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
     "env_bin_mac": "/wait/for/update",
     "third_cam": {
@@ -9,10 +9,10 @@
         "pitch": -90,
         "yaw": 0,
         "roll": 0,
-        "height_top_view": -11712.923,
+        "height_top_view": 1167.0,
         "fov": 90
     },
-    "height": -12712.923,
+    "height": 167.0,
     "interval": 1000,
     "agents": {
         "player": {
@@ -446,77 +446,87 @@
     },
     "safe_start": [
         [
-            4020.0,
-            -1410.0,
-            -12747.035
+            -1650.0,
+            -370.0,
+            64.038
         ],
         [
-            3500.0,
-            -1299.796,
-            -12712.923
+            -50.0,
+            -510.0,
+            98.15
         ],
         [
-            4435.33,
-            -2675.589,
-            -13435.0
+            -1300.0,
+            795.0,
+            57.0
         ],
         [
-            4068.257,
-            -2753.974,
-            -12755.0
+            -1831.096,
+            -1178.106,
+            57.0
         ],
         [
-            2626.474,
-            -1027.013,
-            -12742.405
+            -53.034,
+            765.0,
+            61.766999999999996
         ],
         [
-            4629.501,
-            -2284.017,
-            -12755.0
+            110.002,
+            -1938.366,
+            167.0
         ],
         [
-            3680.463,
-            -875.174,
-            -12755.0
+            -509.445,
+            -1663.809,
+            167.0
         ],
         [
-            5477.324,
-            -1095.465,
-            -12755.0
+            -630.0,
+            825.0,
+            57.0
         ],
         [
-            4655.519,
-            -2811.979,
-            -12755.0
+            309.897,
+            466.924,
+            57.0
         ],
         [
-            3620.023,
-            -2742.855,
-            -13145.0
+            1041.488,
+            -1895.0,
+            167.0
         ],
         [
-            2952.763,
-            -2187.777,
-            -13435.0
+            428.871,
+            -360.711,
+            63.739000000000004
         ],
         [
-            2809.942,
-            -2811.476,
-            -13435.0
+            1545.0,
+            585.0,
+            57.0
         ]
     ],
     "reset_area": [
-        2626.474,
-        5477.324,
-        -2811.979,
-        -875.174,
-        -13435.0,
-        -12712.923
+        -1831.096,
+        1545.0,
+        -1938.366,
+        825.0,
+        57.0,
+        167.0
     ],
     "random_init": false,
     "env": {
-        "interactive_door": [],
+        "interactive_door": [
+            "BP_Door_main_industria2_0",
+            "BP_Door_main_industria3_1",
+            "BP_Door_main_industria4_2",
+            "BP_Door_main_industria5_3",
+            "BP_Door_main_industria6_4",
+            "BP_Door_main_industria7_5",
+            "BP_Door_main_industria8_6",
+            "BP_Door_main_industria9_7",
+            "BP_Door_main_industria_8"
+        ],
         "Extra_Vehicles": {
             "car": [
                 "BP_Hatchback_child_extras_C",
@@ -551,12 +561,12 @@
             "Point": []
         }
     },
-    "obj_num": 14787,
-    "size": 8163667.977919999,
-    "area": 248135.80479999995,
+    "obj_num": 3401,
+    "size": 47040.0,
+    "area": 5600.0,
     "bbox": [
-        612.56,
-        405.08,
-        32.9
+        70.0,
+        80.0,
+        8.4
     ]
 }

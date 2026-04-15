@@ -1,0 +1,953 @@
+{
+    "env_name": "ModularNeighborhood",
+    "env_bin": "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
+    "env_map": "ModularNeighborhood",
+    "env_bin_win": "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
+    "env_bin_mac": "/wait/for/update",
+    "third_cam": {
+        "cam_id": 0,
+        "pitch": -90,
+        "yaw": 0,
+        "roll": 0,
+        "height_top_view": 1310.0,
+        "fov": 90
+    },
+    "height": 310.0,
+    "interval": 1000,
+    "agents": {
+        "player": {
+            "class_name": [
+                "bp_character_C"
+            ],
+            "asset_path": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch",
+                "open_door",
+                "enter_vehicle",
+                "pickup"
+            ],
+            "move_action": [
+                [
+                    0,
+                    100
+                ],
+                [
+                    0,
+                    -100
+                ],
+                [
+                    15,
+                    50
+                ],
+                [
+                    -15,
+                    50
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    100
+                ],
+                "low": [
+                    -30,
+                    -100
+                ]
+            }
+        },
+        "animal": {
+            "class_name": [
+                "bp_character_C"
+            ],
+            "asset_path": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                20,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "head_action_continuous": {
+                "high": [
+                    15,
+                    15,
+                    15
+                ],
+                "low": [
+                    -15,
+                    -15,
+                    -15
+                ]
+            },
+            "head_action": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    30,
+                    0
+                ],
+                [
+                    0,
+                    -30,
+                    0
+                ]
+            ],
+            "animation_action": [
+                "stand",
+                "jump",
+                "crouch",
+                "open_door",
+                "enter_vehicle",
+                "pickup"
+            ],
+            "move_action": [
+                [
+                    0,
+                    200
+                ],
+                [
+                    0,
+                    -200
+                ],
+                [
+                    15,
+                    100
+                ],
+                [
+                    -15,
+                    100
+                ],
+                [
+                    30,
+                    0
+                ],
+                [
+                    -30,
+                    0
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    30,
+                    200
+                ],
+                "low": [
+                    -30,
+                    -200
+                ]
+            }
+        },
+        "drone": {
+            "class_name": [
+                "BP_drone01_C"
+            ],
+            "asset_path": [
+                "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C"
+            ],
+            "internal_nav": false,
+            "scale": [
+                0.1,
+                0.1,
+                0.1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    0.5,
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    -0.5,
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0.5,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    -0.5,
+                    0,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    0.5,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    -0.5,
+                    0
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    -1
+                ],
+                [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                "low": [
+                    -1,
+                    -1,
+                    -1,
+                    -1
+                ]
+            }
+        },
+        "car": {
+            "class_name": [
+                "BP_Hatchback_child_base_C"
+            ],
+            "asset_path": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_police.BP_Hatchback_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_taxi.BP_Hatchback_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_base.BP_Sedan_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_extras.BP_Sedan_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_police.BP_Sedan_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_taxi.BP_Sedan_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_base.BP_SUV_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_extras.BP_SUV_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_police.BP_SUV_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_taxi.BP_SUV_child_taxi_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    1,
+                    0
+                ],
+                [
+                    -0.3,
+                    0
+                ],
+                [
+                    0.5,
+                    1
+                ],
+                [
+                    0.5,
+                    -1
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    1,
+                    1
+                ],
+                "low": [
+                    0,
+                    -1
+                ]
+            }
+        },
+        "motorbike": {
+            "class_name": [
+                "BP_BaseBike_C"
+            ],
+            "asset_path": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Base.BP_Custom_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Extras.BP_Custom_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Police.BP_Custom_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Base.BP_Enduro_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Extras.BP_Enduro_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Police.BP_Enduro_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Base.BP_Naked_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Extras.BP_Naked_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Police.BP_Naked_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C"
+            ],
+            "internal_nav": true,
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    1,
+                    0
+                ],
+                [
+                    -0.3,
+                    0
+                ],
+                [
+                    0.5,
+                    1
+                ],
+                [
+                    0.5,
+                    -1
+                ],
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    1,
+                    1
+                ],
+                "low": [
+                    0,
+                    -1
+                ]
+            }
+        }
+    },
+    "safe_start": [
+        [
+            -681.919,
+            3240.392,
+            172.744
+        ],
+        [
+            -109.986,
+            -4150.022,
+            122.229
+        ],
+        [
+            -1050.021,
+            -3430.006,
+            120.735
+        ],
+        [
+            496.459,
+            -2826.386,
+            122.229
+        ],
+        [
+            -590.0,
+            3430.001,
+            200.086
+        ],
+        [
+            -575.0,
+            4074.807,
+            165.0
+        ],
+        [
+            839.759,
+            4120.057,
+            165.0
+        ],
+        [
+            -1564.344,
+            2758.61,
+            256.74199999999996
+        ],
+        [
+            -984.627,
+            3188.029,
+            196.893
+        ],
+        [
+            -195.278,
+            1770.434,
+            163.31
+        ],
+        [
+            -2092.034,
+            2184.434,
+            295.91999999999996
+        ],
+        [
+            -1565.0,
+            4326.582,
+            310.0
+        ],
+        [
+            1044.753,
+            3967.982,
+            280.0
+        ],
+        [
+            -14.016,
+            3709.083,
+            155.49200000000002
+        ],
+        [
+            929.066,
+            3495.873,
+            165.0
+        ]
+    ],
+    "reset_area": [
+        -2092.034,
+        1044.753,
+        -4150.022,
+        4326.582,
+        120.735,
+        310.0
+    ],
+    "random_init": false,
+    "env": {
+        "interactive_door": [
+            "BP_Door_Inside_117",
+            "BP_Door_Inside_118",
+            "BP_Door_Inside_119",
+            "BP_Door_Inside_120",
+            "BP_Door_Inside_121",
+            "BP_Door_Inside_122",
+            "BP_Door_Inside_123",
+            "BP_Door_Inside_124",
+            "BP_Door_Inside_125",
+            "BP_Door_Inside_126",
+            "BP_Door_Inside_127",
+            "BP_Door_Inside_128",
+            "BP_Door_Inside_129",
+            "BP_Door_Inside_130",
+            "BP_Door_Inside_131",
+            "BP_Door_Inside_132",
+            "BP_Door_Inside_133",
+            "BP_Door_Inside_134",
+            "BP_Door_Inside_135",
+            "BP_Door_Inside_136",
+            "BP_Door_Inside_137",
+            "BP_Door_Inside_330",
+            "BP_Door_Inside_331",
+            "BP_Door_Inside_332",
+            "BP_Door_Inside_333",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Inside_01_UAID_708BCD5540D7A13502_1812398159",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812400161",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812489239",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812524268",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812526269",
+            "BP_Door_Inside_UAID_708BCD5540D7A13502_1812536278",
+            "BP_Door_Outside_112",
+            "BP_Door_Outside_39",
+            "BP_Door_Outside_40",
+            "BP_Door_Outside_41",
+            "BP_Door_Outside_45",
+            "BP_Door_Outside_47",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_01_UAID_708BCD5540D7A13502_1812506254",
+            "BP_Door_Outside_UAID_708BCD5540D7A03502_1756332793"
+        ],
+        "Extra_Vehicles": {
+            "car": [
+                "BP_Hatchback_child_extras_C",
+                "BP_Hatchback_child_police_C",
+                "BP_Hatchback_child_taxi_C",
+                "BP_Sedan_child_base_C",
+                "BP_Sedan_child_extras_C",
+                "BP_Sedan_child_police_C",
+                "BP_Sedan_child_taxi_C",
+                "BP_SUV_child_base_C",
+                "BP_SUV_child_extras_C",
+                "BP_SUV_child_police_C",
+                "BP_SUV_child_taxi_C"
+            ],
+            "motorbike": [
+                "BP_Custom_Base_C",
+                "BP_Custom_Extras_C",
+                "BP_Custom_Police_C",
+                "BP_Enduro_Base_C",
+                "BP_Enduro_Extras_C",
+                "BP_Enduro_Police_C",
+                "BP_Naked_Base_C",
+                "BP_Naked_Extras_C",
+                "BP_Naked_Police_C",
+                "BP_BaseBike_TwoPassengers_C"
+            ]
+        },
+        "Pickable_object": {
+            "class_name": "BP_GrabMoveDrop_C"
+        },
+        "targets": {
+            "Point": []
+        }
+    },
+    "obj_num": 11612,
+    "size": 805045.4796799999,
+    "area": 263949.33759999997,
+    "bbox": [
+        513.76,
+        513.76,
+        3.05
+    ]
+}
