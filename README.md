@@ -86,7 +86,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 > 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, complete interaction system — UnrealZoo v3.0 is fully supported out-of-the-box
 
-📄 [View Full Changelog](CHANGELOG.md) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
+📄 [View Full Changelog](doc/CHANGELOG_v4.md) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
 
 ### 📦 Environment Package Download
 
