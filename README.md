@@ -377,13 +377,14 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 <div align="center">
 
-### 🏆 EVT: Embodied Visual Tracking (ECCV 2024)
+### 🏆 Offline EVT (ECCV 2024)
 
 **Embodied Visual Tracking Agent**
 
 Active tracking algorithm based on Offline RL, trained and validated in UnrealZoo environments
 
-[📄 Paper](https://arxiv.org/abs/2412.20977) • [💻 Code](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
+[📄 Paper](https://arxiv.org/abs/2404.09857) • [💻 Code](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
+
 
 ---
 

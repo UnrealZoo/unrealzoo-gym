@@ -377,7 +377,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 <div align="center">
 
-### 🏆 EVT: Embodied Visual Tracking (ECCV 2024)
+### 🏆 Offline EVT: Empowering Embodied Visual Tracking with Visual Foundation Models and Offline RL (ECCV 2024)
 
 **具身视觉追踪智能体**
 
