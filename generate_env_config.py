@@ -9,7 +9,7 @@ import copy
 import numpy as np
 import os
 import sys
-os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
+os.environ['UnrealEnv']='E:\\UnrealEnv'
 '''
 Probe a map (navmesh, doors, cameras) and write env JSON. Agents are template-only: no name/cam_id;
 class_name and asset_path come from dicts below (no pre-placed pawns required).
@@ -18,9 +18,9 @@ class_name and asset_path come from dicts below (no pre-placed pawns required).
 # --- Binary paths (relative to UnrealEnv), per platform ---
 # Edit these when packaging names or folder layout change. Used for JSON fields and for default launch binary.
 # Use the literal substring {map} anywhere you need the current --env-map name inserted.
-ENV_BIN_TEMPLATE_LINUX = "UnrealZoo_UE5_6_Linux_v2.0.2/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6"
-ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_6_Win64_v2.0.2/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe"
-ENV_BIN_TEMPLATE_MAC = "UnrealZoo_UE5_6_Mac/UnrealZoo_UE5_6/Binaries/Mac/UnrealZoo_UE5_6.app/Contents/MacOS/UnrealZoo_UE5_6"
+ENV_BIN_TEMPLATE_LINUX = "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6"
+ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe"
+ENV_BIN_TEMPLATE_MAC = "/wait/for/update"
 
 
 def format_env_bin_template(template: str, env_map: str) -> str:
@@ -268,7 +268,7 @@ if __name__ == '__main__':
         help='Override UE binary for this run; default is os.environ["UnrealEnv"] + platform template (Linux/Win/Mac).',
     )
 
-    parser.add_argument('--env-map', default='Map_ChemicalPlant_1', help='The map to load')
+    parser.add_argument('--env-map', default='all', help='The map to load')
     # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
     parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
 

@@ -76,22 +76,25 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 说明 |
 |------|------------------------|
+| **渲染性能提升** | 图像渲染速度提升 120%，多智能体场景 FPS 大幅提升 |
 | **PAK 运行时挂载** | 无需重建项目，动态扩展内容资源 |
-| **全景相机支持** | 360° 等距柱状图像生成 |
+| **全景相机支持** | 360° 等距柱状图像/视频导出，支持 VR 预览 |
 | **C++ 视频录制管线** | 大规模采集工作流更高效 |
-| **捕获性能提升** | UE5.6 lumen 渲染捕获性能大幅提升 |
+| **路径对象生成** | 通过完整资源路径直接生成对象 |
+| **场景标注系统** | 支持语义分割和物体检测训练工作流 |
 | **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
-| **场景/演员标注** | 支持数据标注工作流 |
+
+> 💡全景导出、NavMesh 路径规划、无人机仿真、完整交互系统——UnrealZoo v3.0 已全面开箱即用
 
 📄 [查看完整 Changelog](CHANGELOG.md) | 📚 [查看 Notion 技术文档](https://www.notion.so/unrealzoo/placeholder)
 
 ### 📦 环境包下载
 
-| 版本 | 内容 | 大小    | 下载 |
-|------|------|-------|------|
-| **UE5.6 完整版** | 100+ 场景，Chaos 物理 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files)  |
-| UE5 示例版 | 4 个示例场景 | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
-| UE4 示例版 | 6 个示例场景 | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
+| 版本                               | 内容 | 大小    | 下载 |
+|----------------------------------|------|-------|------|
+| **UE5.6 完整版 (推荐)**               | 100+ 场景，Chaos 物理 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0)  |  
+| UE5 示例版 (1.0版本,需要使用v2.0 branch)  | 4 个示例场景 | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
+| UE4 示例版  (1.0版本,需要使用v2.0 branch) | 6 个示例场景 | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
 
 ### 📜 发展历程
 
@@ -201,6 +204,21 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ## 🎮 交互演示 (Example Code)
 
 <details open>
+<summary><b>📹 视频数据采集</b></summary>
+
+C++ 视频录制管线，支持大规模数据集高效采集
+
+```bash
+python example/DataRecording/VideoRecordingPipeline.py
+```
+
+**说明**: 录制前打开二进制文件，输入 `vget /unrealcv/status` 检查端口号，确保与代码中的 `port` 参数一致
+
+<img src="doc/figs/Datarecord_tutorial.png" width="100%">
+
+</details>
+
+<details>
 <summary><b>🎯 多智能体追踪</b></summary>
 
 ```bash
@@ -229,7 +247,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 </details>
 
 <details>
-<summary><b>🚁 异构空地协同（v3.0 新特性）</b></summary>
+<summary><b>🚁 异构空地协同</b></summary>
 
 ```bash
 python example/multi_agent/HeterogeneousCooperation/Aerial-Ground-Cooperative.py \
@@ -329,11 +347,11 @@ pip install -e .
 
 ### 步骤 2: 下载环境包
 
-| 环境包 | 下载链接 | 大小 |
-|--------|----------|------|
-| UE5 完整版 (推荐) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo) / [☁️ 百度网盘](https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58) | ~67GB |
-| UE5 示例场景 | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
-| UE4 示例场景 | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB |
+| 环境包 | 下载链接 | 大小    |
+|--------|----------|-------|
+| UE5 完整版 (推荐) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0)  | ~70GB |
+| UE5 示例场景 (1.0版本,需要使用v2.0 branch) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
+| UE4 示例场景 (1.0版本,需要使用v2.0 branch)| [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB  |
 
 解压到 `UnrealEnv` 目录：
 
@@ -367,7 +385,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 基于 Offline RL 的主动追踪算法，在 UnrealZoo 环境中训练验证
 
-[📄 论文](https://arxiv.org/abs/2412.20977) • [💻 代码](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
+[📄 论文](https://arxiv.org/abs/2404.09857) • [💻 代码](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
 
 ---
 
@@ -430,7 +448,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 ## 🤝 贡献与支持
 
 - 🌐 **官方网站**: [http://unrealzoo.site/](http://unrealzoo.site/)
-- 📧 **联系邮箱**: [待补充]
+- 📧 **联系邮箱**: [zfw1226@gmail.com, wukui@buaa.edu.cn]
 - 💬 **讨论区**: [GitHub Discussions](https://github.com/UnrealZoo/unrealzoo-gym/discussions)
 
 如果对你有帮助，请给我们一个 ⭐ Star！

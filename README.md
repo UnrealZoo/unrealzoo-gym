@@ -76,22 +76,25 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Description |
 |------|------------------------|
+| **Rendering Performance Boost** | Image rendering speed improved by 120%, multi-agent scene FPS significantly enhanced |
 | **PAK Runtime Mounting** | Dynamically extend content resources without rebuilding the project |
-| **Panoramic Camera Support** | 360° equirectangular image generation |
+| **Panoramic Camera Support** | 360° equirectangular image/video export, supports VR preview |
 | **C++ Video Recording Pipeline** | More efficient large-scale collection workflow |
-| **Capture Performance Boost** | UE5.6 Lumen rendering capture performance significantly improved |
+| **Object Spawning from Path** | Spawn objects directly using full asset paths |
+| **Scene Annotation System** | Supports semantic segmentation and object detection training workflows |
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
-| **Scene/Actor Annotation** | Support for data annotation workflows |
+
+> 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, complete interaction system — UnrealZoo v3.0 is fully supported out-of-the-box
 
 📄 [View Full Changelog](CHANGELOG.md) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
 
 ### 📦 Environment Package Download
 
-| Version | Content | Size  | Download |
-|------|------|-------|------|
-| **UE5.6 Full Version** | 100+ scenes, Chaos physics | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files)  |
-| UE5 Demo Version | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
-| UE4 Demo Version | 6 example scenes | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
+| Version                                                  | Content | Size  | Download |
+|----------------------------------------------------------|------|-------|------|
+| **UE5.6 Full Version (recommend)**                       | 100+ scenes, Chaos physics | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0)  |
+| UE5 Demo Version (1.0 version, require v2.0 branch code) | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
+| UE4 Demo Version (1.0 version, require v2.0 branch code) | 6 example scenes | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
 
 ### 📜 Development History
 
@@ -201,6 +204,21 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ## 🎮 Interaction Demo (Example Code)
 
 <details open>
+<summary><b>📹 Video Data Recording</b></summary>
+
+C++ video recording pipeline for efficient large-scale dataset collection
+
+```bash
+python example/DataRecording/VideoRecordingPipeline.py
+```
+
+**Note**: Before recording, open the binary and type `vget /unrealcv/status` to check the port number, ensure it matches the `port` parameter in the code
+
+<img src="doc/figs/Datarecord_tutorial.png" width="100%">
+
+</details>
+
+<details>
 <summary><b>🎯 Multi-Agent Tracking</b></summary>
 
 ```bash
@@ -229,7 +247,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 </details>
 
 <details>
-<summary><b>🚁 Heterogeneous Air-Ground Collaboration (v3.0 New Feature)</b></summary>
+<summary><b>🚁 Heterogeneous Air-Ground Collaboration</b></summary>
 
 ```bash
 python example/multi_agent/HeterogeneousCooperation/Aerial-Ground-Cooperative.py \
@@ -329,11 +347,11 @@ pip install -e .
 
 ### Step 2: Download Environment Package
 
-| Package | Download Link | Size |
-|--------|----------|------|
-| UE5 Full Version (Recommended) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo) / [☁️ Baidu Netdisk](https://pan.baidu.com/s/1jbiVSf0QYXT12QwbsFyUJg?pwd=5r58) | ~67GB |
-| UE5 Demo Scenes | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
-| UE4 Demo Scenes | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB |
+| Package                                                 | Download Link | Size  |
+|---------------------------------------------------------|----------|-------|
+| **UE5 Full Version (Recommended)**                      | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) | ~70GB |
+| UE5 Demo Scenes (1.0 version, require v2.0 branch code) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
+| UE4 Demo Scenes (1.0 version, require v2.0 branch code) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB  |
 
 Extract to `UnrealEnv` directory:
 
@@ -430,7 +448,7 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 ## 🤝 Contributing & Support
 
 - 🌐 **Official Website**: [http://unrealzoo.site/](http://unrealzoo.site/)
-- 📧 **Contact Email**: [TBD]
+- 📧 **Contact Email**: [[zfw1226@gmail.com, wukui@buaa.edu.cn]]
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/UnrealZoo/unrealzoo-gym/discussions)
 
 If you find this helpful, please give us a ⭐ Star!

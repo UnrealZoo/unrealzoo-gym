@@ -10,7 +10,7 @@ dependencies = [
     "gym==0.10.9",
     "matplotlib",
     "numpy",
-    "unrealcv>=1.1.5",
+    "unrealcv>=1.2.0",
     "wget",
     "opencv-python",
     "simple_pid",
