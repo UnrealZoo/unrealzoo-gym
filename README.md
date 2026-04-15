@@ -424,13 +424,13 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 
 ## 📖 Documentation
 
-| Document | Description |
-|------|------|
-| [User Guide](doc/user_guide_latest.md) | Complete usage guide (v3.0) |
-| [Wrapper Guide](doc/wrapper.md) | Environment wrapper APIs |
-| [Add Environment](doc/addEnv.md) | Custom environment tutorial |
-| [CHANGELOG](CHANGELOG.md) | Version update history |
-| [Example Index](example/README.md) | All example code |
+| Document                                  | Description |
+|-------------------------------------------|------|
+| [User Guide](doc/user_guide_latest_v3.md) | Complete usage guide (v3.0) |
+| [Wrapper Guide](doc/wrapper.md)           | Environment wrapper APIs |
+| [Add Environment](doc/addEnv.md)          | Custom environment tutorial |
+| [CHANGELOG](doc/CHANGELOG_v4.md)          | Version update history |
+| [Example Index](example/README.md)        | All example code |
 
 ---
 

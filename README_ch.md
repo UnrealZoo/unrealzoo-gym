@@ -423,13 +423,13 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 ## 📖 文档
 
-| 文档 | 说明 |
-|------|------|
-| [用户指南](doc/user_guide_latest.md) | 完整使用指南（v3.0） |
-| [Wrapper 说明](doc/wrapper.md) | 环境包装器 API |
-| [添加环境](doc/addEnv.md) | 自定义环境教程 |
-| [CHANGELOG](CHANGELOG.md) | 版本更新记录 |
-| [示例索引](example/README.md) | 所有示例代码 |
+| 文档                                  | 说明 |
+|-------------------------------------|------|
+| [用户指南](doc/user_guide_latest_v3.md) | 完整使用指南（v3.0） |
+| [Wrapper 说明](doc/wrapper.md)        | 环境包装器 API |
+| [添加环境](doc/addEnv.md)               | 自定义环境教程 |
+| [CHANGELOG](doc/CHANGELOG_v4.md)    | 版本更新记录 |
+| [示例索引](example/README.md)           | 所有示例代码 |
 
 ---
 
