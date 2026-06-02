@@ -234,19 +234,20 @@ If you use these adapted baselines, please cite the original methods:
 }
 
 @inproceedings{shah2023vint,
-  title={Vi{NT}: A Foundation Model for Visual Navigation},
+  title={ViNT: A Foundation Model for Visual Navigation},
   author={Shah, Dhruv and Sridhar, Ajay and Dashora, Nitish and Stachowicz, Kyle and Black, Kevin and Hirose, Noriaki and Levine, Sergey},
-  booktitle={7th Annual Conference on Robot Learning},
+  booktitle={Conference on Robot Learning},
+  pages={711--733},
   year={2023},
-  url={https://arxiv.org/abs/2306.14846}
+  organization={PMLR}
 }
-
-@article{sridhar2023nomad,
-  title={{NoMaD}: Goal Masked Diffusion Policies for Navigation and Exploration},
+@inproceedings{sridhar2024nomad,
+  title={Nomad: Goal masked diffusion policies for navigation and exploration},
   author={Sridhar, Ajay and Shah, Dhruv and Glossop, Catherine and Levine, Sergey},
-  journal={arXiv preprint arXiv:2310.07896},
-  year={2023},
-  url={https://arxiv.org/abs/2310.07896}
+  booktitle={2024 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={63--70},
+  year={2024},
+  organization={IEEE}
 }
 
 @article{wei2025streamvln,
