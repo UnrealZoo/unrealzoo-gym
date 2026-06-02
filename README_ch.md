@@ -69,6 +69,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **模板化 Agent Spawn** | ✅ 已发布 | 运行时动态生成 agent，支持混合类别配置                 |
 | **增强交互系统** | ✅ 已发布 | 开门/上下车/拾取/下蹲/跳跃/攀爬，提供 API-键盘映射便于理解交互逻辑 |
 | **NavMesh 路径规划** | ✅ 已发布 | 通过 API 计算最短路径导航点，支持智能体自主导航控制，以及路径点导出   |
+| **VLN Baseline 示例** | ✅ 已添加 | 将 Uni-NaVid、ViNT/NoMaD 和 StreamVLN 接入 UnrealZoo 导航任务，提供统一的 `env.step()` 示例。详见 [VLN Baseline README](example/VLN_Baseline/README.md) |
 
 ### 🔌 UnrealCV+ Plugin 升级
 
