@@ -220,3 +220,39 @@ protobuf==3.20.3
 ```
 
 If future changes reintroduce conflicts, the recommended long-term solution is to run model inference in separate conda environments and expose each model through a small subprocess or local HTTP/RPC service. Keep UnrealZoo and `env.step()` in the main `unrealzoo` environment, and isolate Uni-NaVid, VisualNav, and StreamVLN dependencies from each other.
+
+## References
+
+If you use these adapted baselines, please cite the original methods:
+
+```bibtex
+@article{zhang2024uni,
+  title={Uni-NaVid: A Video-based Vision-Language-Action Model for Unifying Embodied Navigation Tasks},
+  author={Zhang, Jiazhao and Wang, Kunyu and Wang, Shaoan and Li, Minghan and Liu, Haoran and Wei, Songlin and Wang, Zhongyuan and Zhang, Zhizheng and Wang, He},
+  journal={Robotics: Science and Systems},
+  year={2025}
+}
+
+@inproceedings{shah2023vint,
+  title={Vi{NT}: A Foundation Model for Visual Navigation},
+  author={Shah, Dhruv and Sridhar, Ajay and Dashora, Nitish and Stachowicz, Kyle and Black, Kevin and Hirose, Noriaki and Levine, Sergey},
+  booktitle={7th Annual Conference on Robot Learning},
+  year={2023},
+  url={https://arxiv.org/abs/2306.14846}
+}
+
+@article{sridhar2023nomad,
+  title={{NoMaD}: Goal Masked Diffusion Policies for Navigation and Exploration},
+  author={Sridhar, Ajay and Shah, Dhruv and Glossop, Catherine and Levine, Sergey},
+  journal={arXiv preprint arXiv:2310.07896},
+  year={2023},
+  url={https://arxiv.org/abs/2310.07896}
+}
+
+@article{wei2025streamvln,
+  title={StreamVLN: Streaming Vision-and-Language Navigation via SlowFast Context Modeling},
+  author={Wei, Meng and Wan, Chenyang and Yu, Xiqian and Wang, Tai and Yang, Yuqiang and Mao, Xiaohan and Zhu, Chenming and Cai, Wenzhe and Wang, Hanqing and Chen, Yilun and others},
+  journal={arXiv preprint arXiv:2507.05240},
+  year={2025}
+}
+```
