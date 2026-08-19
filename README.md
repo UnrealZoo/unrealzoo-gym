@@ -269,6 +269,24 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 Player-controlled LiDAR observation with pose-conditioned map updates.
 
+**🧊 Live Occupancy Observation**
+
+<img src="doc/figs/new_features/occupancy/occupancy_live_mapping.gif" width="100%" alt="Live RGB and occupancy observation while the camera moves through an UnrealZoo scene">
+
+The client continuously requests camera RGB and a camera-relative occupancy
+volume, then updates the projected occupied-space view as the observation pose
+changes. See the [occupancy observation guide](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)
+and the [recording example](example/new_features/occupancy_live_mapping.py).
+
+**🤖 Runtime MCP Scene Generation**
+
+<img src="doc/figs/new_features/runtime_mcp/runtime_mcp_scene_generation.gif" width="100%" alt="Runtime MCP scene generation and guided character movement">
+
+An MCP-compatible agent creates a small scene through tool calls, adds a
+character asset, and moves it to the generated bench in response to a natural-
+language instruction. See the [Runtime MCP examples](https://github.com/lizi-Margin/unrealcv-runtime-mcp)
+for the client, audit data, and recording script.
+
 **🚗 Vehicle Interaction**
 
 <div align="center">
