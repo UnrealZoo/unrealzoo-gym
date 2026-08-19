@@ -153,8 +153,9 @@ class Navigation(UnrealCv_base):
         return self.unrealcv.img_color
 
     def close(self):
-        self.unrealcv.client.disconnect()
-        self.ue_binary.close()
+        if self.launched:
+            self.unrealcv.client.disconnect()
+            self.ue_binary.close()
 
     def get_action_size(self):
         return len(self.action)

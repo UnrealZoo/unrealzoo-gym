@@ -104,23 +104,23 @@ class Track(UnrealCv_base):
         self.unrealcv.set_obj_location(tracker_name, cam_pos_exp)
         self.unrealcv.set_obj_rotation(tracker_name, [0, yaw_exp, 0])
         # reset if cannot see the target at initial frame
-        try:
-            while self.unwrapped.unrealcv.check_visibility(self.cam_list[self.tracker_id],self.player_list[self.target_id]) == 0 :
-                target_locations = self.sample_init_pose()
-                self.unrealcv.set_obj_location(self.player_list[self.target_id], target_locations[0])
-                self.unrealcv.set_cam(self.player_list[self.target_id],
-                                      self.agents[self.player_list[self.target_id]]['relative_location'],
-                                      self.agents[self.player_list[self.target_id]]['relative_rotation'])
-                target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
-                # initialize the tracker
-                cam_pos_exp, yaw_exp = self.get_tracker_init_point(target_pos, self.reward_params["exp_distance"])
-                # set tracker location
-                tracker_name = self.player_list[self.tracker_id]
-                self.unrealcv.set_obj_location(tracker_name, cam_pos_exp)
-                self.unrealcv.set_obj_rotation(tracker_name, [0, yaw_exp, 0])
-                time.sleep(1)
-        except:
-            pass
+        # try:
+        #     while self.unwrapped.unrealcv.check_visibility(self.cam_list[self.tracker_id],self.player_list[self.target_id]) == 0 :
+        #         target_locations = self.sample_init_pose()
+        #         self.unrealcv.set_obj_location(self.player_list[self.target_id], target_locations[0])
+        #         self.unrealcv.set_cam(self.player_list[self.target_id],
+        #                               self.agents[self.player_list[self.target_id]]['relative_location'],
+        #                               self.agents[self.player_list[self.target_id]]['relative_rotation'])
+        #         target_pos = self.unrealcv.get_obj_location(self.player_list[self.target_id])
+        #         # initialize the tracker
+        #         cam_pos_exp, yaw_exp = self.get_tracker_init_point(target_pos, self.reward_params["exp_distance"])
+        #         # set tracker location
+        #         tracker_name = self.player_list[self.tracker_id]
+        #         self.unrealcv.set_obj_location(tracker_name, cam_pos_exp)
+        #         self.unrealcv.set_obj_rotation(tracker_name, [0, yaw_exp, 0])
+        #         time.sleep(1)
+        # except:
+        #     pass
 
         # update the observation
         observations, self.obj_poses, self.img_show = self.update_observation(self.player_list, self.cam_list, self.cam_flag, self.observation_type)

@@ -7,7 +7,9 @@ from pynput import keyboard
 
 from gym_unrealcv.envs.wrappers import augmentation, configUE
 import os
-os.environ['UnrealEnv']='E:\\UnrealEnv'
+# Optional local override: uncomment and set this path to run without defining
+# UnrealEnv in the command line.
+# os.environ['UnrealEnv'] = r'C:\path\to\UnrealEnv'
 
 
 # Optional init pose placeholders (Unreal world coordinates in cm).

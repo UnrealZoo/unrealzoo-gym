@@ -2,7 +2,7 @@
     "env_name": "SuburbNeighborhood_Day",
     "env_bin": "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
     "env_map": "SuburbNeighborhood_Day",
-    "env_bin_win": "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe",
+    "env_bin_win": "UnrealZoo_UE5_7_Win64_v1.0.3/Windows/UnrealZoo_UE5_7/Binaries/Win64/UnrealZoo_UE5_7.exe",
     "env_bin_mac": "/wait/for/update",
     "third_cam": {
         "cam_id": 0,
@@ -219,10 +219,10 @@
         },
         "drone": {
             "class_name": [
-                "BP_drone01_C"
+                "BP_Drone_customized_C"
             ],
             "asset_path": [
-                "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C"
+                "/Game/Drone_Pack/Drone_Bp/BP_Drone_customized.BP_Drone_customized"
             ],
             "internal_nav": false,
             "scale": [
@@ -308,6 +308,47 @@
                     -1,
                     -1,
                     -1
+                ]
+            }
+        },
+        "go1": {
+            "class_name": [
+                "BP_UnitreeGo1_C"
+            ],
+            "asset_path": [
+                "/Game/robot-dog-unitree-go1/BP_UnitreeGo1.BP_UnitreeGo1"
+            ],
+            "internal_nav": false,
+            "control_backend": "mujoco",
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "relative_location": [
+                0,
+                0,
+                0
+            ],
+            "relative_rotation": [
+                0,
+                0,
+                0
+            ],
+            "move_action": [
+                [
+                    0,
+                    0
+                ]
+            ],
+            "move_action_continuous": {
+                "high": [
+                    0,
+                    0
+                ],
+                "low": [
+                    0,
+                    0
                 ]
             }
         },
@@ -581,8 +622,52 @@
                 "BP_BaseBike_TwoPassengers_C"
             ]
         },
+        "spawn_assets": {
+            "player": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
+            ],
+            "animal": [
+                "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C"
+            ],
+            "drone": [
+                "/Game/Drone_Pack/Drone_Bp/BP_Drone_customized.BP_Drone_customized"
+            ],
+            "go1": [
+                "/Game/robot-dog-unitree-go1/BP_UnitreeGo1.BP_UnitreeGo1"
+            ],
+            "car": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_police.BP_Hatchback_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_taxi.BP_Hatchback_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_base.BP_Sedan_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_extras.BP_Sedan_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_police.BP_Sedan_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Sedan/BP_Sedan_child_taxi.BP_Sedan_child_taxi_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_base.BP_SUV_child_base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_extras.BP_SUV_child_extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_police.BP_SUV_child_police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/SUV/BP_SUV_child_taxi.BP_SUV_child_taxi_C"
+            ],
+            "motorbike": [
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Base.BP_Custom_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Extras.BP_Custom_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Custom/BP_Custom_Police.BP_Custom_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Base.BP_Enduro_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Extras.BP_Enduro_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Enduro/BP_Enduro_Police.BP_Enduro_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Base.BP_Naked_Base_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Extras.BP_Naked_Extras_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/Naked/BP_Naked_Police.BP_Naked_Police_C",
+                "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C"
+            ],
+            "pickable": [
+                "/Game/GrabMoveDrop/Blueprint/BP_GrabMoveDrop.BP_GrabMoveDrop_C"
+            ]
+        },
         "Pickable_object": {
-            "class_name": "BP_GrabMoveDrop_C"
+            "class_name": "BP_GrabMoveDrop_C",
+            "asset_path": "/Game/GrabMoveDrop/Blueprint/BP_GrabMoveDrop.BP_GrabMoveDrop_C"
         },
         "targets": {
             "Point": []

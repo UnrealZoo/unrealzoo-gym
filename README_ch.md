@@ -59,9 +59,26 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ## 🔥 最新动态
 
-> **UnrealZoo v3.0 已发布！** 这是迄今为止最大的更新，带来完整的异构多智能体协同能力、开箱即用的交互系统，以及 UnrealCV+ Plugin 的全面升级。
+> **UnrealZoo v4.0 在 v3.0 基础上继续扩展**，加入更快的视觉观测、三维感知、物理机器人、运行时智能体定制和外部打包环境支持。
 
-### 🚀 v3.0 核心更新
+### 🚀 v4.0 核心更新
+
+| 特性 | 状态 | 说明 |
+|------|------|----------------------------------------|
+| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 2K 下达到 96.20 FPS、4K 下达到 65.21 FPS；当前基准中标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **LiDAR 观测** | ✅ 新增 | 提供 XYZI 点云观测和玩家控制的街景建图示例 |
+| **占用体素观测** | ✅ 新增 | 提供兼容 LINGO 的布尔占用网格，以及 bounds/mesh 两种模式 |
+| **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
+| **无人机运行时视觉定制** | ✅ 新增 | 无需重新生成无人机即可切换五种带动态螺旋桨的正式模型、使用定制模板，或加载兼容的外部 Static Mesh |
+| **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
+| **外部 3DGS 环境** | ✅ 新增 | 加载用户打包的 3DGS 资产并复用 UnrealZoo 智能体、相机和任务 API |
+
+📄 [v4.0 Changelog](doc/CHANGELOG_v4.0.md) · 📚 [v4.0 功能指南](example/new_features/README.md)
+
+<details>
+<summary><b>🚀 v3.0 核心更新</b></summary>
+
+> **UnrealZoo v3.0 已发布！** 这是迄今为止最大的更新，带来完整的异构多智能体协同能力、开箱即用的交互系统，以及 UnrealCV+ Plugin 的全面升级。
 
 | 特性 | 状态 | 说明                                     |
 |------|------|----------------------------------------|
@@ -71,10 +88,16 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **NavMesh 路径规划** | ✅ 已发布 | 通过 API 计算最短路径导航点，支持智能体自主导航控制，以及路径点导出   |
 | **VLN Baseline 示例** | ✅ 已添加 | 将 Uni-NaVid、ViNT/NoMaD 和 StreamVLN 接入 UnrealZoo 导航任务，提供统一的 `env.step()` 示例。详见 [VLN Baseline README](example/VLN_Baseline/README.md) |
 
+</details>
+
 ### 🔌 UnrealCV+ Plugin 升级
 
 | 特性 | 说明 |
 |------|------------------------|
+| **更快的相机采集** | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **LiDAR 观测** | 提供 XYZI 点云，支持同步观测和建图工作流 |
+| **占用体素观测** | 提供兼容 LINGO 的布尔场景占用网格，以及可配置的 Profile 和体素化模式 |
+| **扩展全景观测** | 扩展全景采集模态，用于具身感知与数据集采集 |
 | **渲染性能提升** | 图像渲染速度提升 120%，多智能体场景 FPS 大幅提升 |
 | **PAK 运行时挂载** | 无需重建项目，动态扩展内容资源 |
 | **全景相机支持** | 360° 等距柱状图像/视频导出，支持 VR 预览 |
@@ -83,14 +106,15 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **场景标注系统** | 支持语义分割和物体检测训练工作流 |
 | **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
 
-> 💡全景导出、NavMesh 路径规划、无人机仿真、完整交互系统——UnrealZoo v3.0 已全面开箱即用
+> 💡 全景导出、NavMesh 路径规划、无人机仿真和完整交互系统均支持开箱即用。
 
-📄 [查看完整 Changelog](CHANGELOG.md) | 📚 [查看 Notion 技术文档](https://www.notion.so/unrealzoo/placeholder)
+📄 [查看完整 Changelog](doc/CHANGELOG_v4.0.md) | 📚 [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [查看 Notion 技术文档](https://www.notion.so/unrealzoo/placeholder)
 
 ### 📦 环境包下载
 
 | 版本                               | 内容 | 大小    | 下载 |
 |----------------------------------|------|-------|------|
+| **最新 UE5.7 完整版**                | UnrealZoo v4.0 完整环境包 | — | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | **UE5.6 完整版 (推荐)**               | 100+ 场景，Chaos 物理 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0)  |  
 | UE5 示例版 (1.0版本,需要使用v2.0 branch)  | 4 个示例场景 | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
 | UE4 示例版  (1.0版本,需要使用v2.0 branch) | 6 个示例场景 | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
@@ -120,9 +144,19 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 - ✅ NavMesh 路径规划以及任务应用演示代码
 - ✅ UnrealCV+ Plugin 全面升级
 
+#### 2026: v4.0 开发版本
+- ✅ 更快的 UnrealCV 视觉观测与录制工作流
+- ✅ LiDAR 和占用体素观测
+- ✅ MuJoCo Go1 仿真示例
+- ✅ 用户打包的 3DGS 环境支持
+- ✅ 支持动态内置模型与外部 Static Mesh 的无人机运行时视觉定制
+- ✅ 扩展角色社交动画
+
 </details>
 
 [查看完整更新日志](CHANGELOG.md)
+
+[查看 v4.0 更新日志](doc/CHANGELOG_v4.0.md)
 
 ---
 
@@ -148,6 +182,16 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 <div align="center">
 
+| 📡 **LiDAR 观测** | 🧊 **占用体素** | 🐕 **MuJoCo Go1** | 🌐 **外部 3DGS** |
+|:---:|:---:|:---:|:---:|
+| XYZI 点云观测 | 兼容 LINGO 的三维网格 | 键盘与策略控制 | 加载用户打包场景 |
+| 结合位姿的街景建图 | Bounds 和 Mesh 模式 | Unreal 渲染的物理仿真 | 复用智能体和任务 API |
+
+| 🚁 **无人机视觉定制** | 🎭 **社交动画** | ⚡ **更快的 UnrealCV 采集** |
+|:---:|:---:|:---:|
+| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 96.20 FPS、4K 65.21 FPS |
+| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 14.66×、全景最高 4.96× |
+
 | 🏙️ **100+ 场景** | 👥 **10+ 智能体** | 🚗 **载具交互** | 📦 **物体操作** |
 |:---:|:---:|:---:|:---:|
 | 城市/自然/建筑/工业 | 同场景实时协作 | 进入/驾驶/退出 | 拾取/搬运/放置 |
@@ -165,6 +209,24 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ## 🎬 系统交互演示
 
 <div align="center">
+
+**🐕 MuJoCo Go1 控制与跑酷**
+
+| 键盘控制 | Parkour：第三人称视角 | Parkour：深度观测 |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/mujoco_go1_keyboard.gif" width="100%" alt="MuJoCo Go1 keyboard control"> | <img src="doc/figs/new_features/mujoco_go1_parkour_third_person.gif" width="100%" alt="MuJoCo Go1 parkour third-person view"> | <img src="doc/figs/new_features/mujoco_go1_parkour_depth.gif" width="100%" alt="MuJoCo Go1 parkour depth observation"> |
+| 基础 `I/J/K/L` 运动控制 | 从机器人外部展示高级策略行为 | UnrealCV 原始深度与策略使用的深度输入 |
+
+| 🚁 无人机运行时视觉定制 | 🎭 角色社交动画 | 🌐 外部 3DGS + UnrealZoo Actor |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/drone_mesh_switch.gif" width="100%" alt="UnrealZoo runtime drone mesh switching"> | <img src="doc/figs/new_features/social_animation.gif" width="100%" alt="UnrealZoo character social animations"> | <img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor"> |
+| [五种带动画的内置模型与外部 Static Mesh 支持](example/new_features/README.md#4-runtime-drone-visual-customization) | [`set_social_anim` 大小写敏感参数列表](example/new_features/README.md#5-character-social-animations) | 加载外部 3DGS 场景并复用 UnrealZoo 支持的 Actor |
+
+**📡 LiDAR 街景建图**
+
+<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
+
+键盘控制 LiDAR 观测，并结合实时位姿更新地图。
 
 **🚗 载具交互**
 
@@ -201,6 +263,53 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ---
 
 ## 🎮 交互演示 (Example Code)
+
+<details open>
+<summary><b>✨ v4.0 功能示例</b></summary>
+
+请在仓库根目录的 Windows CMD 中运行以下命令。Demo 使用已注册环境的
+配置，并通过用户已有的 `UnrealEnv` 路径自动索引 binary：
+
+```cmd
+python example\new_features\suburb_street_slam.py
+python example\new_features\occupancy_voxel_demo.py --profile lingo_vis --method mesh
+python example\new_features\drone_mesh_switch_demo.py --interval 2 --cycles 2 --render
+```
+
+两个 Go1 示例连接到用户手动启动的 binary 或 Editor PIE。请等待地图和
+UnrealCV server 完成加载，再使用与服务一致的端口运行：
+
+```cmd
+python example\mujoco\go1_keyboard_control.py --host 127.0.0.1 --port 9000
+python example\mujoco\go1_parkour.py --host 127.0.0.1 --port 9000 --command-mode keyboard
+```
+
+两个 Go1 示例均使用 `I/K` 前进后退、`J/L` 转向。高级示例适配自官方
+[Robot Parkour Learning 仓库](https://github.com/ZiwenZhuang/parkour)，策略来源与引用信息见
+[MuJoCo 示例文档](example/mujoco/README.md#advanced-policy-source-and-citation)。
+
+**社交动画：** 参见 [`set_social_anim` API 与大小写敏感参数列表](example/new_features/README.md#5-character-social-animations)。
+
+参数、控制方式、资产要求和观测格式见 [v4.0 功能指南](example/new_features/README.md)。
+
+</details>
+
+<details>
+<summary><b>🌐 动态加载 3DGS 环境</b></summary>
+
+启动 UnrealZoo v4.0 binary，打开其中的 UnrealCV 命令行，然后直接加载
+外部打包的 3DGS 地图：
+
+```text
+vset /action/game/level /Game/3dgs/custom_3dgs
+```
+
+加载后仍可继续使用 UnrealZoo 的智能体、相机、观测和交互 API。资产及内容
+包要求见[外部 3DGS 流程](example/new_features/README.md#6-dynamic-3dgs-environment-load)。
+
+<img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor">
+
+</details>
 
 <details>
 <summary><b>📹 视频数据采集</b></summary>
@@ -348,6 +457,7 @@ pip install -e .
 
 | 环境包 | 下载链接 | 大小    |
 |--------|----------|-------|
+| **最新 UE5.7 完整版** | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [🤗 Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) | — |
 | UE5 完整版 (推荐) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0)  | ~70GB |
 | UE5 示例场景 (1.0版本,需要使用v2.0 branch) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
 | UE4 示例场景 (1.0版本,需要使用v2.0 branch)| [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB  |
@@ -430,6 +540,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 | [Wrapper 说明](doc/wrapper.md)        | 环境包装器 API |
 | [添加环境](doc/addEnv.md)               | 自定义环境教程 |
 | [CHANGELOG](doc/CHANGELOG_v4.md)    | 版本更新记录 |
+| [v4.0 Changelog](doc/CHANGELOG_v4.0.md) | v4.0 功能边界与更新重点 |
 | [示例索引](example/README.md)           | 所有示例代码 |
 
 ---
@@ -441,6 +552,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 - ✅ Expand the list of supported interactive actions
 - [ ] Add more detailed examples for reinforcement learning agents
 - [ ] Add more detailed examples for large vision-language models
+- [ ] 增加 MuJoCo Unitree G1 集成与示例。
 
 ---
 

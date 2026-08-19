@@ -69,8 +69,8 @@ class UnrealCv_base(gym.Env):
         self.safe_start = setting['safe_start']
         self.interval = setting['interval']
         self.random_init = setting['random_init']
-        self.start_area = self.get_start_area(self.safe_start[0], 500) # the start area of the agent, where we don't put obstacles
-
+        # self.start_area = self.get_start_area(self.safe_start[0], 500) # the start area of the agent, where we don't put obstacles
+        self.start_area = setting['reset_area']  #use pre-defined area as start area range
         self.count_eps = 0
         self.count_steps = 0
 
@@ -126,6 +126,13 @@ class UnrealCv_base(gym.Env):
             env_map = setting['env_map']
         else:
             env_map = None
+
+        # Command-line demos can select a packaged executable before gym.make
+        # finishes constructing the registered environment. The helper restores
+        # this process-local override immediately after construction.
+        env_bin_override = os.environ.get('GYM_UNREALCV_BINARY_OVERRIDE')
+        if env_bin_override:
+            env_bin = env_bin_override
 
         self.ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
 
@@ -202,7 +209,7 @@ class UnrealCv_base(gym.Env):
                     self.unrealcv.set_phy(obj, 1)
             elif self.agents[obj]['agent_type'] == 'drone':
                 self.unrealcv.set_move_bp(obj, [0, 0, 0, 0])
-                self.unrealcv.set_phy(obj, 1)
+                # self.unrealcv.set_phy(obj, 1)
 
         # reset target location
         init_poses = self.sample_init_pose(self.random_init, len(self.player_list))
@@ -710,13 +717,18 @@ class UnrealCv_base(gym.Env):
         # launch the UE4 binary
         env_ip, env_port = self.ue_binary.start(docker=self.docker, resolution=self.resolution, display=self.display,
                                                opengl=self.use_opengl, offscreen=self.offscreen_rendering,
-                                               nullrhi=self.nullrhi,sleep_time=10)
-
+                                               nullrhi=self.nullrhi, sleep_time=self.sleep_time)
 
         # connect to UnrealCV Server
         self.unrealcv = Character_API(port=env_port, ip=env_ip, resolution=self.resolution, comm_mode=self.comm_mode)
         # self.unrealcv.client.request('r.Vulkan.EnableDefrag=0')
-        self.unrealcv.set_map(self.env_name)
+        # RunUnreal passes ENV_MAP to the executable, so packaged environments
+        # already start on the requested map. Switching to the same level again
+        # makes UnrealCV enumerate cameras while the level is being reloaded and
+        # may return "error" for transient camera slots. Keep set_map only for
+        # legacy configurations that do not provide a startup map.
+        if self.ue_binary.env_map is None and self.env_name:
+            self.unrealcv.set_map(self.env_name)
         self.unrealcv.config_ue(quality=self.render_quality, Lumen=self.use_lumen)
 
         return True
@@ -750,6 +762,16 @@ class UnrealCv_base(gym.Env):
     def set_population(self, num_agents):
         """Resize agents; template-only maps spawn here (after wrapper sets num_agents)."""
         self.num_agents = int(num_agents)
+
+        # Template-only environments preallocate slots using the population from
+        # Gym registration. A wrapper may request a different population before
+        # the first spawn (for example, Navigation registers 2 but this demo asks
+        # for 1). Remove those unused placeholders now so cam_list cannot retain
+        # a trailing -1 after the real actor/camera has been assigned.
+        if self._spawn_from_templates and not self.player_list:
+            del self.action_space[self.num_agents:]
+            del self.observation_space[self.num_agents:]
+            del self.cam_list[self.num_agents:]
 
         # Backward compatible behavior:
         # - agents_category has one item: repeat that category for all slots

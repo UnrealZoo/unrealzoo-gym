@@ -4,12 +4,13 @@ from unrealcv.api import UnrealCv_API
 from unrealcv.launcher import RunUnreal
 from unrealcv.util import parse_resolution
 import argparse
+import atexit
 import json
 import copy
 import numpy as np
 import os
+import socket
 import sys
-os.environ['UnrealEnv']='E:\\UnrealEnv'
 '''
 Probe a map (navmesh, doors, cameras) and write env JSON. Agents are template-only: no name/cam_id;
 class_name and asset_path come from dicts below (no pre-placed pawns required).
@@ -19,8 +20,44 @@ class_name and asset_path come from dicts below (no pre-placed pawns required).
 # Edit these when packaging names or folder layout change. Used for JSON fields and for default launch binary.
 # Use the literal substring {map} anywhere you need the current --env-map name inserted.
 ENV_BIN_TEMPLATE_LINUX = "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6"
-ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_6_Win64_v3.0.0/UnrealZoo_UE5_6/Binaries/Win64/UnrealZoo_UE5_6.exe"
+ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_7_Win64_v1.0.3/Windows/UnrealZoo_UE5_7/Binaries/Win64/UnrealZoo_UE5_7.exe"
 ENV_BIN_TEMPLATE_MAC = "/wait/for/update"
+
+
+class ConfigRunUnreal(RunUnreal):
+    """RunUnreal with a correct bind-only port check on Windows."""
+
+    def isPortFree(self, ip, port):  # noqa: N802 - upstream API spelling
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
+            try:
+                probe.bind((ip, port))
+            except OSError:
+                return False
+        return True
+
+
+def configure_unrealcv_ini(executable, port, resolution):
+    """Write the four leading fields expected by unrealcv.launcher."""
+    ini_path = os.path.join(os.path.dirname(os.path.abspath(executable)), 'unrealcv.ini')
+    extras = []
+    if os.path.isfile(ini_path):
+        with open(ini_path, 'r', encoding='utf-8', errors='replace') as ini_file:
+            for line in ini_file.read().splitlines():
+                if (
+                    line
+                    and not line.startswith('[')
+                    and not line.casefold().startswith(('port=', 'width=', 'height='))
+                ):
+                    extras.append(line)
+    lines = [
+        '[UnrealCV.Core]',
+        f'Port={port}',
+        f'Width={resolution[0]}',
+        f'Height={resolution[1]}',
+        *extras,
+    ]
+    with open(ini_path, 'w', encoding='utf-8') as ini_file:
+        ini_file.write('\n'.join(lines) + '\n')
 
 
 def format_env_bin_template(template: str, env_map: str) -> str:
@@ -50,7 +87,8 @@ def launch_binary_abs(unreal_env: str, template: str, env_map: str) -> str:
 class_name = {
     "player": "bp_character_C",
     "animal": "bp_character_C",
-    "drone": "BP_drone01_C",
+    "drone": "BP_Drone_customized_C",
+    "go1": "BP_UnitreeGo1_C",
     # "car": "BP_BaseCar_C", #for UE4 binary`
     # "motorbike": "MotorBikes_C",#for UE4 binary
 
@@ -60,9 +98,10 @@ class_name = {
 
 # Manual UE asset soft paths (use ** for the prefix segment). Not used with class_name dict above (kept for reference).
 asset_path = {
-    "player": "	/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
-    "animal": "	/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
-    "drone": "/Game/Drone_Pack/Drone_Bp/BP_drone01.BP_drone01_C",
+    "player": "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
+    "animal": "/Game/SmartLocomotion/Blueprints/BP_Character.BP_Character_C",
+    "drone": "/Game/Drone_Pack/Drone_Bp/BP_Drone_customized.BP_Drone_customized",
+    "go1": "/Game/robot-dog-unitree-go1/BP_UnitreeGo1.BP_UnitreeGo1",
     "car": [
         "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_base.BP_Hatchback_child_base_C",
         "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Cars/Hatchback/BP_Hatchback_child_extras.BP_Hatchback_child_extras_C",
@@ -90,6 +129,9 @@ asset_path = {
         "/Game/DD_Vehicles_Advanced/Blueprints/Vehicles/Bikes/BP_BaseBike_TwoPassengers.BP_BaseBike_TwoPassengers_C",
     ],
 }
+
+PICKABLE_CLASS_NAME = "BP_GrabMoveDrop_C"
+PICKABLE_ASSET_PATH = "/Game/GrabMoveDrop/Blueprint/BP_GrabMoveDrop.BP_GrabMoveDrop_C"
 
 Addition_Vechicles={ #only available in latest UE5.5 package
        "car":["BP_Hatchback_child_extras_C","BP_Hatchback_child_police_C","BP_Hatchback_child_taxi_C",
@@ -176,6 +218,24 @@ drone_config = {
             "low": [-1, -1, -1, -1]
         }
         }
+
+go1_config = {
+        "class_name": [],
+        "asset_path": [],
+        "internal_nav": False,
+        "control_backend": "mujoco",
+        "scale": [1, 1, 1],
+        "relative_location": [0, 0, 0],
+        "relative_rotation": [0, 0, 0],
+        # Gym owns the actor lifecycle. MuJoCo control uses the dedicated Go1
+        # bridge, so the Navigation action is intentionally idle.
+        "move_action": [[0, 0]],
+        "move_action_continuous": {
+            "high": [0, 0],
+            "low": [0, 0]
+        }
+        }
+
 car_config = {
         "class_name": [],
         "asset_path": [],
@@ -221,6 +281,7 @@ agents = {
     "player": player_config,
     "animal": animal_config,
     "drone": drone_config,
+    "go1": go1_config,
     "car": car_config,
     "motorbike": motorbike_config
 }
@@ -260,6 +321,22 @@ def fill_agent_class_and_paths(agents_dict, asset_prefix=""):
             cfg["asset_path"] = [ap(x) for x in apaths]
 
 
+def resolved_spawn_assets(asset_prefix=""):
+    """Return stable JSON paths for features that spawn cooked assets."""
+    def resolve(value):
+        value = value.strip()
+        if asset_prefix and value.startswith("**"):
+            return value.replace("**", asset_prefix.rstrip('/'), 1)
+        return value
+
+    result = {}
+    for role, paths in asset_path.items():
+        values = [paths] if isinstance(paths, str) else list(paths)
+        result[role] = [resolve(value) for value in values]
+    result["pickable"] = [PICKABLE_ASSET_PATH]
+    return result
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -269,23 +346,36 @@ if __name__ == '__main__':
     )
 
     parser.add_argument('--env-map', default='all', help='The map to load')
-    # parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
-    parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Track', help='The folder to save the json file')
+    parser.add_argument('--target_dir', default='gym_unrealcv/envs/setting/Navigation', help='The folder to save the json file')
 
     parser.add_argument('--use-docker', action='store_true', help='Run the game in a docker container')
     parser.add_argument('--resolution', '-res', default='640x480', help='The resolution in the unrealcv.ini file')
+    parser.add_argument('--port', type=int, default=9000, help='Initial UnrealCV port (1024..9999)')
     parser.add_argument('--display', default=None, help='The display to use')
     parser.add_argument('--use-opengl', action='store_true', help='Use OpenGL for rendering')
     parser.add_argument('--offscreen', action='store_true', help='Use offscreen rendering')
     parser.add_argument('--nullrhi', action='store_true', help='Use the NullRHI')
     parser.add_argument('--show', action='store_true', help='show the get image result')
-    parser.add_argument('--gpu-id', default=None, help='The GPU to use')
+    parser.add_argument('--gpu-id', type=int, default=None, help='The GPU to use')
+    parser.add_argument('--sleep-time', type=float, default=20.0, help='Seconds to wait for UnrealCV after launch')
+    parser.add_argument(
+        '--map-load-wait',
+        type=float,
+        default=15.0,
+        help='Seconds to wait after switching to each additional map when --env-map all is used',
+    )
     parser.add_argument(
         '--asset-prefix',
         default='',
         help='Replaces the ** placeholder in asset_path templates when writing JSON (no trailing slash).',
     )
     args = parser.parse_args()
+    if not 1024 <= args.port <= 9999:
+        parser.error('--port must be in the range 1024..9999')
+    if args.sleep_time < 0:
+        parser.error('--sleep-time must be non-negative')
+    if args.map_load_wait < 0:
+        parser.error('--map-load-wait must be non-negative')
     asset_prefix = args.asset_prefix or ''
     env_map = args.env_map
     if args.env_map == 'all':
@@ -334,17 +424,43 @@ if __name__ == '__main__':
             )
         env_bin = launch_binary_abs(unreal_env, env_bin_template_for_platform(), env_map)
 
-    ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
-    env_ip, env_port = ue_binary.start(args.use_docker, parse_resolution(args.resolution), args.display, args.use_opengl, args.offscreen, args.nullrhi, str(args.gpu_id))
-    unrealcv = UnrealCv_API(env_port, env_ip, parse_resolution(args.resolution), 'tcp')  # 'tcp' or 'unix', 'unix' is only for local machine in Linux
+    resolution = parse_resolution(args.resolution)
+    configure_unrealcv_ini(env_bin, args.port, resolution)
+    ue_binary = ConfigRunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
+    env_ip, env_port = ue_binary.start(
+        docker=args.use_docker,
+        resolution=resolution,
+        display=args.display,
+        opengl=args.use_opengl,
+        offscreen=args.offscreen,
+        nullrhi=args.nullrhi,
+        gpu_id=args.gpu_id,
+        sleep_time=args.sleep_time,
+    )
+    atexit.register(ue_binary.close)
+    unrealcv = UnrealCv_API(env_port, env_ip, resolution, 'tcp')  # 'tcp' or 'unix', 'unix' is only for local machine in Linux
+    atexit.register(unrealcv.client.disconnect)
     # unrealcv.config_ue(parse_res(args.resolution))
-    for env_map in maps:
-        unrealcv.set_map(env_map)
-        time.sleep(5)
+    for map_index, env_map in enumerate(maps):
+        # RunUnreal already starts the binary on maps[0]. Calling UnrealCv_API.set_map
+        # again is not only redundant: set_map immediately queries every camera while
+        # the level is still settling, which can block before the JSON is written.
+        if map_index == 0:
+            print(f'CONFIG|map={env_map}|source=startup map (skip duplicate level switch)', flush=True)
+        else:
+            print(f'CONFIG|map={env_map}|source=level switch', flush=True)
+            response = unrealcv.client.request(f'vset /action/game/level {env_map}')
+            response_text = str(response).strip()
+            if not response_text or response_text.lower().startswith('error'):
+                raise RuntimeError(f'Failed to load map {env_map}: {response_text!r}')
+            time.sleep(args.map_load_wait)
+
+        print(f'CONFIG|map={env_map}|stage=collecting', flush=True)
         agents = {
             "player": copy.deepcopy(player_config),
             "animal": copy.deepcopy(animal_config),
             "drone": copy.deepcopy(drone_config),
+            "go1": copy.deepcopy(go1_config),
             "car": copy.deepcopy(car_config),
             "motorbike": copy.deepcopy(motorbike_config)
         }
@@ -372,8 +488,10 @@ if __name__ == '__main__':
             "env": {
                 "interactive_door": [],
                 "Extra_Vehicles":Addition_Vechicles,
+                "spawn_assets": resolved_spawn_assets(asset_prefix),
                 "Pickable_object":{
-                    "class_name": "BP_GrabMoveDrop_C",
+                    "class_name": PICKABLE_CLASS_NAME,
+                    "asset_path": PICKABLE_ASSET_PATH,
                 },
                 "targets": {
                     "Point": []
@@ -462,11 +580,8 @@ if __name__ == '__main__':
 
         env_config['third_cam']['height_top_view'] = env_config['height'] + 1000
         # print(env_config)
-        if not os.path.exists(args.target_dir):
-            os.makedirs(args.target_dir)
-        with open(os.path.join(args.target_dir, f'{env_map}.json'), 'w') as json_file:
-            json.dump(env_config, json_file, indent=4)
-
-
-    unrealcv.client.disconnect()
-    ue_binary.close()
+        os.makedirs(args.target_dir, exist_ok=True)
+        output_path = os.path.abspath(os.path.join(args.target_dir, f'{env_map}.json'))
+        with open(output_path, 'w', encoding='utf-8') as json_file:
+            json.dump(env_config, json_file, indent=4, ensure_ascii=False)
+        print(f'SAVED|map={env_map}|path={output_path}', flush=True)

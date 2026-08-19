@@ -10,7 +10,9 @@ from gym_unrealcv.envs.tracking.baseline import PoseTracker, DronePoseTracker
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, augmentation, configUE
 from pynput import keyboard
 import os
-os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
+# Optional local override: uncomment and set this path to run without defining
+# UnrealEnv in the command line.
+# os.environ['UnrealEnv'] = r'C:\path\to\UnrealEnv'
 
 def pick_reachable_goal(env, leader_obj, max_trials=12):
     """Sample a reachable goal for leader by probing nav path."""

@@ -18,7 +18,9 @@ import numpy as np
 from gym_unrealcv.envs.wrappers import time_dilation, early_done, monitor, agents, augmentation,configUE
 from gym_unrealcv.envs.tracking.baseline import PoseTracker, Nav2GoalAgent
 import os
-os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
+# Optional local override: uncomment and set this path to run without defining
+# UnrealEnv in the command line.
+# os.environ['UnrealEnv'] = r'C:\path\to\UnrealEnv'
 
 
 if __name__ == '__main__':

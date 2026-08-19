@@ -5,7 +5,9 @@ from pynput import keyboard
 import time
 import cv2
 import os
-os.environ['UnrealEnv']='/media/wuk/T9/UnrealEnv/'
+# Optional local override: uncomment and set this path to run without defining
+# UnrealEnv in the command line.
+# os.environ['UnrealEnv'] = r'C:\path\to\UnrealEnv'
 
 class RandomAgent(object):
     """The world's simplest agent!"""

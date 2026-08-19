@@ -1,0 +1,15 @@
+{
+  "upstream_repository": "https://github.com/ZiwenZhuang/parkour",
+  "upstream_commit": "5e1f4136f7fec9dac2741add63ca58d32090666f",
+  "project_page": "https://robot-parkour.github.io/",
+  "license": "MIT",
+  "checkpoint_archive": "Nov02_16-18-16_674k_distill_crawljumpjumpleap_vDelay0.25-0.30_camPitch0.52_depthMax2.0_jumpNov02_11-07-49_leapVel1.5_jumpOffset0.05_oracleResetWhenSkill_fricMax2.0_noTanh_fromOct28_16-16-58.zip",
+  "files": {
+    "model_674000.pt": {
+      "sha256": "9262B10F0BD5E0C6B750AF93F35B161C8B68EAAA97DBBFB7CD139480FFC677C9"
+    },
+    "config.json": {
+      "sha256": "B76B1B297AC3593FEF298B894CFD714C372D9772A03F6A64A4C7879C5AD2CD7B"
+    }
+  }
+}

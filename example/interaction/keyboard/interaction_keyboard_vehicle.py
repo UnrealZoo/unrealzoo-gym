@@ -8,7 +8,9 @@ from pynput import keyboard
 
 from gym_unrealcv.envs.wrappers import augmentation, configUE
 import os
-os.environ['UnrealEnv']='I:\\UnrealProject\\UnrealZoo_UE5_6_PKG'
+# Optional local override: uncomment and set this path to run without defining
+# UnrealEnv in the command line.
+# os.environ['UnrealEnv'] = r'C:\path\to\UnrealEnv'
 
 # Optional init pose placeholders (Unreal world coordinates in cm).
 # Set to [x, y, z] to enable, keep None to use default random spawn.

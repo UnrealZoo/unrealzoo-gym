@@ -59,9 +59,26 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ## 🔥 What's New
 
-> **UnrealZoo v3.0 is released!** This is our biggest update yet, bringing complete heterogeneous multi-agent collaboration capabilities, out-of-the-box interaction systems, and a comprehensive upgrade to the UnrealCV+ Plugin.
+> **UnrealZoo v4.0 expands the v3.0 foundation** with faster visual observation, 3-D perception, physics-driven robots, runtime agent customization, and externally packaged environments.
 
-### 🚀 v3.0 Core Updates
+### 🚀 v4.0 Core Updates
+
+| Feature | Status | Description |
+|------|------|----------------------------------------|
+| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera capture reaches 96.20 FPS at 2K and 65.21 FPS at 4K; current benchmarks show up to 14.66× standard-camera and 4.96× panorama speedup |
+| **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
+| **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
+| **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
+| **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
+| **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
+| **External 3DGS Environments** | ✅ Added | Load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
+
+📄 [v4.0 Changelog](doc/CHANGELOG_v4.0.md) · 📚 [v4.0 Feature Guide](example/new_features/README.md)
+
+<details>
+<summary><b>🚀 v3.0 Core Updates</b></summary>
+
+> **UnrealZoo v3.0 is released!** This is our biggest update yet, bringing complete heterogeneous multi-agent collaboration capabilities, out-of-the-box interaction systems, and a comprehensive upgrade to the UnrealCV+ Plugin.
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
@@ -71,10 +88,16 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **NavMesh Path Planning** | ✅ Released | Calculate shortest path waypoints via API, support autonomous agent navigation control and waypoint export |
 | **VLN Baseline Examples** | ✅ Added | Integrates Uni-NaVid, ViNT/NoMaD, and StreamVLN with UnrealZoo navigation via a shared `env.step()` example. See [VLN Baseline README](example/VLN_Baseline/README.md) |
 
+</details>
+
 ### 🔌 UnrealCV+ Plugin Upgrade
 
 | Feature | Description |
 |------|------------------------|
+| **Faster Camera Capture** | Standard-camera capture reaches **96.20 FPS at 2K** and **65.21 FPS at 4K**; measured speedup reaches 14.66× for standard cameras and 4.96× for panoramas |
+| **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
+| **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
+| **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
 | **Rendering Performance Boost** | Image rendering speed improved by 120%, multi-agent scene FPS significantly enhanced |
 | **PAK Runtime Mounting** | Dynamically extend content resources without rebuilding the project |
 | **Panoramic Camera Support** | 360° equirectangular image/video export, supports VR preview |
@@ -83,14 +106,15 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Scene Annotation System** | Supports semantic segmentation and object detection training workflows |
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
 
-> 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, complete interaction system — UnrealZoo v3.0 is fully supported out-of-the-box
+> 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, and the complete interaction system are supported out-of-the-box.
 
-📄 [View Full Changelog](doc/CHANGELOG_v4.md) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
+📄 [View Full Changelog](doc/CHANGELOG_v4.0.md) | 📚 [UnrealCV+ Documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
 
 ### 📦 Environment Package Download
 
 | Version                                                  | Content | Size  | Download |
 |----------------------------------------------------------|------|-------|------|
+| **Latest UE5.7 Full Package**                            | UnrealZoo v4.0 full environment package | — | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | **UE5.6 Full Version (recommend)**                       | 100+ scenes, Chaos physics | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) , [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | UE5 Demo Version (1.0 version, require v2.0 branch code) | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | UE4 Demo Version (1.0 version, require v2.0 branch code) | 6 example scenes | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files), [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE4) |
@@ -120,9 +144,19 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 - ✅ NavMesh path planning and task application demo code
 - ✅ UnrealCV+ Plugin comprehensive upgrade
 
+#### 2026: v4.0 Development Snapshot
+- ✅ Faster UnrealCV visual observation and recording workflows
+- ✅ LiDAR and occupancy voxel observations
+- ✅ MuJoCo Go1 simulation examples
+- ✅ User-packaged 3DGS environment support
+- ✅ Runtime drone visual customization with animated built-in models and external Static Mesh support
+- ✅ Expanded character social animations
+
 </details>
 
 [View Full Changelog](CHANGELOG.md)
+
+[View v4.0 Changelog](doc/CHANGELOG_v4.0.md)
 
 ---
 
@@ -148,6 +182,16 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 <div align="center">
 
+| 📡 **LiDAR Observation** | 🧊 **Occupancy Voxels** | 🐕 **MuJoCo Go1** | 🌐 **External 3DGS** |
+|:---:|:---:|:---:|:---:|
+| XYZI point-cloud observation | LINGO-compatible 3-D grids | Keyboard and policy control | Load user-packaged scenes |
+| Pose-conditioned street mapping | Bounds and mesh modes | Unreal-rendered simulation | Reuse agents and task APIs |
+
+| 🚁 **Drone Visual Customization** | 🎭 **Social Animation** | ⚡ **Faster UnrealCV Capture** |
+|:---:|:---:|:---:|
+| Five animated production-ready models plus a customization template | Select character social actions at runtime | Standard camera: 96.20 FPS at 2K, 65.21 FPS at 4K |
+| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Up to 14.66× standard and 4.96× panorama speedup |
+
 | 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
 |:---:|:---:|:---:|:---:|
 | Urban/Natural/Architectural/Industrial | Real-time collaboration in same scene | Enter/Drive/Exit | Pickup/Carry/Place |
@@ -165,6 +209,24 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ## 🎬 System Interaction Demo
 
 <div align="center">
+
+**🐕 MuJoCo Go1 Control & Parkour**
+
+| Keyboard Control | Parkour: Third-Person View | Parkour: Depth Observation |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/mujoco_go1_keyboard.gif" width="100%" alt="MuJoCo Go1 keyboard control"> | <img src="doc/figs/new_features/mujoco_go1_parkour_third_person.gif" width="100%" alt="MuJoCo Go1 parkour third-person view"> | <img src="doc/figs/new_features/mujoco_go1_parkour_depth.gif" width="100%" alt="MuJoCo Go1 parkour depth observation"> |
+| Basic `I/J/K/L` locomotion demo | Advanced policy behavior rendered from outside the robot | UnrealCV raw depth and the policy depth input |
+
+| 🚁 Runtime Drone Visual Customization | 🎭 Character Social Animation | 🌐 External 3DGS + UnrealZoo Actor |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/drone_mesh_switch.gif" width="100%" alt="UnrealZoo runtime drone mesh switching"> | <img src="doc/figs/new_features/social_animation.gif" width="100%" alt="UnrealZoo character social animations"> | <img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor"> |
+| [Five animated built-in models plus external Static Mesh support](example/new_features/README.md#4-runtime-drone-visual-customization) | [`set_social_anim` case-sensitive argument list](example/new_features/README.md#5-character-social-animations) | Load an external 3DGS scene and reuse an UnrealZoo-supported actor |
+
+**📡 LiDAR Street Mapping**
+
+<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
+
+Player-controlled LiDAR observation with pose-conditioned map updates.
 
 **🚗 Vehicle Interaction**
 
@@ -201,6 +263,58 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ---
 
 ## 🎮 Interaction Demo (Example Code)
+
+<details open>
+<summary><b>✨ v4.0 Feature Demos</b></summary>
+
+Run these commands from the repository root in Windows CMD. They use the
+registered environment configuration and resolve its binary from the existing
+`UnrealEnv` path:
+
+```cmd
+python example\new_features\suburb_street_slam.py
+python example\new_features\occupancy_voxel_demo.py --profile lingo_vis --method mesh
+python example\new_features\drone_mesh_switch_demo.py --interval 2 --cycles 2 --render
+```
+
+The two Go1 examples connect to a binary that you start
+manually. Wait for the map and UnrealCV server to finish loading, then use the
+matching port:
+
+```cmd
+python example\mujoco\go1_keyboard_control.py --host 127.0.0.1 --port 9000
+python example\mujoco\go1_parkour.py --host 127.0.0.1 --port 9000 --command-mode keyboard
+```
+
+Both Go1 examples use `I/K` for forward/backward and `J/L` for turning. The
+advanced example adapts the official [Robot Parkour Learning repository](https://github.com/ZiwenZhuang/parkour);
+source and citation details are recorded in the [MuJoCo example guide](example/mujoco/README.md#advanced-policy-source-and-citation).
+
+**Social animation:** See the [`set_social_anim` API and case-sensitive
+argument list](example/new_features/README.md#5-character-social-animations).
+
+See the [v4.0 feature guide](example/new_features/README.md) for arguments,
+controls, asset requirements, and observation formats.
+
+</details>
+
+<details>
+<summary><b>🌐 Dynamic 3DGS Environment Loading</b></summary>
+
+Start the UnrealZoo v4.0 binary, open its UnrealCV command console, and load
+the externally packaged 3DGS level directly:
+
+```text
+vset /action/game/level /Game/3dgs/custom_3dgs
+```
+
+The loaded level continues to use UnrealZoo agents, cameras, observations, and
+interaction APIs. See the [external 3DGS package workflow](example/new_features/README.md#6-dynamic-3dgs-environment-load)
+for the asset and package requirements.
+
+<img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor">
+
+</details>
 
 <details>
 <summary><b>📹 Video Data Recording</b></summary>
@@ -348,6 +462,7 @@ pip install -e .
 
 | Package                                                 | Download Link | Size  |
 |---------------------------------------------------------|----------|-------|
+| **Latest UE5.7 Full Package**                           | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [🤗 Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) | — |
 | **UE5 Full Version (Recommended)**                      | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) | ~70GB |
 | UE5 Demo Scenes (1.0 version, require v2.0 branch code) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
 | UE4 Demo Scenes (1.0 version, require v2.0 branch code) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB  |
@@ -431,6 +546,7 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 | [Wrapper Guide](doc/wrapper.md)           | Environment wrapper APIs |
 | [Add Environment](doc/addEnv.md)          | Custom environment tutorial |
 | [CHANGELOG](doc/CHANGELOG_v4.md)          | Version update history |
+| [v4.0 Changelog](doc/CHANGELOG_v4.0.md)   | v4.0 feature boundary and release highlights |
 | [Example Index](example/README.md)        | All example code |
 
 ---
@@ -442,6 +558,7 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 - ✅ Expand the list of supported interactive actions
 - [ ] Add more detailed examples for reinforcement learning agents
 - [ ] Add more detailed examples for large vision-language models
+- [ ] Add MuJoCo Unitree G1 integration and examples.
 
 ---
 

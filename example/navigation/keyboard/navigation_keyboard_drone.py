@@ -5,7 +5,9 @@ from pynput import keyboard
 import time
 import cv2
 import os
-os.environ['UnrealEnv']='E:\\UnrealEnv'
+# Optional local override: uncomment and set this path to run without defining
+# UnrealEnv in the command line.
+# os.environ['UnrealEnv'] = r'D:\path\to\UnrealEnv'
 
 class RandomAgent(object):
     """The world's simplest agent!"""
@@ -120,7 +122,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     # parser.add_argument("-e", "--env_id", nargs='?', default='UnrealTrack-track_train-ContinuousMask-v4',
     #                     help='Select the environment to run')
-    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealNavigation-Demo_Roof-ContinuousColor-v0',
+    parser.add_argument("-e", "--env_id", nargs='?', default='UnrealNavigation-SuburbNeighborhood_Day-ContinuousColor-v0',
                         help='Select the environment to run')
     parser.add_argument("-r", '--render', dest='render', action='store_true', help='show env using cv2')
     parser.add_argument("-s", '--seed', dest='seed', default=10, help='random seed')
