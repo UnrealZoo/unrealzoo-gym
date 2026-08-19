@@ -12,7 +12,7 @@ connection to an environment started by the user.
 |---|---|---|---|
 | LiDAR observation + mapping | XYZI observation, scan checks and pose-conditioned street mapping | [`suburb_street_slam.py`](suburb_street_slam.py) | RGB + current scan + accumulated map dashboard |
 | MuJoCo | UE rendering driven by MuJoCo state and policy observations | [`../mujoco/go1_parkour.py`](../mujoco/go1_parkour.py) | Keyboard, parkour third-person, and depth-observation GIFs |
-| Scene occupancy voxels | LINGO-compatible bool XYZ grid, bounds/mesh modes, camera-relative origin | [`occupancy_voxel_demo.py`](occupancy_voxel_demo.py) | Top-down projection, height slice and 3-D voxels |
+| Scene occupancy voxels | LINGO-compatible bool XYZ grid, bounds/mesh modes, camera-relative origin | [`occupancy_voxel_demo.py`](occupancy_voxel_demo.py), [`occupancy_live_mapping.py`](occupancy_live_mapping.py) | Live RGB + occupancy projection while the observation pose changes |
 | Runtime drone visual customization | Five production-ready models with animated propellers, one customization template, and external Static Mesh support on the same live pawn | [`drone_mesh_switch_demo.py`](drone_mesh_switch_demo.py) | Third-person GIF covering the built-in appearances |
 | Character social animations | Runtime selection from the packaged party, everyday, and in-car animation groups | `BP_Character.set_social_anim` | Third-person character montage capture |
 | Dynamic 3DGS load | A user-supplied packaged 3DGS level is loaded and reused by UnrealZoo agents | `vset /action/game/level /Game/3dgs/custom_3dgs` in the UE binary | External scene + supported-actor GIF |
@@ -122,6 +122,13 @@ platform location. If the scene contains multiple Go1 actors, pass `--actor`
 to select one explicitly. Run only one Go1 controller per UnrealCV server.
 
 ## 3. Scene occupancy voxel observation
+
+![Live RGB and occupancy observation](../../doc/figs/new_features/occupancy/occupancy_live_mapping.gif)
+
+The live recording example continuously requests RGB and camera-relative
+occupancy observations while moving the observation pose through the scene.
+It renders the current occupied-space projection alongside the RGB view and
+encodes the result as an MP4 for dataset and documentation workflows.
 
 The observation is a C-order bool NPY grid with axis order `[x, y_up, z]`:
 
