@@ -287,6 +287,15 @@ character asset, and moves it to the generated bench in response to a natural-
 language instruction. See the [Runtime MCP examples](https://github.com/lizi-Margin/unrealcv-runtime-mcp)
 for the client, audit data, and recording script.
 
+**MetaHuman Crowd Wardrobe**
+
+<img src="doc/figs/new_features/metahuman/metahuman_crowd_wardrobe.gif" width="100%" alt="MetaHuman crowd wardrobe changes">
+
+Prebuilt MetaHuman character Blueprints are spawned and exchanged at runtime to
+demonstrate scalable crowd wardrobe variation. See the [MetaHuman command
+reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html#metahuman)
+and the [recording example](example/new_features/metahuman_crowd_wardrobe.py).
+
 **🚗 Vehicle Interaction**
 
 <div align="center">
