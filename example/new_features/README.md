@@ -163,7 +163,20 @@ The specification response describes shape, dtype, layout, grid bounds,
 origin, yaw, and voxelization method so downstream models can validate their
 expected observation contract.
 
-## 4. Runtime drone visual customization
+## 4. MetaHuman crowd wardrobe
+
+![MetaHuman crowd wardrobe](../../doc/figs/new_features/metahuman/metahuman_crowd_wardrobe.gif)
+
+`metahuman_crowd_wardrobe.py` spawns two real MetaHuman Blueprint assets at a
+time and replaces the pair with prebuilt wardrobe variants. Each preset is held
+for two seconds so the capture can be used as a short public demonstration or
+as a reproducible visual regression artifact.
+
+```cmd
+python example\new_features\metahuman_crowd_wardrobe.py --port 9001
+```
+
+## 5. Runtime drone visual customization
 
 ![Runtime drone mesh switching](../../doc/figs/new_features/drone_mesh_switch.gif)
 
