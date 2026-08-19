@@ -72,6 +72,12 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
 | **External 3DGS Environments** | ✅ Added | Load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
+| **Shared-Memory Observation Transport** | ✅ Added | Transfer raw camera and occupancy observations through shared memory with lower acquisition latency |
+| **Runtime Reflection** | ✅ Added | Inspect reflected Unreal objects and call or update supported properties and functions through UnrealCV |
+| **Runtime MCP** | ✅ Added | Connect an MCP-compatible agent to a running UnrealZoo environment for scene inspection and task control |
+| **Cinematic Camera** | ✅ Added | Configure physical filmback, lens, focus, crop, near clip, and exposure parameters from Python clients |
+| **MQRC Rendering** | ✅ Added | Capture high-quality lit output with configurable temporal, exposure, Lumen, and post-process settings |
+| **MetaHuman Workflows** | ✅ Added | Create, assemble, customize, and animate MetaHuman actors for scalable character and crowd scenarios |
 
 📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 Feature Guide](example/new_features/README.md)
 
@@ -105,10 +111,45 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Object Spawning from Path** | Spawn objects directly using full asset paths |
 | **Scene Annotation System** | Supports semantic segmentation and object detection training workflows |
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
+| **Shared-Memory Transport** | Raw camera and occupancy buffers for low-copy observation pipelines |
+| **Runtime Reflection** | JSON-based inspection, property access, and function invocation for supported Unreal objects |
+| **Cinematic Camera Controls** | Physical camera settings and derived intrinsics for controlled image formation |
+| **MQRC Capture** | High-quality lit capture with explicit rendering and post-process controls |
+| **Runtime MCP** | Agent-facing scene overview, actor inspection, and UnrealCV command execution |
+| **MetaHuman Operations** | Runtime MetaHuman discovery, assembly, wardrobe, and animation commands |
 
 > 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, and the complete interaction system are supported out-of-the-box.
 
 📄 [View Full Changelog](doc/CHANGELOG_v3.1.md) | 📚 [UnrealCV+ Documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
+
+### Additional v4.0 Capabilities
+
+The v4.0 UnrealCV development surface also includes the following workflows.
+Each item links to the corresponding public reference or example repository.
+
+| Capability | User-facing workflow | Reference |
+|---|---|---|
+| Shared-memory transport | Read raw `lit`, depth, normal, object-mask, panoramic, and occupancy buffers without encoding them into the TCP response | [Shared-memory reference](https://docs.unrealcv.org/en/latest/reference/shared_memory.html) |
+| Runtime reflection | Query reflected functions and properties, read nested values, update writable state, and invoke JSON-parameterized functions | [Runtime reflection reference](https://docs.unrealcv.org/en/latest/reference/runtime_reflection.html) |
+| Runtime MCP | Let an MCP client inspect a scene, inspect actors, execute UnrealCV commands, and drive a running environment | [Runtime MCP examples](https://github.com/lizi-Margin/unrealcv-runtime-mcp) |
+| Cinematic camera | Use physical filmback, lens, focus tracking, crop, near clipping, exposure, and camera intrinsics | [Cinematic camera reference](https://docs.unrealcv.org/en/latest/reference/cine_camera.html) |
+| MQRC rendering | Capture lit frames with explicit anti-aliasing, Lumen, exposure, motion-blur, screen-percentage, and immediate-render controls | [MQRC and capture reference](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) |
+| MetaHuman workflows | Discover available assets and create, assemble, customize, and animate MetaHuman actors at runtime | [UnrealCV+ command reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html#metahuman) |
+
+#### Occupancy and Agent-Control Visualizations
+
+Scene occupancy can be inspected as a top-down projection or a 3-D voxel view.
+Runtime MCP examples show the same environment before and after an agent-led
+scene-generation sequence.
+
+| Scene occupancy | Runtime MCP scene generation |
+|:---:|:---:|
+| ![Scene occupancy voxel visualization](doc/figs/new_features/occupancy/scene-occupancy-3d-views.png) | ![Runtime MCP scene generation sequence](doc/figs/new_features/runtime_mcp/06_hero_view.png) |
+
+See the [occupancy observation guide](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)
+for profiles, coordinate conventions, and visualization examples. The full
+Runtime MCP image sequence is available in
+[`doc/figs/new_features/runtime_mcp`](doc/figs/new_features/runtime_mcp).
 
 ### 📦 Environment Package Download
 
