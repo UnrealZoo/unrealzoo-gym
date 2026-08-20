@@ -624,17 +624,17 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 The v3.1 follow-up validation checklist is tracked here so every published
 demo is reproducible:
 
-- [ ] Re-record Live Occupancy with RGB and occupancy warm-up frames; use a
+- [x] Re-record Live Occupancy with RGB and occupancy warm-up frames; use a
   density/geometry projection rather than a flat yellow panel.
-- [ ] Re-record Runtime MCP at a readable pace with warm-up; move the bench
+- [x] Re-record Runtime MCP at a readable pace with warm-up; move the bench
   off the original center point and use the `BP_Character` asset.
-- [ ] Re-record MetaHuman Crowd Wardrobe after shader, lighting, and temporal
+- [x] Re-record MetaHuman Crowd Wardrobe after shader, lighting, and temporal
   warm-up; verify visible wardrobe differences in representative frames.
-- [ ] Add Cine camera same-position parameter comparisons and link them from
+- [x] Add Cine camera same-position parameter comparisons and link them from
   the UnrealCV Dev for UnrealZoo development documentation.
-- [ ] Add the BaseCam lit versus MQRC lit same-position comparison, explicitly
+- [x] Add the BaseCam lit versus MQRC lit same-position comparison, explicitly
   showing complete tone mapping and preserved brightness.
-- [ ] Keep SPEAR citations in shared-memory and runtime-reflection pages.
+- [x] Keep SPEAR citations in shared-memory and runtime-reflection pages.
 
 - ✅ Release an all-in-one package of the collected environments
 - ✅ Add gym interface for heterogeneous multi-agent co-operation
