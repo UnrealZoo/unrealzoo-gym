@@ -129,6 +129,9 @@ The live recording example continuously requests RGB and camera-relative
 occupancy observations while moving the observation pose through the scene.
 It renders the current occupied-space projection alongside the RGB view and
 encodes the result as an MP4 for dataset and documentation workflows.
+Every camera move discards temporal warm-up frames before the RGB and
+occupancy pair is written; `mesh` density is color-mapped so sparse geometry is
+not rendered as a flat yellow panel.
 
 The observation is a C-order bool NPY grid with axis order `[x, y_up, z]`:
 
@@ -173,7 +176,14 @@ for two seconds so the capture can be used as a short public demonstration or
 as a reproducible visual regression artifact.
 
 ```cmd
-python example\new_features\metahuman_crowd_wardrobe.py --port 9001
+python example\new_features\metahuman_crowd_wardrobe.py --port 9001 --warmup-frames 12 --warmup-interval 0.1
+```
+
+For the packaged Tokyo scene used by the published capture, the verified
+camera and ground placement is:
+
+```cmd
+python example\new_features\metahuman_crowd_wardrobe.py --port 9000 --camera-location "-5160 -1030 180" --camera-rotation "0 -1 0" --fov 60 --spawn-x -4700 --spawn-y -1030 --spawn-z 40 --actor-rotation "0 180 0"
 ```
 
 ## 5. Runtime drone visual customization
