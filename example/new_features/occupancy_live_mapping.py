@@ -35,7 +35,11 @@ def _occupancy_view(payload: bytes, size: tuple[int, int]) -> np.ndarray:
     projection = cv2.resize(projection, size, interpolation=cv2.INTER_NEAREST)
     colored = np.zeros((*projection.shape, 3), dtype=np.uint8)
     occupied = projection > 0
-    colored[occupied] = (40, 220, 255)
+    # Use occupancy density as intensity so sparse geometry remains visible
+    # instead of collapsing into a flat yellow panel.
+    intensity = np.clip(120 + projection.astype(np.int16) // 3, 0, 255).astype(np.uint8)
+    colored[occupied] = np.stack((np.full(np.count_nonzero(occupied), 40, np.uint8), intensity[occupied], np.full(np.count_nonzero(occupied), 80, np.uint8)), axis=1)
+    colored[~occupied] = (18, 24, 32)
     return colored
 
 
@@ -57,6 +61,13 @@ def record(args: argparse.Namespace) -> Path:
     panel_size = (width, height)
     with tempfile.TemporaryDirectory(prefix="unrealzoo_occ_") as temp_dir:
         frame_dir = Path(temp_dir)
+        for _ in range(args.warmup_frames):
+            client.request("vget /camera/0/lit png")
+            client.request(
+                f"vget /scene/occupancy npy {args.profile} {args.method} "
+                f"{args.start_x:.3f} {args.start_y:.3f} {args.origin_z:.3f} {args.origin_yaw:.3f} 0",
+                timeout=args.timeout,
+            )
         for index in range(args.frames):
             progress = index / max(1, args.frames - 1)
             y = args.start_y + (args.end_y - args.start_y) * progress
@@ -93,7 +104,7 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=9000)
     parser.add_argument("--output", default="artifacts/occupancy_live_mapping.mp4")
     parser.add_argument("--profile", default="lingo_train", choices=("lingo_train", "lingo_vis"))
-    parser.add_argument("--method", default="bounds", choices=("bounds", "mesh"))
+    parser.add_argument("--method", default="mesh", choices=("bounds", "mesh"))
     parser.add_argument("--frames", type=int, default=24)
     parser.add_argument("--fps", type=int, default=8)
     parser.add_argument("--width", type=int, default=640)
@@ -108,6 +119,7 @@ def main() -> int:
     parser.add_argument("--origin-z", type=float, default=0)
     parser.add_argument("--origin-yaw", type=float, default=0)
     parser.add_argument("--timeout", type=int, default=120)
+    parser.add_argument("--warmup-frames", type=int, default=5)
     args = parser.parse_args()
     print(record(args))
     return 0

@@ -163,6 +163,10 @@ def record(args: argparse.Namespace) -> tuple[Path, Path]:
                     request_ok(client, f"vset /object/WardrobeMale{index - 1}/destroy")
                 spawn_pair(client, preset, index)
                 time.sleep(args.refresh_delay)
+                # Let skeletal meshes, materials, lighting, and temporal history settle.
+                for _ in range(args.warmup_frames):
+                    capture(client)
+                    time.sleep(args.warmup_interval)
                 frame = label(capture(client), preset, index)
                 for _ in range(frames_per_preset):
                     cv2.imwrite(str(frame_dir / f"frame_{frame_index:05d}.png"), frame)
@@ -182,6 +186,8 @@ def main() -> int:
     parser.add_argument("--fps", type=int, default=8)
     parser.add_argument("--seconds-per-preset", type=float, default=2.0)
     parser.add_argument("--refresh-delay", type=float, default=0.5)
+    parser.add_argument("--warmup-frames", type=int, default=8)
+    parser.add_argument("--warmup-interval", type=float, default=0.08)
     parser.add_argument("--gif-width", type=int, default=640)
     parser.add_argument(
         "--output",
