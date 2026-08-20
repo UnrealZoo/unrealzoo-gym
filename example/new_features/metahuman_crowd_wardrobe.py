@@ -60,14 +60,20 @@ def request_ok(client: Client, command: str) -> bytes | str:
     return response
 
 
-def spawn_pair(client: Client, preset: WardrobePreset, index: int) -> None:
+def request_best_effort(client: Client, command: str) -> None:
+    response = client.request(command)
+    if isinstance(response, str) and response.lower().startswith("error"):
+        return
+
+
+def spawn_pair(client: Client, preset: WardrobePreset, index: int, x: float, y: float, z: float) -> None:
     request_ok(
         client,
-        f"vset /objects/spawn_from_path {preset.female_path} WardrobeFemale{index} -70 0 0",
+        f"vset /objects/spawn_from_path {preset.female_path} WardrobeFemale{index} {x - 70:.1f} {y:.1f} {z:.1f}",
     )
     request_ok(
         client,
-        f"vset /objects/spawn_from_path {preset.male_path} WardrobeMale{index} 70 0 0",
+        f"vset /objects/spawn_from_path {preset.male_path} WardrobeMale{index} {x + 70:.1f} {y:.1f} {z:.1f}",
     )
 
 
@@ -151,7 +157,10 @@ def record(args: argparse.Namespace) -> tuple[Path, Path]:
             "vset /object/BP_Female_Preview_C_1/destroy",
             "vset /object/BP_Male_Preview_C_0/destroy",
         ):
-            request_ok(client, command)
+            if command.endswith("/destroy"):
+                request_best_effort(client, command)
+            else:
+                request_ok(client, command)
 
         frames_per_preset = max(1, round(args.seconds_per_preset * args.fps))
         with tempfile.TemporaryDirectory(prefix="unrealzoo_wardrobe_") as temp_dir:
@@ -161,7 +170,7 @@ def record(args: argparse.Namespace) -> tuple[Path, Path]:
                 if index:
                     request_ok(client, f"vset /object/WardrobeFemale{index - 1}/destroy")
                     request_ok(client, f"vset /object/WardrobeMale{index - 1}/destroy")
-                spawn_pair(client, preset, index)
+                spawn_pair(client, preset, index, args.spawn_x, args.spawn_y, args.spawn_z)
                 time.sleep(args.refresh_delay)
                 # Let skeletal meshes, materials, lighting, and temporal history settle.
                 for _ in range(args.warmup_frames):
@@ -182,6 +191,9 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=9001)
     parser.add_argument("--camera-location", default="0 -600 100")
     parser.add_argument("--camera-rotation", default="0 90 0")
+    parser.add_argument("--spawn-x", type=float, default=-70)
+    parser.add_argument("--spawn-y", type=float, default=0)
+    parser.add_argument("--spawn-z", type=float, default=0)
     parser.add_argument("--fov", type=float, default=45)
     parser.add_argument("--fps", type=int, default=8)
     parser.add_argument("--seconds-per-preset", type=float, default=2.0)
