@@ -66,7 +66,15 @@ def request_best_effort(client: Client, command: str) -> None:
         return
 
 
-def spawn_pair(client: Client, preset: WardrobePreset, index: int, x: float, y: float, z: float) -> None:
+def spawn_pair(
+    client: Client,
+    preset: WardrobePreset,
+    index: int,
+    x: float,
+    y: float,
+    z: float,
+    rotation: str,
+) -> None:
     request_ok(
         client,
         f"vset /objects/spawn_from_path {preset.female_path} WardrobeFemale{index} {x - 70:.1f} {y:.1f} {z:.1f}",
@@ -75,6 +83,8 @@ def spawn_pair(client: Client, preset: WardrobePreset, index: int, x: float, y: 
         client,
         f"vset /objects/spawn_from_path {preset.male_path} WardrobeMale{index} {x + 70:.1f} {y:.1f} {z:.1f}",
     )
+    request_ok(client, f"vset /object/WardrobeFemale{index}/rotation {rotation}")
+    request_ok(client, f"vset /object/WardrobeMale{index}/rotation {rotation}")
 
 
 def capture(client: Client) -> np.ndarray:
@@ -170,7 +180,15 @@ def record(args: argparse.Namespace) -> tuple[Path, Path]:
                 if index:
                     request_ok(client, f"vset /object/WardrobeFemale{index - 1}/destroy")
                     request_ok(client, f"vset /object/WardrobeMale{index - 1}/destroy")
-                spawn_pair(client, preset, index, args.spawn_x, args.spawn_y, args.spawn_z)
+                spawn_pair(
+                    client,
+                    preset,
+                    index,
+                    args.spawn_x,
+                    args.spawn_y,
+                    args.spawn_z,
+                    args.actor_rotation,
+                )
                 time.sleep(args.refresh_delay)
                 # Let skeletal meshes, materials, lighting, and temporal history settle.
                 for _ in range(args.warmup_frames):
@@ -194,6 +212,7 @@ def main() -> int:
     parser.add_argument("--spawn-x", type=float, default=-70)
     parser.add_argument("--spawn-y", type=float, default=0)
     parser.add_argument("--spawn-z", type=float, default=0)
+    parser.add_argument("--actor-rotation", default="0 180 0")
     parser.add_argument("--fov", type=float, default=45)
     parser.add_argument("--fps", type=int, default=8)
     parser.add_argument("--seconds-per-preset", type=float, default=2.0)
