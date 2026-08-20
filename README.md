@@ -130,10 +130,10 @@ Each item links to the corresponding public reference or example repository.
 | Capability | User-facing workflow | Reference |
 |---|---|---|
 | Shared-memory transport | Read raw `lit`, depth, normal, object-mask, panoramic, and occupancy buffers without encoding them into the TCP response | [Shared-memory reference](https://docs.unrealcv.org/en/latest/reference/shared_memory.html) |
-| Runtime reflection | Query reflected functions and properties, read nested values, update writable state, and invoke JSON-parameterized functions | [Runtime reflection reference](https://docs.unrealcv.org/en/latest/reference/runtime_reflection.html) |
+| Runtime reflection | Query reflected functions and properties, read nested values, update writable state, and invoke JSON-parameterized functions | [Runtime reflection reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html) |
 | Runtime MCP | Let an MCP client inspect a scene, inspect actors, execute UnrealCV commands, and drive a running environment | [Runtime MCP examples](https://github.com/lizi-Margin/unrealcv-runtime-mcp) |
-| Cinematic camera | Use physical filmback, lens, focus tracking, crop, near clipping, exposure, and camera intrinsics | [Cinematic camera reference](https://docs.unrealcv.org/en/latest/reference/cine_camera.html) |
-| MQRC rendering | Capture lit frames with explicit anti-aliasing, Lumen, exposure, motion-blur, screen-percentage, and immediate-render controls | [MQRC and capture reference](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) |
+| Cinematic camera | Use physical filmback, lens, focus tracking, crop, near clipping, exposure, and camera intrinsics | [Cinematic camera reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/cine-camera.html) |
+| MQRC rendering | Capture lit frames with explicit anti-aliasing, Lumen, exposure, motion-blur, screen-percentage, and immediate-render controls | [MQRC rendering comparison](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html) |
 | MetaHuman workflows | Discover available assets and create, assemble, customize, and animate MetaHuman actors at runtime | [UnrealCV+ command reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html#metahuman) |
 
 #### Occupancy and Agent-Control Visualizations
