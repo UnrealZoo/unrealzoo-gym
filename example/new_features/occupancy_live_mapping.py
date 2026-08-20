@@ -30,15 +30,19 @@ def _image(payload: bytes) -> np.ndarray:
 
 def _occupancy_view(payload: bytes, size: tuple[int, int]) -> np.ndarray:
     grid = np.load(io.BytesIO(payload), allow_pickle=False)
-    # Project the x/y_up/z volume onto the ground plane. Flip z for a readable map.
-    projection = np.any(grid, axis=1).T.astype(np.uint8) * 255
-    projection = cv2.resize(projection, size, interpolation=cv2.INTER_NEAREST)
-    colored = np.zeros((*projection.shape, 3), dtype=np.uint8)
-    occupied = projection > 0
-    # Use occupancy density as intensity so sparse geometry remains visible
-    # instead of collapsing into a flat yellow panel.
-    intensity = np.clip(120 + projection.astype(np.int16) // 3, 0, 255).astype(np.uint8)
-    colored[occupied] = np.stack((np.full(np.count_nonzero(occupied), 40, np.uint8), intensity[occupied], np.full(np.count_nonzero(occupied), 80, np.uint8)), axis=1)
+    # Project the x/y_up/z volume onto the ground plane. Accumulated occupancy
+    # count preserves sparse-vs-dense structure instead of a flat binary mask.
+    density = np.sum(grid.astype(np.uint16), axis=1).T
+    density = cv2.resize(density, size, interpolation=cv2.INTER_NEAREST)
+    occupied = density > 0
+    normalized = np.zeros_like(density, dtype=np.uint8)
+    if np.any(occupied):
+        normalized[occupied] = np.clip(
+            density[occupied].astype(np.float32) / density[occupied].max() * 255,
+            24,
+            255,
+        ).astype(np.uint8)
+    colored = cv2.applyColorMap(normalized, cv2.COLORMAP_TURBO)
     colored[~occupied] = (18, 24, 32)
     return colored
 
@@ -74,6 +78,14 @@ def record(args: argparse.Namespace) -> Path:
             x = args.start_x + math.sin(progress * math.pi) * args.side_swing
             client.request(f"vset /camera/0/location {x:.3f} {y:.3f} {args.z:.3f}")
             client.request(f"vset /camera/0/rotation {args.pitch:.3f} {args.yaw:.3f} 0")
+            # Discard temporal-history frames after every camera move.
+            for _ in range(args.per_frame_warmup):
+                client.request("vget /camera/0/lit png")
+                client.request(
+                    f"vget /scene/occupancy npy {args.profile} {args.method} "
+                    f"{x:.3f} {y:.3f} {args.origin_z:.3f} {args.origin_yaw:.3f} 0",
+                    timeout=args.timeout,
+                )
             rgb = _image(client.request(f"vget /camera/0/lit png"))
             occ_payload = client.request(
                 f"vget /scene/occupancy npy {args.profile} {args.method} "
@@ -120,6 +132,7 @@ def main() -> int:
     parser.add_argument("--origin-yaw", type=float, default=0)
     parser.add_argument("--timeout", type=int, default=120)
     parser.add_argument("--warmup-frames", type=int, default=5)
+    parser.add_argument("--per-frame-warmup", type=int, default=2)
     args = parser.parse_args()
     print(record(args))
     return 0
