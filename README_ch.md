@@ -8,17 +8,17 @@
 
 <!-- Title -->
 <h1>UnrealZoo</h1>
-<h3>开箱即用的多智能体具身智能训练平台</h3>
+<h3>Large-scale Photo-realistic Virtual Worlds for Embodied AI</h3>
 <p>Production-Ready 的照片级虚拟环境，支持 100+ 场景、10+ 智能体实时协作</p>
 
 <!-- Badges -->
 <p align="center">
-  <img src="https://img.shields.io/badge/UE-5.6-blue?style=flat-square&logo=unrealengine" />
+  <img src="https://img.shields.io/badge/UE-5.7-blue?style=flat-square&logo=unrealengine" />
   <img src="https://img.shields.io/badge/Python-3.8+-green?style=flat-square&logo=python" />
   <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20Win%20%7C%20Mac-orange?style=flat-square" />
   <img src="https://img.shields.io/badge/Scenes-100+-purple?style=flat-square" />
   <img src="https://img.shields.io/badge/Agents-10+-ff69b4?style=flat-square" />
-  <img src="https://img.shields.io/badge/ICCV-2025-red?style=flat-square" />
+  <img src="https://img.shields.io/badge/ICCV_2025-Highlights-red?style=flat-square" />
 </p>
 
 <p align="center">
