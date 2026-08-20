@@ -59,9 +59,9 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ## 🔥 最新动态
 
-> **UnrealZoo v4.0 在 v3.0 基础上继续扩展**，加入更快的视觉观测、三维感知、物理机器人、运行时智能体定制和外部打包环境支持。
+> **UnrealZoo v3.1 在 v3.0 基础上继续扩展**，加入更快的视觉观测、三维感知、物理机器人、运行时智能体定制和外部打包环境支持。
 
-### 🚀 v4.0 核心更新
+### 🚀 v3.1 核心更新
 
 | 特性 | 状态 | 说明 |
 |------|------|----------------------------------------|
@@ -73,7 +73,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
 | **外部 3DGS 环境** | ✅ 新增 | 加载用户打包的 3DGS 资产并复用 UnrealZoo 智能体、相机和任务 API |
 
-📄 [v4.0 Changelog](doc/CHANGELOG_v4.0.md) · 📚 [v4.0 功能指南](example/new_features/README.md)
+📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 功能指南](example/new_features/README.md)
 
 <details>
 <summary><b>🚀 v3.0 核心更新</b></summary>
@@ -108,13 +108,13 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 > 💡 全景导出、NavMesh 路径规划、无人机仿真和完整交互系统均支持开箱即用。
 
-📄 [查看完整 Changelog](doc/CHANGELOG_v4.0.md) | 📚 [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [查看 Notion 技术文档](https://www.notion.so/unrealzoo/placeholder)
+📄 [查看完整 Changelog](doc/CHANGELOG_v3.1.md) | 📚 [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [查看 Notion 技术文档](https://www.notion.so/unrealzoo/placeholder)
 
 ### 📦 环境包下载
 
 | 版本                               | 内容 | 大小    | 下载 |
 |----------------------------------|------|-------|------|
-| **最新 UE5.7 完整版（推荐）**          | UnrealZoo v4.0 完整环境包 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
+| **最新 UE5.7 完整版（推荐）**          | UnrealZoo v3.1 完整环境包 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | **UE5.6 完整版**                      | 100+ 场景，Chaos 物理 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) |
 | UE5 示例版 (1.0版本,需要使用v2.0 branch)  | 4 个示例场景 | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
 | UE4 示例版  (1.0版本,需要使用v2.0 branch) | 6 个示例场景 | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
@@ -144,7 +144,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 - ✅ NavMesh 路径规划以及任务应用演示代码
 - ✅ UnrealCV+ Plugin 全面升级
 
-#### 2026: v4.0 开发版本
+#### 2026: v3.1 开发版本
 - ✅ 更快的 UnrealCV 视觉观测与录制工作流
 - ✅ LiDAR 和占用体素观测
 - ✅ MuJoCo Go1 仿真示例
@@ -156,7 +156,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 [查看完整更新日志](CHANGELOG.md)
 
-[查看 v4.0 更新日志](doc/CHANGELOG_v4.0.md)
+[查看 v3.1 更新日志](doc/CHANGELOG_v3.1.md)
 
 ---
 
@@ -265,7 +265,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 ## 🎮 交互演示 (Example Code)
 
 <details open>
-<summary><b>✨ v4.0 功能示例</b></summary>
+<summary><b>✨ v3.1 功能示例</b></summary>
 
 请在仓库根目录的 Windows CMD 中运行以下命令。Demo 使用已注册环境的
 配置，并通过用户已有的 `UnrealEnv` 路径自动索引 binary：
@@ -290,14 +290,14 @@ python example\mujoco\go1_parkour.py --host 127.0.0.1 --port 9000 --command-mode
 
 **社交动画：** 参见 [`set_social_anim` API 与大小写敏感参数列表](example/new_features/README.md#5-character-social-animations)。
 
-参数、控制方式、资产要求和观测格式见 [v4.0 功能指南](example/new_features/README.md)。
+参数、控制方式、资产要求和观测格式见 [v3.1 功能指南](example/new_features/README.md)。
 
 </details>
 
 <details>
 <summary><b>🌐 动态加载 3DGS 环境</b></summary>
 
-启动 UnrealZoo v4.0 binary，打开其中的 UnrealCV 命令行，然后直接加载
+启动 UnrealZoo v3.1 binary，打开其中的 UnrealCV 命令行，然后直接加载
 外部打包的 3DGS 地图：
 
 ```text
@@ -540,7 +540,7 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 | [Wrapper 说明](doc/wrapper.md)        | 环境包装器 API |
 | [添加环境](doc/addEnv.md)               | 自定义环境教程 |
 | [CHANGELOG](doc/CHANGELOG_v4.md)    | 版本更新记录 |
-| [v4.0 Changelog](doc/CHANGELOG_v4.0.md) | v4.0 功能边界与更新重点 |
+| [v3.1 Changelog](doc/CHANGELOG_v3.1.md) | v3.1 功能边界与更新重点 |
 | [示例索引](example/README.md)           | 所有示例代码 |
 
 ---

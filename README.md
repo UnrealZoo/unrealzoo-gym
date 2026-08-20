@@ -59,9 +59,9 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ## 🔥 What's New
 
-> **UnrealZoo v4.0 expands the v3.0 foundation** with faster visual observation, 3-D perception, physics-driven robots, runtime agent customization, and externally packaged environments.
+> **UnrealZoo v3.1 expands the v3.0 foundation** with faster visual observation, 3-D perception, physics-driven robots, runtime agent customization, and externally packaged environments.
 
-### 🚀 v4.0 Core Updates
+### 🚀 v3.1 Core Updates
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
@@ -73,7 +73,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
 | **External 3DGS Environments** | ✅ Added | Load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
 
-📄 [v4.0 Changelog](doc/CHANGELOG_v4.0.md) · 📚 [v4.0 Feature Guide](example/new_features/README.md)
+📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 Feature Guide](example/new_features/README.md)
 
 <details>
 <summary><b>🚀 v3.0 Core Updates</b></summary>
@@ -108,13 +108,13 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 > 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, and the complete interaction system are supported out-of-the-box.
 
-📄 [View Full Changelog](doc/CHANGELOG_v4.0.md) | 📚 [UnrealCV+ Documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
+📄 [View Full Changelog](doc/CHANGELOG_v3.1.md) | 📚 [UnrealCV+ Documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
 
 ### 📦 Environment Package Download
 
 | Version                                                  | Content | Size  | Download |
 |----------------------------------------------------------|------|-------|------|
-| **Latest UE5.7 Full Package (Recommended)**              | UnrealZoo v4.0 full environment package | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
+| **Latest UE5.7 Full Package (Recommended)**              | UnrealZoo v3.1 full environment package | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | **UE5.6 Full Version**                                   | 100+ scenes, Chaos physics | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) , [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | UE5 Demo Version (1.0 version, require v2.0 branch code) | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
 | UE4 Demo Version (1.0 version, require v2.0 branch code) | 6 example scenes | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files), [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE4) |
@@ -144,7 +144,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 - ✅ NavMesh path planning and task application demo code
 - ✅ UnrealCV+ Plugin comprehensive upgrade
 
-#### 2026: v4.0 Development Snapshot
+#### 2026: v3.1 Development Snapshot
 - ✅ Faster UnrealCV visual observation and recording workflows
 - ✅ LiDAR and occupancy voxel observations
 - ✅ MuJoCo Go1 simulation examples
@@ -156,7 +156,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 [View Full Changelog](CHANGELOG.md)
 
-[View v4.0 Changelog](doc/CHANGELOG_v4.0.md)
+[View v3.1 Changelog](doc/CHANGELOG_v3.1.md)
 
 ---
 
@@ -265,7 +265,7 @@ Player-controlled LiDAR observation with pose-conditioned map updates.
 ## 🎮 Interaction Demo (Example Code)
 
 <details open>
-<summary><b>✨ v4.0 Feature Demos</b></summary>
+<summary><b>✨ v3.1 Feature Demos</b></summary>
 
 Run these commands from the repository root in Windows CMD. They use the
 registered environment configuration and resolve its binary from the existing
@@ -293,7 +293,7 @@ source and citation details are recorded in the [MuJoCo example guide](example/m
 **Social animation:** See the [`set_social_anim` API and case-sensitive
 argument list](example/new_features/README.md#5-character-social-animations).
 
-See the [v4.0 feature guide](example/new_features/README.md) for arguments,
+See the [v3.1 feature guide](example/new_features/README.md) for arguments,
 controls, asset requirements, and observation formats.
 
 </details>
@@ -301,7 +301,7 @@ controls, asset requirements, and observation formats.
 <details>
 <summary><b>🌐 Dynamic 3DGS Environment Loading</b></summary>
 
-Start the UnrealZoo v4.0 binary, open its UnrealCV command console, and load
+Start the UnrealZoo v3.1 binary, open its UnrealCV command console, and load
 the externally packaged 3DGS level directly:
 
 ```text
@@ -546,7 +546,7 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 | [Wrapper Guide](doc/wrapper.md)           | Environment wrapper APIs |
 | [Add Environment](doc/addEnv.md)          | Custom environment tutorial |
 | [CHANGELOG](doc/CHANGELOG_v4.md)          | Version update history |
-| [v4.0 Changelog](doc/CHANGELOG_v4.0.md)   | v4.0 feature boundary and release highlights |
+| [v3.1 Changelog](doc/CHANGELOG_v3.1.md)   | v3.1 feature boundary and release highlights |
 | [Example Index](example/README.md)        | All example code |
 
 ---

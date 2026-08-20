@@ -1,7 +1,7 @@
-# UnrealZoo v4.0 Changelog
+# UnrealZoo v3.1 Changelog
 
 Status: **Development snapshot**  
-Version: **v4.0**  
+Version: **v3.1**
 Scope baseline: changes after [`v3.0-stage`](CHANGELOG_v4.md)
 
 This document fixes the feature boundary for the next major UnrealZoo update

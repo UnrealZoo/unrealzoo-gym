@@ -21,7 +21,7 @@ remove only that actor when the script exits.
   `python -m pip install -e .`. Basic control additionally requires
   `onnxruntime`; parkour additionally requires `torch`. The Go1 policy and
   parkour checkpoint are already included in this directory.
-- Start the Unreal Editor in PIE, or manually launch the packaged v4 UnrealZoo
+- Start the Unreal Editor in PIE, or manually launch the packaged v3.1 UnrealZoo
   environment, before running either script. Wait until the map is loaded and
   UnrealCV is listening. `--port` must match the server's configured `Port=`
   value or the port reported in its startup log.
@@ -38,7 +38,7 @@ remove only that actor when the script exits.
 
 Minimal launch sequence:
 
-1. Start the v4 binary or enter Editor PIE.
+1. Start the v3.1 binary or enter Editor PIE.
 2. Wait for the level to finish loading and note the UnrealCV port.
 3. Run one of the commands below with the matching `--port`.
 

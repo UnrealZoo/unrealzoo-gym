@@ -35,7 +35,7 @@ Run commands from the repository root.
 |---|---|---|
 | LiDAR, occupancy voxel, drone | Gym resolves `env_bin` below `UnrealEnv`, then launches and closes the environment | The requested port must be unused before launch |
 | Go1 keyboard and parkour | The user starts the binary or Editor PIE first | The script connects to the already listening `--host/--port` |
-| Dynamic 3DGS level | The user starts the v4.0 binary first | Enter the level-load command in the binary's UnrealCV console |
+| Dynamic 3DGS level | The user starts the v3.1 binary first | Enter the level-load command in the binary's UnrealCV console |
 
 Do not point a Gym-launched demo at a port occupied by a manually started
 binary. Conversely, the Go1 scripts cannot start a binary and will fail if no
@@ -328,7 +328,7 @@ AirKiss
 ![External 3DGS environment with an UnrealZoo-supported actor](../../doc/figs/new_features/3dgs_dynamic_load.gif)
 
 Users prepare and package a compatible Gaussian-splat environment ahead of
-time. Start the UnrealZoo v4.0 binary, open its UnrealCV command console, and
+time. Start the UnrealZoo v3.1 binary, open its UnrealCV command console, and
 load the packaged level directly:
 
 ```text
