@@ -65,13 +65,15 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 状态 | 说明 |
 |------|------|----------------------------------------|
-| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 2K 下达到 96.20 FPS、4K 下达到 65.21 FPS；当前基准中标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **更快的 UnrealCV 采集** | ✅ 增强 | 当前开发版共享内存采集在串行端到端测试中平均达到 2K 22.40 FPS、4K 16.25 FPS |
 | **LiDAR 观测** | ✅ 新增 | 提供 XYZI 点云观测和玩家控制的街景建图示例 |
 | **占用体素观测** | ✅ 新增 | 提供兼容 LINGO 的布尔占用网格，以及 bounds/mesh 两种模式 |
 | **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
 | **无人机运行时视觉定制** | ✅ 新增 | 无需重新生成无人机即可切换五种带动态螺旋桨的正式模型、使用定制模板，或加载兼容的外部 Static Mesh |
 | **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
 | **外部 3DGS 环境** | ✅ 新增 | 加载用户打包的 3DGS 资产并复用 UnrealZoo 智能体、相机和任务 API |
+| **共享内存观测传输** | ✅ 新增 | 通过共享内存传输原始相机与占用观测，降低数据采集延迟 |
+| **Runtime MCP** | ✅ 新增 | 将兼容 MCP 的智能体连接到运行中的 UnrealZoo 环境，用于场景检查和任务控制 |
 
 📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 功能指南](example/new_features/README.md)
 
@@ -94,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 说明 |
 |------|------------------------|
-| **更快的相机采集** | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **更快的相机采集** | 当前开发版共享内存采集在串行端到端测试中平均达到 **2K 22.40 FPS**、**4K 16.25 FPS** |
 | **LiDAR 观测** | 提供 XYZI 点云，支持同步观测和建图工作流 |
 | **占用体素观测** | 提供兼容 LINGO 的布尔场景占用网格，以及可配置的 Profile 和体素化模式 |
 | **扩展全景观测** | 扩展全景采集模态，用于具身感知与数据集采集 |
@@ -105,6 +107,11 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **路径对象生成** | 通过完整资源路径直接生成对象 |
 | **场景标注系统** | 支持语义分割和物体检测训练工作流 |
 | **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
+| **共享内存传输** | 为相机和占用数据提供低拷贝观测管线 |
+| **运行时反射** | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
+| **电影相机控制** | 提供物理相机设置与派生内参，支持可控成像 |
+| **MQRC 采集** | 提供可显式控制渲染与后处理的高质量光照图像采集 |
+| **Runtime MCP** | 提供面向智能体的场景概览、Actor 检查和 UnrealCV 命令执行能力 |
 
 > 💡 全景导出、NavMesh 路径规划、无人机仿真和完整交互系统均支持开箱即用。
 
@@ -189,8 +196,8 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 | 🚁 **无人机视觉定制** | 🎭 **社交动画** | ⚡ **更快的 UnrealCV 采集** |
 |:---:|:---:|:---:|
-| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 96.20 FPS、4K 65.21 FPS |
-| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 14.66×、全景最高 4.96× |
+| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 共享内存采集：2K 22.40 FPS、4K 16.25 FPS |
+| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 当前开发版的串行端到端测量结果 |
 
 | 🏙️ **100+ 场景** | 👥 **10+ 智能体** | 🚗 **载具交互** | 📦 **物体操作** |
 |:---:|:---:|:---:|:---:|
@@ -227,6 +234,22 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
 
 键盘控制 LiDAR 观测，并结合实时位姿更新地图。
+
+**🌐 实时三维场景感知：占用体与全景深度**
+
+| 实时占用体与全景深度观测 |
+|:---:|
+| <img src="doc/figs/new_features/perception/live_occupancy_panorama_depth.gif" width="100%" alt="UnrealZoo 中同步显示的实时占用体与全景深度观测"> |
+| 相机相对坐标系下的占用更新与连续 360 度深度信息相互补充，为具身感知、导航和空间推理提供几何环境信息。参见[占用观测指南](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)和 [GPU 可视化示例](example/new_features/realtime_scene_occupancy_gpu.py)。 |
+
+**🤖 Runtime MCP 智能体工作流**
+
+| 复杂场景导航 | 场景描述 | 角色外观控制 |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP 复杂场景导航"> | <img src="doc/figs/new_features/runtime_mcp/scene_caption.gif" width="100%" alt="Runtime MCP 场景描述"> | <img src="doc/figs/new_features/runtime_mcp/change_character_appearance.gif" width="100%" alt="Runtime MCP 角色外观控制"> |
+| 在场景地标之间导航，并从多个相机视角验证结果。 | 检查场景、采集六个方向的视图并合成完整描述。 | 发现并调用 Blueprint 外观接口，然后采集十种角色外观。 |
+
+提示词、操作流程、截图和录制工作流参见 [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp)。
 
 **🚗 载具交互**
 
@@ -272,7 +295,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 ```cmd
 python example\new_features\suburb_street_slam.py
-python example\new_features\occupancy_voxel_demo.py --profile lingo_vis --method mesh
+python example\new_features\realtime_scene_occupancy_gpu.py --method mesh
 python example\new_features\drone_mesh_switch_demo.py --interval 2 --cycles 2 --render
 ```
 
