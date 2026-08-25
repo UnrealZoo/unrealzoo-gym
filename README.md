@@ -65,14 +65,14 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
-| **Faster UnrealCV Capture** | ✅ Enhanced | Current development-build shared-memory acquisition averages 22.40 FPS at 2K and 16.25 FPS at 4K in serialized end-to-end tests |
+| **Faster UnrealCV Capture** | ✅ Enhanced | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) averages 22.40 FPS at 2K and 16.25 FPS at 4K in serialized end-to-end tests |
 | **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
 | **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
 | **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
 | **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
 | **External 3DGS Environments** | ✅ Added | Load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
-| **Shared-Memory Observation Transport** | ✅ Added | Transfer raw camera and occupancy observations through shared memory with lower acquisition latency |
+| **[Shared-Memory Observation Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | ✅ Added | Transfer raw camera and occupancy observations through [shared memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) with lower acquisition latency |
 | **Runtime MCP** | ✅ Added | Connect an MCP-compatible agent to a running UnrealZoo environment for scene inspection and task control |
 
 📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 Feature Guide](example/new_features/README.md)
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Description |
 |------|------------------------|
-| **Faster Camera Capture** | Current development-build shared-memory acquisition averages **22.40 FPS at 2K** and **16.25 FPS at 4K** in serialized end-to-end tests |
+| **Faster Camera Capture** | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) averages **22.40 FPS at 2K** and **16.25 FPS at 4K** in serialized end-to-end tests |
 | **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
 | **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
 | **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
@@ -107,11 +107,13 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Object Spawning from Path** | Spawn objects directly using full asset paths |
 | **Scene Annotation System** | Supports semantic segmentation and object detection training workflows |
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
-| **Shared-Memory Transport** | Raw camera and occupancy buffers for low-copy observation pipelines |
+| **[Shared-Memory Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | Raw camera and occupancy buffers for low-copy observation pipelines |
 | **[Runtime Reflection](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | JSON-based inspection, property access, and function invocation for supported Unreal objects |
 | **[Cinematic Camera Controls](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/cine-camera.html)** | Physical camera settings and derived intrinsics for controlled image formation |
 | **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | High-quality lit capture with explicit rendering and post-process controls |
 | **Runtime MCP** | Agent-facing scene overview, actor inspection, and UnrealCV command execution |
+
+> 💡 **Command reference:** The complete UnrealCV+ command list is available in the [Commands Reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html).
 
 > 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, and the complete interaction system are supported out-of-the-box.
 
@@ -196,7 +198,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 | 🚁 **Drone Visual Customization** | 🎭 **Social Animation** | ⚡ **Faster UnrealCV Capture** |
 |:---:|:---:|:---:|
-| Five animated production-ready models plus a customization template | Select character social actions at runtime | Shared-memory acquisition: 22.40 FPS at 2K, 16.25 FPS at 4K |
+| Five animated production-ready models plus a customization template | Select character social actions at runtime | [Shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html): 22.40 FPS at 2K, 16.25 FPS at 4K |
 | External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Serialized end-to-end measurements from the current development build |
 
 | 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
