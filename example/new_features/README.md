@@ -12,7 +12,7 @@ connection to an environment started by the user.
 |---|---|---|---|
 | LiDAR observation + mapping | XYZI observation, scan checks and pose-conditioned street mapping | [`suburb_street_slam.py`](suburb_street_slam.py) | RGB + current scan + accumulated map dashboard |
 | MuJoCo | UE rendering driven by MuJoCo state and policy observations | [`../mujoco/go1_parkour.py`](../mujoco/go1_parkour.py) | Keyboard, parkour third-person, and depth-observation GIFs |
-| Scene occupancy voxels | LINGO-compatible bool XYZ grid, bounds/mesh modes, camera-relative origin | [`occupancy_voxel_demo.py`](occupancy_voxel_demo.py) | Top-down projection, height slice and 3-D voxels |
+| Scene occupancy voxels | Shared-memory bool XYZ grid, bounds/mesh modes, camera-relative origin | [`realtime_scene_occupancy_gpu.py`](realtime_scene_occupancy_gpu.py) | GPU-instanced four-view rendering and live RGB + occupancy projection |
 | Runtime drone visual customization | Five production-ready models with animated propellers, one customization template, and external Static Mesh support on the same live pawn | [`drone_mesh_switch_demo.py`](drone_mesh_switch_demo.py) | Third-person GIF covering the built-in appearances |
 | Character social animations | Runtime selection from the packaged party, everyday, and in-car animation groups | `BP_Character.set_social_anim` | Third-person character montage capture |
 | Dynamic 3DGS load | A user-supplied packaged 3DGS level is loaded and reused by UnrealZoo agents | `vset /action/game/level /Game/3dgs/custom_3dgs` in the UE binary | External scene + supported-actor GIF |
@@ -33,8 +33,8 @@ Run commands from the repository root.
 
 | Demo | Startup model | Port behavior |
 |---|---|---|
-| LiDAR, occupancy voxel, drone | Gym resolves `env_bin` below `UnrealEnv`, then launches and closes the environment | The requested port must be unused before launch |
-| Go1 keyboard and parkour | The user starts the binary or Editor PIE first | The script connects to the already listening `--host/--port` |
+| LiDAR, drone | Gym resolves `env_bin` below `UnrealEnv`, then launches and closes the environment | The requested port must be unused before launch |
+| Occupancy GPU viewer, Go1 keyboard and parkour | The user starts the binary or Editor PIE first | The script connects to the already listening `--host/--port` |
 | Dynamic 3DGS level | The user starts the v3.1 binary first | Enter the level-load command in the binary's UnrealCV console |
 
 Do not point a Gym-launched demo at a port occupied by a manually started
@@ -123,6 +123,16 @@ to select one explicitly. Run only one Go1 controller per UnrealCV server.
 
 ## 3. Scene occupancy voxel observation
 
+![Live RGB and occupancy observation](../../doc/figs/new_features/occupancy/occupancy_live_mapping.gif)
+
+The live recording example continuously requests RGB and camera-relative
+occupancy observations while moving the observation pose through the scene.
+It renders the current occupied-space projection alongside the RGB view and
+encodes the result as an MP4 for dataset and documentation workflows.
+Every camera move discards temporal warm-up frames before the RGB and
+occupancy pair is written; `mesh` density is color-mapped so sparse geometry is
+not rendered as a flat yellow panel.
+
 The observation is a C-order bool NPY grid with axis order `[x, y_up, z]`:
 
 | Profile | Bounds in metres `(min -> max)` | Shape | Resolution |
@@ -135,15 +145,15 @@ or cooked collision triangles and falls back to bounds where CPU triangle data
 is unavailable. Collision enable state is not the visibility filter.
 
 ```cmd
-rem Camera-relative accurate grid with three-panel visualization.
-python example\new_features\occupancy_voxel_demo.py --camera-id auto --profile lingo_vis --method mesh
+rem Camera-relative mesh grid with GPU-instanced four-view visualization.
+python example\new_features\realtime_scene_occupancy_gpu.py --camera-id 0 --method mesh
 
-rem Reproducible headless artifact.
-python example\new_features\occupancy_voxel_demo.py --profile lingo_train --method bounds --max-steps 1 --save artifacts\occupancy_voxel.png --no-show
+rem Faster structural preview, stopping after one rendered frame.
+python example\new_features\realtime_scene_occupancy_gpu.py --camera-id 0 --method bounds --max-frames 1
 ```
 
 `mesh` is the accurate but heavier mode; use `bounds` for a faster structural
-preview. A `--no-show` run is continuous unless `--max-steps` is supplied.
+preview. The viewer runs continuously unless `--max-frames` is supplied.
 
 Raw UnrealCV commands:
 

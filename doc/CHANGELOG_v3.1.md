@@ -194,8 +194,8 @@ cycle.
   visualizes individual LiDAR observations and accumulated maps.
 - [`go1_parkour.py`](../example/mujoco/go1_parkour.py) demonstrates MuJoCo Go1
   control in an Unreal-rendered scene.
-- [`occupancy_voxel_demo.py`](../example/new_features/occupancy_voxel_demo.py)
-  visualizes the supported occupancy profiles.
+- [`realtime_scene_occupancy_gpu.py`](../example/new_features/realtime_scene_occupancy_gpu.py)
+  renders live shared-memory occupancy data in four GPU-instanced views.
 - [`drone_mesh_switch_demo.py`](../example/new_features/drone_mesh_switch_demo.py)
   cycles the available drone appearances on a live pawn.
 - The packaged-binary command

@@ -72,6 +72,8 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
 | **External 3DGS Environments** | ✅ Added | Load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
+| **Shared-Memory Observation Transport** | ✅ Added | Transfer raw camera and occupancy observations through shared memory with lower acquisition latency |
+| **Runtime MCP** | ✅ Added | Connect an MCP-compatible agent to a running UnrealZoo environment for scene inspection and task control |
 
 📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 Feature Guide](example/new_features/README.md)
 
@@ -105,6 +107,11 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Object Spawning from Path** | Spawn objects directly using full asset paths |
 | **Scene Annotation System** | Supports semantic segmentation and object detection training workflows |
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
+| **Shared-Memory Transport** | Raw camera and occupancy buffers for low-copy observation pipelines |
+| **Runtime Reflection** | JSON-based inspection, property access, and function invocation for supported Unreal objects |
+| **Cinematic Camera Controls** | Physical camera settings and derived intrinsics for controlled image formation |
+| **MQRC Capture** | High-quality lit capture with explicit rendering and post-process controls |
+| **Runtime MCP** | Agent-facing scene overview, actor inspection, and UnrealCV command execution |
 
 > 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, and the complete interaction system are supported out-of-the-box.
 
@@ -228,6 +235,32 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 Player-controlled LiDAR observation with pose-conditioned map updates.
 
+**🌐 Panorama Depth Observation**
+
+<img src="doc/figs/new_features/panorama/panorama_depth.gif" width="100%" alt="Real-time panoramic depth observation in an UnrealZoo scene">
+
+UnrealCV captures a panoramic depth view while the camera moves through the
+scene, providing continuous 360-degree geometric context for embodied
+perception, navigation, and spatial reasoning workflows.
+
+**🧊 Live Occupancy Observation**
+
+<img src="doc/figs/new_features/occupancy/occupancy_live_mapping.gif" width="100%" alt="Live RGB and occupancy observation while the camera moves through an UnrealZoo scene">
+
+The client continuously requests camera RGB and a camera-relative occupancy
+volume, then updates the projected occupied-space view as the observation pose
+changes. See the [occupancy observation guide](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)
+and the [GPU viewer example](example/new_features/realtime_scene_occupancy_gpu.py).
+
+**🤖 Runtime MCP Complex Scene Navigation**
+
+<img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP complex-scene navigation around two sakura trees">
+
+An MCP-compatible agent inspects a complex scene, navigates a character between
+two sakura trees, then detaches and repositions the camera to verify the final
+result from multiple viewpoints. See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp)
+for the prompts, procedure, captures, and recording workflow.
+
 **🚗 Vehicle Interaction**
 
 <div align="center">
@@ -273,7 +306,7 @@ registered environment configuration and resolve its binary from the existing
 
 ```cmd
 python example\new_features\suburb_street_slam.py
-python example\new_features\occupancy_voxel_demo.py --profile lingo_vis --method mesh
+python example\new_features\realtime_scene_occupancy_gpu.py --method mesh
 python example\new_features\drone_mesh_switch_demo.py --interval 2 --cycles 2 --render
 ```
 

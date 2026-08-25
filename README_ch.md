@@ -72,6 +72,8 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **无人机运行时视觉定制** | ✅ 新增 | 无需重新生成无人机即可切换五种带动态螺旋桨的正式模型、使用定制模板，或加载兼容的外部 Static Mesh |
 | **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
 | **外部 3DGS 环境** | ✅ 新增 | 加载用户打包的 3DGS 资产并复用 UnrealZoo 智能体、相机和任务 API |
+| **共享内存观测传输** | ✅ 新增 | 通过共享内存传输原始相机与占用观测，降低数据采集延迟 |
+| **Runtime MCP** | ✅ 新增 | 将兼容 MCP 的智能体连接到运行中的 UnrealZoo 环境，用于场景检查和任务控制 |
 
 📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 功能指南](example/new_features/README.md)
 
@@ -105,6 +107,11 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **路径对象生成** | 通过完整资源路径直接生成对象 |
 | **场景标注系统** | 支持语义分割和物体检测训练工作流 |
 | **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
+| **共享内存传输** | 为相机和占用数据提供低拷贝观测管线 |
+| **运行时反射** | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
+| **电影相机控制** | 提供物理相机设置与派生内参，支持可控成像 |
+| **MQRC 采集** | 提供可显式控制渲染与后处理的高质量光照图像采集 |
+| **Runtime MCP** | 提供面向智能体的场景概览、Actor 检查和 UnrealCV 命令执行能力 |
 
 > 💡 全景导出、NavMesh 路径规划、无人机仿真和完整交互系统均支持开箱即用。
 
@@ -228,6 +235,29 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 键盘控制 LiDAR 观测，并结合实时位姿更新地图。
 
+**🌐 全景深度观测**
+
+<img src="doc/figs/new_features/panorama/panorama_depth.gif" width="100%" alt="UnrealZoo 场景中的实时全景深度观测">
+
+UnrealCV 在相机穿行场景时持续采集全景深度视图，为具身感知、导航和空间推理
+工作流提供连续的 360 度几何环境信息。
+
+**🧊 实时占用观测**
+
+<img src="doc/figs/new_features/occupancy/occupancy_live_mapping.gif" width="100%" alt="相机在 UnrealZoo 场景中移动时的实时 RGB 与占用观测">
+
+客户端持续请求相机 RGB 和相机相对坐标系下的占用体，并随着观测位姿
+变化更新已占用空间的投影视图。参见[占用观测指南](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)
+和 [GPU 可视化示例](example/new_features/realtime_scene_occupancy_gpu.py)。
+
+**🤖 Runtime MCP 复杂场景导航**
+
+<img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP 在两棵樱花树周围执行复杂场景导航">
+
+兼容 MCP 的智能体检查复杂场景，引导角色在两棵樱花树之间移动，随后分离并
+重新定位相机，从多个视角验证最终结果。相关提示词、操作流程、截图和录制工作流
+参见 [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp)。
+
 **🚗 载具交互**
 
 <div align="center">
@@ -272,7 +302,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 ```cmd
 python example\new_features\suburb_street_slam.py
-python example\new_features\occupancy_voxel_demo.py --profile lingo_vis --method mesh
+python example\new_features\realtime_scene_occupancy_gpu.py --method mesh
 python example\new_features\drone_mesh_switch_demo.py --interval 2 --cycles 2 --render
 ```
 
