@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
-| **Faster UnrealCV Capture** | ✅ Enhanced | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) averages 22.40 FPS at 2K and 16.25 FPS at 4K in serialized end-to-end tests |
+| **Faster UnrealCV Capture** | ✅ Enhanced | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) achieve up to **96 FPS at 2K** and **65 FPS at 4K** in serialized end-to-end tests |
 | **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
 | **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
 | **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Description |
 |------|------------------------|
-| **Faster Camera Capture** | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) averages **22.40 FPS at 2K** and **16.25 FPS at 4K** in serialized end-to-end tests |
+| **Faster Camera Capture** | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) achieve up to **96 FPS at 2K** and **65 FPS at 4K** in serialized end-to-end tests |
 | **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
 | **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
 | **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
