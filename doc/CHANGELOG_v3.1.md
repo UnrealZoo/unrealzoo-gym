@@ -19,7 +19,7 @@ and [feature overview](https://docs.unrealcv.org/en/latest/unrealcv_plus/overvie
 
 | Area | User-facing result | Recommended showcase |
 |---|---|---|
-| UnrealCV rendering and capture | Current development-build shared-memory acquisition averages 22.40 FPS at 2K and 16.25 FPS at 4K | End-to-end benchmark comparison and real-time capture clip |
+| UnrealCV rendering and capture | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) averages 22.40 FPS at 2K and 16.25 FPS at 4K | End-to-end benchmark comparison and real-time capture clip |
 | LiDAR | XYZI observations and pose-conditioned street mapping | Suburb street-mapping Python demo + GIF |
 | MuJoCo | Unreal-rendered Go1 driven by MuJoCo state and policy control | Go1 parkour Python demo + GIF |
 | Occupancy voxels | LINGO-compatible scene occupancy grids for embodied-agent observation | Profile/shape documentation + visualization |
@@ -115,7 +115,7 @@ and [feature overview](https://docs.unrealcv.org/en/latest/unrealcv_plus/overvie
 
 #### Rendering and observation performance
 
-- Current development-build shared-memory acquisition averages `23.61 FPS` at
+- Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) averages `23.61 FPS` at
   1080p, `22.40 FPS` at 2K, and `16.25 FPS` at 4K in serialized end-to-end tests.
 - These figures measure complete client acquisition latency, not unloaded
   viewport frame rate; transport-only closed-build results are documented
@@ -195,7 +195,7 @@ cycle.
 - [`go1_parkour.py`](../example/mujoco/go1_parkour.py) demonstrates MuJoCo Go1
   control in an Unreal-rendered scene.
 - [`realtime_scene_occupancy_gpu.py`](../example/new_features/realtime_scene_occupancy_gpu.py)
-  renders live shared-memory occupancy data in four GPU-instanced views.
+  renders live [shared-memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) occupancy data in four GPU-instanced views.
 - [`drone_mesh_switch_demo.py`](../example/new_features/drone_mesh_switch_demo.py)
   cycles the available drone appearances on a live pawn.
 - The packaged-binary command

@@ -12,7 +12,7 @@ connection to an environment started by the user.
 |---|---|---|---|
 | LiDAR observation + mapping | XYZI observation, scan checks and pose-conditioned street mapping | [`suburb_street_slam.py`](suburb_street_slam.py) | RGB + current scan + accumulated map dashboard |
 | MuJoCo | UE rendering driven by MuJoCo state and policy observations | [`../mujoco/go1_parkour.py`](../mujoco/go1_parkour.py) | Keyboard, parkour third-person, and depth-observation GIFs |
-| Scene occupancy voxels | Shared-memory bool XYZ grid, bounds/mesh modes, camera-relative origin | [`realtime_scene_occupancy_gpu.py`](realtime_scene_occupancy_gpu.py) | GPU-instanced four-view rendering and live RGB + occupancy projection |
+| Scene occupancy voxels | [Shared-memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) bool XYZ grid, bounds/mesh modes, camera-relative origin | [`realtime_scene_occupancy_gpu.py`](realtime_scene_occupancy_gpu.py) | GPU-instanced four-view rendering and live RGB + occupancy projection |
 | Runtime drone visual customization | Five production-ready models with animated propellers, one customization template, and external Static Mesh support on the same live pawn | [`drone_mesh_switch_demo.py`](drone_mesh_switch_demo.py) | Third-person GIF covering the built-in appearances |
 | Character social animations | Runtime selection from the packaged party, everyday, and in-car animation groups | `BP_Character.set_social_anim` | Third-person character montage capture |
 | Dynamic 3DGS load | A user-supplied packaged 3DGS level is loaded and reused by UnrealZoo agents | `vset /action/game/level /Game/3dgs/custom_3dgs` in the UE binary | External scene + supported-actor GIF |
