@@ -19,7 +19,7 @@ and [feature overview](https://docs.unrealcv.org/en/latest/unrealcv_plus/overvie
 
 | Area | User-facing result | Recommended showcase |
 |---|---|---|
-| UnrealCV rendering and capture | Up to 14.66× standard-camera speedup and up to 4.96× panorama speedup | Benchmark comparison and real-time capture clip |
+| UnrealCV rendering and capture | Current development-build shared-memory acquisition averages 22.40 FPS at 2K and 16.25 FPS at 4K | End-to-end benchmark comparison and real-time capture clip |
 | LiDAR | XYZI observations and pose-conditioned street mapping | Suburb street-mapping Python demo + GIF |
 | MuJoCo | Unreal-rendered Go1 driven by MuJoCo state and policy control | Go1 parkour Python demo + GIF |
 | Occupancy voxels | LINGO-compatible scene occupancy grids for embodied-agent observation | Profile/shape documentation + visualization |
@@ -115,11 +115,11 @@ and [feature overview](https://docs.unrealcv.org/en/latest/unrealcv_plus/overvie
 
 #### Rendering and observation performance
 
-- Standard-camera capture reaches `89.77 FPS` at 1080p and `96.20 FPS` at 2K.
-- Standard-camera speedup ranges from `1.58×` at 480p to a peak of `14.66×`
-  at 4K; 8K capture improves from `1.40 FPS` to `18.10 FPS`.
-- Panorama speedup ranges from `1.42×` at 480p to `4.96×` at 8K; 4K panorama
-  capture improves from `4.00 FPS` to `12.91 FPS`.
+- Current development-build shared-memory acquisition averages `23.61 FPS` at
+  1080p, `22.40 FPS` at 2K, and `16.25 FPS` at 4K in serialized end-to-end tests.
+- These figures measure complete client acquisition latency, not unloaded
+  viewport frame rate; transport-only closed-build results are documented
+  separately in the UnrealCV capture-transport reference.
 - Improved responsiveness for continuous observation loops, interactive agent
   control, and dataset recording workloads.
 - Reduced the practical cost of collecting multiple visual modalities from an

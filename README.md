@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
-| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera capture reaches 96.20 FPS at 2K and 65.21 FPS at 4K; current benchmarks show up to 14.66× standard-camera and 4.96× panorama speedup |
+| **Faster UnrealCV Capture** | ✅ Enhanced | Current development-build shared-memory acquisition averages 22.40 FPS at 2K and 16.25 FPS at 4K in serialized end-to-end tests |
 | **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
 | **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
 | **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Description |
 |------|------------------------|
-| **Faster Camera Capture** | Standard-camera capture reaches **96.20 FPS at 2K** and **65.21 FPS at 4K**; measured speedup reaches 14.66× for standard cameras and 4.96× for panoramas |
+| **Faster Camera Capture** | Current development-build shared-memory acquisition averages **22.40 FPS at 2K** and **16.25 FPS at 4K** in serialized end-to-end tests |
 | **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
 | **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
 | **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
@@ -196,8 +196,8 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 | 🚁 **Drone Visual Customization** | 🎭 **Social Animation** | ⚡ **Faster UnrealCV Capture** |
 |:---:|:---:|:---:|
-| Five animated production-ready models plus a customization template | Select character social actions at runtime | Standard camera: 96.20 FPS at 2K, 65.21 FPS at 4K |
-| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Up to 14.66× standard and 4.96× panorama speedup |
+| Five animated production-ready models plus a customization template | Select character social actions at runtime | Shared-memory acquisition: 22.40 FPS at 2K, 16.25 FPS at 4K |
+| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Serialized end-to-end measurements from the current development build |
 
 | 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
 |:---:|:---:|:---:|:---:|
@@ -235,31 +235,21 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 Player-controlled LiDAR observation with pose-conditioned map updates.
 
-**🌐 Panorama Depth Observation**
+**🌐 Live 3D Scene Perception: Occupancy & Panoramic Depth**
 
-<img src="doc/figs/new_features/panorama/panorama_depth.gif" width="100%" alt="Real-time panoramic depth observation in an UnrealZoo scene">
+| Live Occupancy and Panoramic Depth Observation |
+|:---:|
+| <img src="doc/figs/new_features/perception/live_occupancy_panorama_depth.gif" width="100%" alt="Synchronized live occupancy and panoramic depth observation in UnrealZoo"> |
+| Camera-relative occupancy updates and continuous 360-degree depth provide complementary geometric context for embodied perception, navigation, and spatial reasoning. See the [occupancy observation guide](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html) and [GPU viewer example](example/new_features/realtime_scene_occupancy_gpu.py). |
 
-UnrealCV captures a panoramic depth view while the camera moves through the
-scene, providing continuous 360-degree geometric context for embodied
-perception, navigation, and spatial reasoning workflows.
+**🤖 Runtime MCP Agent Workflows**
 
-**🧊 Live Occupancy Observation**
+| Complex Scene Navigation | Scene Captioning | Character Appearance Control |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP complex-scene navigation"> | <img src="doc/figs/new_features/runtime_mcp/scene_caption.gif" width="100%" alt="Runtime MCP scene captioning"> | <img src="doc/figs/new_features/runtime_mcp/change_character_appearance.gif" width="100%" alt="Runtime MCP character appearance control"> |
+| Navigate between scene landmarks and verify the result from multiple camera viewpoints. | Inspect the scene, capture six directions, and synthesize a complete caption. | Discover and call the Blueprint appearance API, then capture ten character variants. |
 
-<img src="doc/figs/new_features/occupancy/occupancy_live_mapping.gif" width="100%" alt="Live RGB and occupancy observation while the camera moves through an UnrealZoo scene">
-
-The client continuously requests camera RGB and a camera-relative occupancy
-volume, then updates the projected occupied-space view as the observation pose
-changes. See the [occupancy observation guide](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)
-and the [GPU viewer example](example/new_features/realtime_scene_occupancy_gpu.py).
-
-**🤖 Runtime MCP Complex Scene Navigation**
-
-<img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP complex-scene navigation around two sakura trees">
-
-An MCP-compatible agent inspects a complex scene, navigates a character between
-two sakura trees, then detaches and repositions the camera to verify the final
-result from multiple viewpoints. See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp)
-for the prompts, procedure, captures, and recording workflow.
+See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp) for prompts, procedures, captures, and recording workflows.
 
 **🚗 Vehicle Interaction**
 

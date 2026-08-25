@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 状态 | 说明 |
 |------|------|----------------------------------------|
-| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 2K 下达到 96.20 FPS、4K 下达到 65.21 FPS；当前基准中标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **更快的 UnrealCV 采集** | ✅ 增强 | 当前开发版共享内存采集在串行端到端测试中平均达到 2K 22.40 FPS、4K 16.25 FPS |
 | **LiDAR 观测** | ✅ 新增 | 提供 XYZI 点云观测和玩家控制的街景建图示例 |
 | **占用体素观测** | ✅ 新增 | 提供兼容 LINGO 的布尔占用网格，以及 bounds/mesh 两种模式 |
 | **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 说明 |
 |------|------------------------|
-| **更快的相机采集** | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **更快的相机采集** | 当前开发版共享内存采集在串行端到端测试中平均达到 **2K 22.40 FPS**、**4K 16.25 FPS** |
 | **LiDAR 观测** | 提供 XYZI 点云，支持同步观测和建图工作流 |
 | **占用体素观测** | 提供兼容 LINGO 的布尔场景占用网格，以及可配置的 Profile 和体素化模式 |
 | **扩展全景观测** | 扩展全景采集模态，用于具身感知与数据集采集 |
@@ -196,8 +196,8 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 | 🚁 **无人机视觉定制** | 🎭 **社交动画** | ⚡ **更快的 UnrealCV 采集** |
 |:---:|:---:|:---:|
-| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 96.20 FPS、4K 65.21 FPS |
-| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 14.66×、全景最高 4.96× |
+| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 共享内存采集：2K 22.40 FPS、4K 16.25 FPS |
+| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 当前开发版的串行端到端测量结果 |
 
 | 🏙️ **100+ 场景** | 👥 **10+ 智能体** | 🚗 **载具交互** | 📦 **物体操作** |
 |:---:|:---:|:---:|:---:|
@@ -235,28 +235,21 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 键盘控制 LiDAR 观测，并结合实时位姿更新地图。
 
-**🌐 全景深度观测**
+**🌐 实时三维场景感知：占用体与全景深度**
 
-<img src="doc/figs/new_features/panorama/panorama_depth.gif" width="100%" alt="UnrealZoo 场景中的实时全景深度观测">
+| 实时占用体与全景深度观测 |
+|:---:|
+| <img src="doc/figs/new_features/perception/live_occupancy_panorama_depth.gif" width="100%" alt="UnrealZoo 中同步显示的实时占用体与全景深度观测"> |
+| 相机相对坐标系下的占用更新与连续 360 度深度信息相互补充，为具身感知、导航和空间推理提供几何环境信息。参见[占用观测指南](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)和 [GPU 可视化示例](example/new_features/realtime_scene_occupancy_gpu.py)。 |
 
-UnrealCV 在相机穿行场景时持续采集全景深度视图，为具身感知、导航和空间推理
-工作流提供连续的 360 度几何环境信息。
+**🤖 Runtime MCP 智能体工作流**
 
-**🧊 实时占用观测**
+| 复杂场景导航 | 场景描述 | 角色外观控制 |
+|:---:|:---:|:---:|
+| <img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP 复杂场景导航"> | <img src="doc/figs/new_features/runtime_mcp/scene_caption.gif" width="100%" alt="Runtime MCP 场景描述"> | <img src="doc/figs/new_features/runtime_mcp/change_character_appearance.gif" width="100%" alt="Runtime MCP 角色外观控制"> |
+| 在场景地标之间导航，并从多个相机视角验证结果。 | 检查场景、采集六个方向的视图并合成完整描述。 | 发现并调用 Blueprint 外观接口，然后采集十种角色外观。 |
 
-<img src="doc/figs/new_features/occupancy/occupancy_live_mapping.gif" width="100%" alt="相机在 UnrealZoo 场景中移动时的实时 RGB 与占用观测">
-
-客户端持续请求相机 RGB 和相机相对坐标系下的占用体，并随着观测位姿
-变化更新已占用空间的投影视图。参见[占用观测指南](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/scene-perception.html)
-和 [GPU 可视化示例](example/new_features/realtime_scene_occupancy_gpu.py)。
-
-**🤖 Runtime MCP 复杂场景导航**
-
-<img src="doc/figs/new_features/runtime_mcp/complex_scene_navigation.gif" width="100%" alt="Runtime MCP 在两棵樱花树周围执行复杂场景导航">
-
-兼容 MCP 的智能体检查复杂场景，引导角色在两棵樱花树之间移动，随后分离并
-重新定位相机，从多个视角验证最终结果。相关提示词、操作流程、截图和录制工作流
-参见 [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp)。
+提示词、操作流程、截图和录制工作流参见 [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp)。
 
 **🚗 载具交互**
 

@@ -123,7 +123,7 @@ to select one explicitly. Run only one Go1 controller per UnrealCV server.
 
 ## 3. Scene occupancy voxel observation
 
-![Live RGB and occupancy observation](../../doc/figs/new_features/occupancy/occupancy_live_mapping.gif)
+![Live occupancy and panoramic depth observation](../../doc/figs/new_features/perception/live_occupancy_panorama_depth.gif)
 
 The live recording example continuously requests RGB and camera-relative
 occupancy observations while moving the observation pose through the scene.
