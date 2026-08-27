@@ -109,7 +109,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
 | **[共享内存传输](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | 为相机和占用数据提供低拷贝观测管线 |
 | **[运行时反射](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
-| **[电影相机控制](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/cine-camera.html)** | 提供物理相机设置与派生内参，支持可控成像 |
+| **[电影相机控制](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | 提供物理相机设置与派生内参，支持可控成像 |
 | **[MQRC 采集](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | 提供可显式控制渲染与后处理的高质量光照图像采集 |
 | **Runtime MCP** | 提供面向智能体的场景概览、Actor 检查和 UnrealCV 命令执行能力 |
 
@@ -272,6 +272,19 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
 
 键盘控制 LiDAR 观测，并结合实时位姿更新地图。
+
+**🎥 电影摄影机手动对焦（Cine Camera）**
+
+<div align="center">
+
+<table><tr>
+<td><img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" height="180"></td>
+<td><img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" height="180"></td>
+</tr></table>
+
+</div>
+
+上面的演示展示了 **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** 的手动对焦距离动态调整效果。
 
 **🚗 载具交互**
 

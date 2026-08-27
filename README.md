@@ -109,7 +109,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
 | **[Shared-Memory Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | Raw camera and occupancy buffers for low-copy observation pipelines |
 | **[Runtime Reflection](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | JSON-based inspection, property access, and function invocation for supported Unreal objects |
-| **[Cinematic Camera Controls](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/cine-camera.html)** | Physical camera settings and derived intrinsics for controlled image formation |
+| **[Cinematic Camera Controls](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | Physical camera settings and derived intrinsics for controlled image formation |
 | **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | High-quality lit capture with explicit rendering and post-process controls |
 | **Runtime MCP** | Agent-facing scene overview, actor inspection, and UnrealCV command execution |
 
