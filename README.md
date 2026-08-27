@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
-| **Faster UnrealCV Capture** | ✅ Enhanced | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) achieve up to **96 FPS at 2K** and **65 FPS at 4K** in serialized end-to-end tests |
+| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera capture reaches **96.20 FPS at 2K** and **65.21 FPS at 4K**; measured speedup reaches 14.66× for standard cameras and 4.96× for panoramas |
 | **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
 | **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
 | **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Description |
 |------|------------------------|
-| **Faster Camera Capture** | Current development-build [shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) achieve up to **96 FPS at 2K** and **65 FPS at 4K** in serialized end-to-end tests |
+| **Faster Camera Capture** | Standard-camera capture reaches **96.20 FPS at 2K** and **65.21 FPS at 4K**; measured speedup reaches 14.66× for standard cameras and 4.96× for panoramas |
 | **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
 | **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
 | **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
@@ -198,8 +198,8 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 | 🚁 **Drone Visual Customization** | 🎭 **Social Animation** | ⚡ **Faster UnrealCV Capture** |
 |:---:|:---:|:---:|
-| Five animated production-ready models plus a customization template | Select character social actions at runtime | [Shared-memory acquisition](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html): 22.40 FPS at 2K, 16.25 FPS at 4K |
-| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Serialized end-to-end measurements from the current development build |
+| Five animated production-ready models plus a customization template | Select character social actions at runtime | Standard camera: 96.20 FPS at 2K, 65.21 FPS at 4K |
+| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Up to 14.66× standard and 4.96× panorama speedup |
 
 | 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
 |:---:|:---:|:---:|:---:|
@@ -231,12 +231,6 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 | <img src="doc/figs/new_features/drone_mesh_switch.gif" width="100%" alt="UnrealZoo runtime drone mesh switching"> | <img src="doc/figs/new_features/social_animation.gif" width="100%" alt="UnrealZoo character social animations"> | <img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor"> |
 | [Five animated built-in models plus external Static Mesh support](example/new_features/README.md#4-runtime-drone-visual-customization) | [`set_social_anim` case-sensitive argument list](example/new_features/README.md#5-character-social-animations) | Load an external 3DGS scene and reuse an UnrealZoo-supported actor |
 
-**📡 LiDAR Street Mapping**
-
-<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
-
-Player-controlled LiDAR observation with pose-conditioned map updates.
-
 **🌐 Live 3D Scene Perception: Occupancy & Panoramic Depth**
 
 | Live Occupancy and Panoramic Depth Observation |
@@ -252,6 +246,12 @@ Player-controlled LiDAR observation with pose-conditioned map updates.
 | Navigate between scene landmarks and verify the result from multiple camera viewpoints. | Inspect the scene, capture six directions, and synthesize a complete caption. | Discover and call the Blueprint appearance API, then capture ten character variants. |
 
 See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp) for prompts, procedures, captures, and recording workflows.
+
+**📡 LiDAR Street Mapping**
+
+<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
+
+Player-controlled LiDAR observation with pose-conditioned map updates.
 
 **🚗 Vehicle Interaction**
 
@@ -516,50 +516,13 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 ## 📦 Applications
 
-<div align="center">
-
-### 🏆 Offline EVT (ECCV 2024)
-
-**Embodied Visual Tracking Agent**
-
-Active tracking algorithm based on Offline RL, trained and validated in UnrealZoo environments
-
-[📄 Paper](https://arxiv.org/abs/2404.09857) • [💻 Code](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
-
-
----
-
-### 🚁 UAV-Flow: Flying-on-a-Word
-
-**Language-Guided UAV Control**
-
-Beihang University team uses UnrealZoo for simulation evaluation, supporting language-conditioned UAV imitation learning
-
-[🌐 Homepage](https://prince687028.github.io/UAV-Flow/) • [📄 Paper](https://arxiv.org/abs/2505.15725)
-
----
-
-### 🧠 EmbRACE-3K: Embodied Reasoning
-
-**Embodied Reasoning in Complex Environments**
-
-HKU, Tsinghua, and BNU jointly built 3,000+ language-guided task dataset based on UnrealCV-Zoo framework
-
-[🌐 Homepage](https://mxllc.github.io/EmbRACE-3K/) • [📄 Paper](https://arxiv.org/abs/2507.10548)
-
----
-
-### 🎯 ROCKET-2: Cross-View Goal Alignment
-
-**Cross-View Goal Alignment**
-
-Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy simulation training
-
-[🌐 Homepage](https://craftjarvis.github.io/ROCKET-2/) • [📄 Paper](https://arxiv.org/abs/2503.02505)
+- 🏆 **Offline EVT (ECCV 2024)** — Offline-RL embodied visual tracking trained and evaluated in UnrealZoo. [Paper](https://arxiv.org/abs/2404.09857) · [Code](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
+- 🚁 **UAV-Flow: Flying-on-a-Word** — Language-conditioned UAV imitation learning and simulation evaluation. [Homepage](https://prince687028.github.io/UAV-Flow/) · [Paper](https://arxiv.org/abs/2505.15725)
+- 🧠 **EmbRACE-3K** — A 3,000+ task dataset for language-guided embodied reasoning in complex environments. [Homepage](https://mxllc.github.io/EmbRACE-3K/) · [Paper](https://arxiv.org/abs/2507.10548)
+- 🎯 **ROCKET-2** — Cross-view goal alignment and visuomotor policy simulation training. [Homepage](https://craftjarvis.github.io/ROCKET-2/) · [Paper](https://arxiv.org/abs/2503.02505)
+- 🛟 **RescueBench: Can Embodied Agents Save Lives in the Wild?** — A photo-realistic, multi-stage search-and-rescue benchmark built on UnrealZoo. [Paper](https://arxiv.org/abs/2606.01848) · [Code](https://github.com/UnrealZoo/RescueBench)
 
 > 💡 **Your project also uses UnrealZoo?** Welcome to submit a PR to add to this list!
-
-</div>
 
 ---
 
@@ -578,12 +541,14 @@ Peking University and UCLA team uses UnrealZoo for cross-view visuomotor policy 
 
 ## 🗓️ TODO List
 
-- ✅ Release an all-in-one package of the collected environments
-- ✅ Add gym interface for heterogeneous multi-agent co-operation
-- ✅ Expand the list of supported interactive actions
-- [ ] Add more detailed examples for reinforcement learning agents
-- [ ] Add more detailed examples for large vision-language models
-- [ ] Add MuJoCo Unitree G1 integration and examples.
+- [x] Release an all-in-one package of the collected environments
+- [x] Add a Gym interface for heterogeneous multi-agent cooperation
+- [x] Expand the list of supported interactive actions
+- [x] Add detailed examples for reinforcement-learning agents
+- [x] Add detailed examples for large vision-language models
+- [x] Add MuJoCo Unitree Go1 integration and examples
+- [ ] Integrate MetaHuman characters
+- [ ] Integrate the Unitree G1 humanoid robot
 
 ---
 

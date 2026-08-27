@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 状态 | 说明 |
 |------|------|----------------------------------------|
-| **更快的 UnrealCV 采集** | ✅ 增强 | 当前开发版[共享内存采集](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)在串行端到端测试中平均达到 2K 22.40 FPS、4K 16.25 FPS |
+| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
 | **LiDAR 观测** | ✅ 新增 | 提供 XYZI 点云观测和玩家控制的街景建图示例 |
 | **占用体素观测** | ✅ 新增 | 提供兼容 LINGO 的布尔占用网格，以及 bounds/mesh 两种模式 |
 | **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 说明 |
 |------|------------------------|
-| **更快的相机采集** | 当前开发版[共享内存采集](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)在串行端到端测试中平均达到 **2K 22.40 FPS**、**4K 16.25 FPS** |
+| **更快的相机采集** | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
 | **LiDAR 观测** | 提供 XYZI 点云，支持同步观测和建图工作流 |
 | **占用体素观测** | 提供兼容 LINGO 的布尔场景占用网格，以及可配置的 Profile 和体素化模式 |
 | **扩展全景观测** | 扩展全景采集模态，用于具身感知与数据集采集 |
@@ -198,8 +198,8 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 | 🚁 **无人机视觉定制** | 🎭 **社交动画** | ⚡ **更快的 UnrealCV 采集** |
 |:---:|:---:|:---:|
-| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | [共享内存采集](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)：2K 22.40 FPS、4K 16.25 FPS |
-| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 当前开发版的串行端到端测量结果 |
+| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 96.20 FPS、4K 65.21 FPS |
+| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 14.66×、全景最高 4.96× |
 
 | 🏙️ **100+ 场景** | 👥 **10+ 智能体** | 🚗 **载具交互** | 📦 **物体操作** |
 |:---:|:---:|:---:|:---:|
@@ -231,12 +231,6 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 | <img src="doc/figs/new_features/drone_mesh_switch.gif" width="100%" alt="UnrealZoo runtime drone mesh switching"> | <img src="doc/figs/new_features/social_animation.gif" width="100%" alt="UnrealZoo character social animations"> | <img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor"> |
 | [五种带动画的内置模型与外部 Static Mesh 支持](example/new_features/README.md#4-runtime-drone-visual-customization) | [`set_social_anim` 大小写敏感参数列表](example/new_features/README.md#5-character-social-animations) | 加载外部 3DGS 场景并复用 UnrealZoo 支持的 Actor |
 
-**📡 LiDAR 街景建图**
-
-<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
-
-键盘控制 LiDAR 观测，并结合实时位姿更新地图。
-
 **🌐 实时三维场景感知：占用体与全景深度**
 
 | 实时占用体与全景深度观测 |
@@ -252,6 +246,12 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 | 在场景地标之间导航，并从多个相机视角验证结果。 | 检查场景、采集六个方向的视图并合成完整描述。 | 发现并调用 Blueprint 外观接口，然后采集十种角色外观。 |
 
 提示词、操作流程、截图和录制工作流参见 [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp)。
+
+**📡 LiDAR 街景建图**
+
+<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
+
+键盘控制 LiDAR 观测，并结合实时位姿更新地图。
 
 **🚗 载具交互**
 
@@ -511,49 +511,13 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 ## 📦 应用案例
 
-<div align="center">
-
-### 🏆 Offline EVT: Empowering Embodied Visual Tracking with Visual Foundation Models and Offline RL (ECCV 2024)
-
-**具身视觉追踪智能体**
-
-基于 Offline RL 的主动追踪算法，在 UnrealZoo 环境中训练验证
-
-[📄 论文](https://arxiv.org/abs/2404.09857) • [💻 代码](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
-
----
-
-### 🚁 UAV-Flow: Flying-on-a-Word
-
-**语言引导无人机控制**
-
-北航团队利用 UnrealZoo 进行仿真评估，支持语言条件的无人机模仿学习
-
-[🌐 主页](https://prince687028.github.io/UAV-Flow/) • [📄 论文](https://arxiv.org/abs/2505.15725)
-
----
-
-### 🧠 EmbRACE-3K: Embodied Reasoning
-
-**复杂环境具身推理**
-
-港大、清华、北师大联合构建 3,000+ 语言引导任务数据集，基于 UnrealCV-Zoo 框架
-
-[🌐 主页](https://mxllc.github.io/EmbRACE-3K/) • [📄 论文](https://arxiv.org/abs/2507.10548)
-
----
-
-### 🎯 ROCKET-2: Cross-View Goal Alignment
-
-**跨视角目标对齐**
-
-北大、UCLA 团队利用 UnrealZoo 进行跨视角视觉运动策略的仿真训练
-
-[🌐 主页](https://craftjarvis.github.io/ROCKET-2/) • [📄 论文](https://arxiv.org/abs/2503.02505)
+- 🏆 **Offline EVT（ECCV 2024）** — 在 UnrealZoo 中训练与评估的 Offline-RL 具身视觉追踪方法。[论文](https://arxiv.org/abs/2404.09857) · [代码](https://github.com/wukui-muc/Offline_RL_Active_Tracking)
+- 🚁 **UAV-Flow: Flying-on-a-Word** — 面向语言条件无人机模仿学习与仿真评估。[主页](https://prince687028.github.io/UAV-Flow/) · [论文](https://arxiv.org/abs/2505.15725)
+- 🧠 **EmbRACE-3K** — 面向复杂环境语言引导具身推理的 3,000+ 任务数据集。[主页](https://mxllc.github.io/EmbRACE-3K/) · [论文](https://arxiv.org/abs/2507.10548)
+- 🎯 **ROCKET-2** — 面向跨视角目标对齐与视觉运动策略的仿真训练。[主页](https://craftjarvis.github.io/ROCKET-2/) · [论文](https://arxiv.org/abs/2503.02505)
+- 🛟 **RescueBench: Can Embodied Agents Save Lives in the Wild?** — 基于 UnrealZoo 构建的照片级、多阶段搜救具身智能评测基准。[论文](https://arxiv.org/abs/2606.01848) · [代码](https://github.com/UnrealZoo/RescueBench)
 
 > 💡 **您的项目也使用了 UnrealZoo？** 欢迎提交 PR 添加到本列表！
-
-</div>
 
 ---
 
@@ -572,12 +536,14 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 ## 🗓️ TODO List
 
-- ✅ Release an all-in-one package of the collected environments
-- ✅ Add gym interface for heterogeneous multi-agent co-operation
-- ✅ Expand the list of supported interactive actions
-- [ ] Add more detailed examples for reinforcement learning agents
-- [ ] Add more detailed examples for large vision-language models
-- [ ] 增加 MuJoCo Unitree G1 集成与示例。
+- [x] 发布完整环境合集包
+- [x] 提供异构多智能体协作的 Gym 接口
+- [x] 扩展可用的交互动作
+- [x] 提供强化学习智能体的详细示例
+- [x] 提供大型视觉语言模型的详细示例
+- [x] 提供 MuJoCo Unitree Go1 集成与示例
+- [ ] 融合 MetaHuman
+- [ ] 融合 Unitree G1 人形机器人
 
 ---
 
