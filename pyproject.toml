@@ -13,6 +13,8 @@ dependencies = [
     "unrealcv>=1.2.0",
     "wget",
     "opencv-python",
+    "glfw",
+    "moderngl",
     "simple_pid",
     "pynput",
     "docker",
