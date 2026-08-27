@@ -169,25 +169,49 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ---
 
-## ⚡ 30-Second Quick Start
+## 🚀 Quick Start
+
+### 1. Install UnrealZoo
 
 ```bash
-# 1. Install
+git clone https://github.com/UnrealZoo/unrealzoo-gym.git
+cd unrealzoo-gym
 pip install -e .
-
-# 2. Set environment path
-export UnrealEnv=/path/to/UnrealEnv
-
-# 3. Run multi-agent tracking demo
-python example/multi_agent/baseline/multi_random_baseline.py \
-  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
 ```
 
-> 💡 **Tip**: First run requires downloading UE5 environment package (67GB), we recommend using [ModelScope](https://modelscope.cn/datasets/UnrealZoo) China mirror for faster download
+### 2. Download and configure the environment
+
+Download the **Latest UE5.7 Full Package (Recommended)** from
+[ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) or
+[Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5), extract it,
+and point `UnrealEnv` to the directory containing the package:
+
+```bash
+export UnrealEnv=/path/to/UnrealEnv
+```
+
+See [Environment Package Download](#-environment-package-download) for the
+available package versions.
+
+### 3. Run a demo
+
+```bash
+# Multi-agent random policy
+python example/multi_agent/baseline/multi_random_baseline.py \
+  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
+
+# Keyboard navigation
+python example/navigation/keyboard/navigation_keyboard_human.py \
+  -e UnrealNavigation-Demo_Roof-MixedColor-v0
+```
+
+> 💡 **Tip**: If the mouse cursor disappears, press `` ` `` (above Tab) to release it.
 
 ---
 
-## 🌟 Core Features
+## 🌟 Features & Demos
+
+### Feature Overview
 
 <div align="center">
 
@@ -213,9 +237,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 </div>
 
----
-
-## 🎬 System Interaction Demo
+### 🎬 Visual Showcase
 
 <div align="center">
 
@@ -285,9 +307,7 @@ Player-controlled LiDAR observation with pose-conditioned map updates.
 
 </div>
 
----
-
-## 🎮 Interaction Demo (Example Code)
+### 🎮 Run the Examples
 
 <details open>
 <summary><b>✨ v3.1 Feature Demos</b></summary>
@@ -470,47 +490,6 @@ User Algorithm (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ Unrea
 | **Physics Engine** | Chaos | UE5.6 native physics |
 | **Package Size** | 67 GB | UE5 full version |
 | **Download Channels** | GitHub + ModelScope | China acceleration mirror |
-
----
-
-## 🚀 Quick Start
-
-### Step 1: Install Dependencies
-
-```bash
-git clone https://github.com/UnrealZoo/unrealzoo-gym.git
-cd unrealzoo-gym
-pip install -e .
-```
-
-### Step 2: Download Environment Package
-
-| Package                                                 | Download Link | Size  |
-|---------------------------------------------------------|----------|-------|
-| **Latest UE5.7 Full Package (Recommended)**             | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [🤗 Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) | ~70GB |
-| **UE5.6 Full Version**                                  | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) | ~70GB |
-| UE5 Demo Scenes (1.0 version, require v2.0 branch code) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
-| UE4 Demo Scenes (1.0 version, require v2.0 branch code) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB  |
-
-Extract to `UnrealEnv` directory:
-
-```bash
-export UnrealEnv=/path/to/UnrealEnv
-```
-
-### Step 3: Run Demos
-
-```bash
-# Multi-agent random policy
-python example/multi_agent/baseline/multi_random_baseline.py \
-  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
-
-# Keyboard control navigation
-python example/navigation/keyboard/navigation_keyboard_human.py \
-  -e UnrealNavigation-Demo_Roof-MixedColor-v0
-```
-
-> 💡 **Tip**: If mouse disappears, press `` ` `` (above Tab) to release mouse
 
 ---
 

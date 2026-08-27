@@ -169,25 +169,47 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 ---
 
-## ⚡ 30秒快速体验
+## 🚀 快速开始
+
+### 1. 安装 UnrealZoo
 
 ```bash
-# 1. 安装
+git clone https://github.com/UnrealZoo/unrealzoo-gym.git
+cd unrealzoo-gym
 pip install -e .
-
-# 2. 设置环境路径
-export UnrealEnv=/path/to/UnrealEnv
-
-# 3. 运行多智能体追踪演示
-python example/multi_agent/baseline/multi_random_baseline.py \
-  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
 ```
 
-> 💡 **提示**: 首次运行需要下载 UE5 环境包（67GB），建议使用 [ModelScope](https://modelscope.cn/datasets/UnrealZoo) 国内镜像加速
+### 2. 下载并配置环境
+
+从 [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) 或
+[Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) 下载
+**最新 UE5.7 完整版（推荐）**，解压后将 `UnrealEnv` 指向环境包所在目录：
+
+```bash
+export UnrealEnv=/path/to/UnrealEnv
+```
+
+其他可用版本见[环境包下载](#-环境包下载)。
+
+### 3. 运行 Demo
+
+```bash
+# 多智能体随机策略
+python example/multi_agent/baseline/multi_random_baseline.py \
+  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
+
+# 键盘导航
+python example/navigation/keyboard/navigation_keyboard_human.py \
+  -e UnrealNavigation-Demo_Roof-MixedColor-v0
+```
+
+> 💡 **提示**：如果鼠标光标消失，按 `` ` ``（Tab 上方）释放鼠标。
 
 ---
 
-## 🌟 核心特性
+## 🌟 功能与 Demo
+
+### 功能概览
 
 <div align="center">
 
@@ -213,9 +235,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 </div>
 
----
-
-## 🎬 系统交互演示
+### 🎬 可视化展示
 
 <div align="center">
 
@@ -285,9 +305,7 @@ python example/multi_agent/baseline/multi_random_baseline.py \
 
 </div>
 
----
-
-## 🎮 交互演示 (Example Code)
+### 🎮 运行示例
 
 <details open>
 <summary><b>✨ v3.1 功能示例</b></summary>
@@ -465,47 +483,6 @@ python example/navigation/keyboard/navigation_keyboard_drone.py \
 | **物理引擎** | Chaos | UE5.6 原生物理 |
 | **环境包大小** | 67 GB | UE5 完整版 |
 | **下载渠道** | GitHub + ModelScope | 国内加速镜像 |
-
----
-
-## 🚀 快速开始
-
-### 步骤 1: 安装依赖
-
-```bash
-git clone https://github.com/UnrealZoo/unrealzoo-gym.git
-cd unrealzoo-gym
-pip install -e .
-```
-
-### 步骤 2: 下载环境包
-
-| 环境包 | 下载链接 | 大小    |
-|--------|----------|-------|
-| **最新 UE5.7 完整版（推荐）** | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [🤗 Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) | ~70GB |
-| UE5.6 完整版 | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0)  | ~70GB |
-| UE5 示例场景 (1.0版本,需要使用v2.0 branch) | [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) | ~10GB |
-| UE4 示例场景 (1.0版本,需要使用v2.0 branch)| [🤖 ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) | ~3GB  |
-
-解压到 `UnrealEnv` 目录：
-
-```bash
-export UnrealEnv=/path/to/UnrealEnv
-```
-
-### 步骤 3: 运行演示
-
-```bash
-# 多智能体随机策略
-python example/multi_agent/baseline/multi_random_baseline.py \
-  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
-
-# 键盘控制导航
-python example/navigation/keyboard/navigation_keyboard_human.py \
-  -e UnrealNavigation-Demo_Roof-MixedColor-v0
-```
-
-> 💡 **提示**: 如果鼠标消失，按 `` ` `` (Tab 上方) 释放鼠标
 
 ---
 
