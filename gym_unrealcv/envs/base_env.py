@@ -82,6 +82,8 @@ class UnrealCv_base(gym.Env):
         self.offscreen_rendering = False
         self.nullrhi = False
         self.gpu_id = None  # None means using the default gpu
+        self.render_quality = 7
+        self.use_lumen = False
         self.sleep_time = 5
         self.launched = False
         self.comm_mode = 'tcp'
@@ -135,6 +137,25 @@ class UnrealCv_base(gym.Env):
             env_bin = env_bin_override
 
         self.ue_binary = RunUnreal(ENV_BIN=env_bin, ENV_MAP=env_map)
+        self._ensure_unrealcv_ini()
+
+    def _ensure_unrealcv_ini(self):
+        """Create the launcher config when a packaged environment omits it."""
+        ini_path = self.ue_binary.path2unrealcv
+        if os.path.isfile(ini_path):
+            return
+        try:
+            with open(ini_path, 'w', encoding='utf-8') as ini_file:
+                ini_file.write(
+                    '[UnrealCV.Core]\n'
+                    'Port=9000\n'
+                    f'Width={self.resolution[0]}\n'
+                    f'Height={self.resolution[1]}\n'
+                )
+        except OSError as exc:
+            raise RuntimeError(
+                f'Unable to create UnrealCV launcher config: {ini_path}'
+            ) from exc
 
     def step(self, actions):
         """

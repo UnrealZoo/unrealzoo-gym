@@ -574,7 +574,12 @@ class Character_API(UnrealCv_API):
                 cmd_list.append(f'vget /camera/{cam_id}/depth npy')
                 # cmd_list.append(self.get_image(cam_id, 'depth', 'bmp', return_cmd=True))
 
-        decoders = [self.decoder.decode_map[self.decoder.cmd2key(cmd)] for cmd in cmd_list]
+        decoders = [
+            self.decoder.decode_map[
+                getattr(cmd, 'response_format', None) or self.decoder.cmd2key(cmd)
+            ]
+            for cmd in cmd_list
+        ]
         t_batch_start = time.perf_counter() if profile_enabled else 0.0
         t_request_ms = 0.0
         t_decode_ms = 0.0

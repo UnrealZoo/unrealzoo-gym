@@ -20,7 +20,7 @@ class_name and asset_path come from dicts below (no pre-placed pawns required).
 # Edit these when packaging names or folder layout change. Used for JSON fields and for default launch binary.
 # Use the literal substring {map} anywhere you need the current --env-map name inserted.
 ENV_BIN_TEMPLATE_LINUX = "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6"
-ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_7_Win64_v1.0.3/Windows/UnrealZoo_UE5_7/Binaries/Win64/UnrealZoo_UE5_7.exe"
+ENV_BIN_TEMPLATE_WIN = "UnrealZoo_UE5_7_Win64_v3.1.0/Windows/UnrealZoo_UE5_7/Binaries/Win64/UnrealZoo_UE5_7.exe"
 ENV_BIN_TEMPLATE_MAC = "/wait/for/update"
 
 

@@ -368,7 +368,12 @@ class Tracking(Navigation):
                 cmd_list.append(self.get_image(cam_id, 'lit', 'png', return_cmd=True))
             if use_depth:
                 cmd_list.append(f'vget /camera/{cam_id}/depth npy')
-        decoders = [self.decoder.decode_map[self.decoder.cmd2key(cmd)] for cmd in cmd_list]
+        decoders = [
+            self.decoder.decode_map[
+                getattr(cmd, 'response_format', None) or self.decoder.cmd2key(cmd)
+            ]
+            for cmd in cmd_list
+        ]
         res_list = self.batch_cmd(cmd_list, decoders)
         obj_pose_list = []
         cam_pose_list = []
@@ -417,4 +422,3 @@ class Tracking(Navigation):
         # Convert the numbers to floats and store them in an array
         coordinates = [float(coordinate) for coordinate in coordinates]
         return coordinates[0],coordinates[1],coordinates[2]
-

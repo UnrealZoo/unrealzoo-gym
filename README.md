@@ -9,12 +9,13 @@
 <!-- Title -->
 <h1>UnrealZoo</h1>
 <h3>Large-scale Photo-realistic Virtual Worlds for Embodied AI</h3>
-<p>Photo-realistic virtual environments with 100+ scenes, 10+ agents real-time collaboration</p>
+<p><b>A research platform for training, evaluating, and stress-testing embodied agents in photo-realistic, interactive, heterogeneous worlds.</b></p>
+<p>100+ scenes · 10+ agents · perception, navigation, interaction, coordination, and data collection</p>
 
 <!-- Badges -->
 <p align="center">
   <img src="https://img.shields.io/badge/UE-5.7-blue?style=flat-square&logo=unrealengine" />
-  <img src="https://img.shields.io/badge/Python-3.8+-green?style=flat-square&logo=python" />
+  <img src="https://img.shields.io/badge/Python-3.9+-green?style=flat-square&logo=python" />
   <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20Win%20%7C%20Mac-orange?style=flat-square" />
   <img src="https://img.shields.io/badge/Scenes-100+-purple?style=flat-square" />
   <img src="https://img.shields.io/badge/Agents-10+-ff69b4?style=flat-square" />
@@ -61,21 +62,27 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 > **UnrealZoo v3.1 expands the v3.0 foundation** with faster visual observation, 3-D perception, physics-driven robots, runtime agent customization, and externally packaged environments.
 
-### 🚀 v3.1 Core Updates
+### 🚀 v3.1 Feature Updates
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
-| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera capture reaches **53.46 FPS at 2K** and **29.59 FPS at 4K**; measured speedup reaches 6.31× |
+| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera **capture throughput** reaches **53.46 FPS at 2K** and **29.59 FPS at 4K** (up to 6.31×); **serialized end-to-end acquisition** averages **22.40 FPS at 2K** and **16.25 FPS at 4K** |
 | **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
 | **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
+| **Expanded Panorama Observation** | ✅ Added | Extended panoramic modalities for embodied perception and dataset collection |
+| **[Shared-Memory Observation Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | ✅ Added | Lower-latency access to raw camera and occupancy observations |
+| **[Runtime Reflection](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | ✅ Added | JSON-based inspection, property access, and function invocation for supported Unreal objects |
+| **[Cine Camera Controls](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | ✅ Added | Physical camera settings, manual focus control, and derived intrinsics |
+| **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | ✅ Added | High-quality lit capture with explicit rendering and post-process controls |
 | **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
 | **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
-| **External 3DGS Environments** | ✅ Added | Load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
-| **[Shared-Memory Observation Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | ✅ Added | Transfer raw camera and occupancy observations through [shared memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) with lower acquisition latency |
+| **External 3DGS Environments** | ✅ Added | Dynamically load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
 | **Runtime MCP** | ✅ Added | Connect an MCP-compatible agent to a running UnrealZoo environment for scene inspection and task control |
 
-📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 Feature Guide](example/new_features/README.md)
+📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 Feature Guide](example/new_features/README.md) · 📚 [UnrealCV+ Documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html)
+
+> 💡 **Command reference:** The complete UnrealCV+ command list is available in the [Commands Reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html).
 
 <details>
 <summary><b>🚀 v3.0 Core Updates</b></summary>
@@ -92,41 +99,15 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 </details>
 
-### 🔌 UnrealCV+ Plugin Upgrade
+### 📦 Version & Package Compatibility
 
-| Feature | Description |
-|------|------------------------|
-| **Faster Camera Capture** | Standard-camera capture reaches **53.46 FPS at 2K** and **29.59 FPS at 4K**; measured speedup reaches 6.31× |
-| **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
-| **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
-| **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
-| **Rendering Performance Boost** | Image rendering speed improved by 120%, multi-agent scene FPS significantly enhanced |
-| **PAK Runtime Mounting** | Dynamically extend content resources without rebuilding the project |
-| **Panoramic Camera Support** | 360° equirectangular image/video export, supports VR preview |
-| **C++ Video Recording Pipeline** | More efficient large-scale collection workflow |
-| **Object Spawning from Path** | Spawn objects directly using full asset paths |
-| **Scene Annotation System** | Supports semantic segmentation and object detection training workflows |
-| **Stable CID Camera Identifier** | Long-term script configuration compatibility |
-| **[Shared-Memory Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | Raw camera and occupancy buffers for low-copy observation pipelines |
-| **[Runtime Reflection](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | JSON-based inspection, property access, and function invocation for supported Unreal objects |
-| **[Cinematic Camera Controls](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | Physical camera settings and derived intrinsics for controlled image formation |
-| **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | High-quality lit capture with explicit rendering and post-process controls |
-| **Runtime MCP** | Agent-facing scene overview, actor inspection, and UnrealCV command execution |
+| Code branch | Binary package | UE version | Status | Recommended use | Download |
+|---|---|---:|---|---|---|
+| **v3.1** | **Latest UE5.7 Full Package** | 5.7 | **Current / Recommended** | Latest perception, Go1, Runtime MCP, customization, and external 3DGS features | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) · [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
+| **v3.0** | UE5.6 Full Package | 5.6 | Previous stable release | Multi-agent tasks and established v3.0 workflows | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) |
+| **v2.0** | UE5 / UE4 Demo Package | UE5 / UE4 | Legacy | Compatibility with older tutorials and demo scenes | [UE5 package](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) · [UE4 package](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
 
-> 💡 **Command reference:** The complete UnrealCV+ command list is available in the [Commands Reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html).
-
-> 💡 **Solving User Pain Points**: Panoramic export, NavMesh path planning, UAV simulation, and the complete interaction system are supported out-of-the-box.
-
-📄 [View Full Changelog](doc/CHANGELOG_v3.1.md) | 📚 [UnrealCV+ Documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [View Notion Technical Docs](https://unrealzoo.notion.site/)
-
-### 📦 Environment Package Download
-
-| Version                                                  | Content | Size  | Download |
-|----------------------------------------------------------|------|-------|------|
-| **Latest UE5.7 Full Package (Recommended)**              | UnrealZoo v3.1 full environment package | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
-| **UE5.6 Full Version**                                   | 100+ scenes, Chaos physics | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) , [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
-| UE5 Demo Version (1.0 version, require v2.0 branch code) | 4 example scenes | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
-| UE4 Demo Version (1.0 version, require v2.0 branch code) | 6 example scenes | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files), [HuggingFace](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE4) |
+The recommended v3.1 UE5.7 package is approximately **70 GB**.
 
 ### 📜 Development History
 
@@ -146,14 +127,14 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 - ✅ Cross-platform binary support (Win/Mac/Linux auto-configuration)
 - ✅ ModelScope China mirror (high-speed download channel)
 
-#### 2025-04: v3.0 Official Release
+#### 2026-04: v3.0 Official Release
 - ✅ Heterogeneous multi-agent collaboration
 - ✅ Template-based Agent Spawn
 - ✅ Full enhanced interaction system demo code (API-keyboard mapping)
 - ✅ NavMesh path planning and task application demo code
 - ✅ UnrealCV+ Plugin comprehensive upgrade
 
-#### 2026: v3.1 Development Snapshot
+#### 2026: v3.1 Feature Update
 - ✅ Faster UnrealCV visual observation and recording workflows
 - ✅ LiDAR and occupancy voxel observations
 - ✅ MuJoCo Go1 simulation examples
@@ -163,79 +144,120 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 </details>
 
-[View Full Changelog](CHANGELOG.md)
-
 [View v3.1 Changelog](doc/CHANGELOG_v3.1.md)
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Install UnrealZoo
+This smoke test targets the **v3.1 branch + UE5.7 full package**. Python 3.9+,
+Git, and a platform-compatible UnrealZoo binary are required. The v3.1 feature
+demos are currently verified primarily on Windows.
+
+### 1. Create a Conda environment and install (Recommended)
 
 ```bash
 git clone https://github.com/UnrealZoo/unrealzoo-gym.git
 cd unrealzoo-gym
-pip install -e .
+conda create -n unrealzoo python=3.9 -y
+conda activate unrealzoo
+python -m pip install --upgrade pip
+python -m pip install -e .
 ```
 
-### 2. Download and configure the environment
+The editable install obtains the required **UnrealCV 1.3.0** Python client from
+PyPI.
+
+```bash
+python -c "import gym_unrealcv, unrealcv; print('gym_unrealcv OK; unrealcv', unrealcv.__version__)"
+```
+
+### 2. Download and configure the UE5.7 package
 
 Download the **Latest UE5.7 Full Package (Recommended)** from
 [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) or
-[Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5), extract it,
-and point `UnrealEnv` to the directory containing the package:
+[Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5), extract
+it, and set `UnrealEnv` to the directory containing the package.
+
+**Windows CMD**
+
+```cmd
+set "UnrealEnv=D:\path\to\UnrealEnv"
+```
+
+**Linux / macOS**
 
 ```bash
 export UnrealEnv=/path/to/UnrealEnv
 ```
 
-See [Environment Package Download](#-environment-package-download) for the
-available package versions.
-
-### 3. Run a demo
-
 ```bash
-# Multi-agent random policy
-python example/multi_agent/baseline/multi_random_baseline.py \
-  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
-
-# Keyboard navigation
-python example/navigation/keyboard/navigation_keyboard_human.py \
-  -e UnrealNavigation-Demo_Roof-MixedColor-v0
+python -c "import os; p=os.environ.get('UnrealEnv'); assert p and os.path.isdir(p), f'Invalid UnrealEnv: {p}'; print('UnrealEnv:', p)"
 ```
 
-> 💡 **Tip**: If the mouse cursor disappears, press `` ` `` (above Tab) to release it.
+See [Version & Package Compatibility](#-version--package-compatibility) before
+using an older binary or branch.
+
+### 3. Run the smoke test
+
+The navigation environment resolves and starts its binary from `UnrealEnv`:
+
+```bash
+python example/navigation/keyboard/navigation_keyboard_human.py -e UnrealNavigation-SuburbNeighborhood_Day-MixedColor-v0
+```
+
+> 💡 **Runtime rule:** Standard Gym demos launch the configured binary
+> automatically. Go1 examples and several recording/runtime tools connect to a
+> binary or Editor session that you start manually. If the mouse cursor
+> disappears, press `` ` `` (above Tab) to release it.
+
+### 4. Minimal Gym API
+
+```python
+import gym
+import numpy as np
+import gym_unrealcv  # Registers UnrealZoo environments.
+
+env = gym.make("UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0")
+obs = env.reset()
+
+for _ in range(100):
+    obs, reward, done, info = env.step(env.action_space.sample())
+    if bool(np.asarray(done).all()):
+        obs = env.reset()
+
+env.close()
+```
+
+UnrealZoo v3.1 uses the OpenAI Gym API. Multi-agent environments return
+agent-wise observation, action, reward, and done structures; enabled visual
+modalities are selected by the registered task configuration.
 
 ---
 
 ## 🌟 Features & Demos
 
-### Feature Overview
+### Why UnrealZoo?
 
-<div align="center">
+| Platform capability | Research value |
+|---|---|
+| **100+ photo-realistic worlds and heterogeneous agents** | Evaluate embodied systems across urban, natural, architectural, and industrial scenes with humans, robots, vehicles, and animals |
+| **Embodied perception** | Combine RGB-D, masks, panorama, LiDAR, and occupancy observations in the same interactive world |
+| **Interactive multi-agent environments** | Study navigation, manipulation, vehicle interaction, tracking, and heterogeneous coordination |
+| **Runtime extensibility** | Load external 3DGS environments, customize assets and appearances, and reuse existing agents and task APIs |
+| **End-to-end agent workflows** | Connect Gym policies, VLN/VLM systems, Runtime MCP agents, and data-collection pipelines |
 
-| 📡 **LiDAR Observation** | 🧊 **Occupancy Voxels** | 🐕 **MuJoCo Go1** | 🌐 **External 3DGS** |
-|:---:|:---:|:---:|:---:|
-| XYZI point-cloud observation | LINGO-compatible 3-D grids | Keyboard and policy control | Load user-packaged scenes |
-| Pose-conditioned street mapping | Bounds and mesh modes | Unreal-rendered simulation | Reuse agents and task APIs |
+### Choose Your Workflow
 
-| 🚁 **Drone Visual Customization** | 🎭 **Social Animation** | ⚡ **Faster UnrealCV Capture** |
-|:---:|:---:|:---:|
-| Five animated production-ready models plus a customization template | Select character social actions at runtime | Standard camera: 53.46 FPS at 2K, 29.59 FPS at 4K |
-| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Up to 6.31× speedup |
-
-| 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
-|:---:|:---:|:---:|:---:|
-| Urban/Natural/Architectural/Industrial | Real-time collaboration in same scene | Enter/Drive/Exit | Pickup/Carry/Place |
-| 16km² max scene size | Humanoid/Vehicle/Animal | Realistic vehicle animations | Spawn at arbitrary locations |
-
-| ⚡ **UE5.6 Chaos** | 🎮 **Out of the Box** | 🐕 **Diverse Entities** | 🌐 **Cross-Platform** |
-|:---:|:---:|:---:|:---:|
-| Collision/Explosion/Fire | pip install and run | Humanoid/Vehicle/Animal | Linux/Win/Mac |
-| Physics-level realism | No UE knowledge required | Real-time appearance switching | Pre-compiled binaries |
-
-</div>
+| I want to work on | Start here | Runtime |
+|---|---|---|
+| **Multi-agent coordination / tracking** | [Multi-agent random baseline](example/multi_agent/baseline/multi_random_baseline.py) · [Tracking example](example/tracking/basic/tracking_auto_basic.py) | Binary auto-launch |
+| **Interactive navigation** | [Keyboard navigation](example/navigation/keyboard/navigation_keyboard_human.py) | Binary auto-launch |
+| **RGB-D / LiDAR / occupancy perception** | [v3.1 perception guide](example/new_features/README.md) · [LiDAR mapping](example/new_features/suburb_street_slam.py) · [Occupancy viewer](example/new_features/realtime_scene_occupancy_gpu.py) | Binary auto-launch |
+| **Unitree Go1 control and parkour** | [MuJoCo Go1 guide](example/mujoco/README.md) | Start binary or Editor manually |
+| **VLN / VLM agents** | [VLN baseline guide](example/VLN_Baseline/README.md) | Follow model-specific setup |
+| **Runtime MCP agents** | [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp) | Connect to a running environment |
+| **Data collection / annotation** | [Video recording pipeline](example/DataRecording/VideoRecordingPipeline.py) · [UnrealCV+ documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | Start binary manually |
 
 ### 🎬 Visual Showcase
 
@@ -269,24 +291,22 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp) for prompts, procedures, captures, and recording workflows.
 
-**📡 LiDAR Street Mapping**
-
-<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
-
-Player-controlled LiDAR observation with pose-conditioned map updates.
-
 **🎥 Cine Camera**
 
-<div align="center">
-
-<table><tr>
-<td><img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" height="180"></td>
-<td><img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" height="180"></td>
-</tr></table>
-
-</div>
+<p align="center">
+  <img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" width="48%" alt="Cine Camera manual focus demo">
+  <img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" width="48%" alt="Cine Camera MQRC focus demo">
+</p>
 
 The above demos sweep the manual focus distance of the **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)**.
+
+**📡 LiDAR Street Mapping**
+
+<p align="center">
+  <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
+</p>
+
+Player-controlled LiDAR observation with pose-conditioned map updates.
 
 **🚗 Vehicle Interaction**
 
@@ -450,7 +470,7 @@ python example/navigation/keyboard/navigation_keyboard_drone.py \
 
 ### Architecture Overview
 
-- **Unreal Engine Environments (Binary)**: UE5.6 runtime environment containing scenes and playable entities
+- **Unreal Engine Environments (Binary)**: Current UE5.7 runtime package containing scenes and playable entities
 - **UnrealCV+ Server**: Plugin built into UE binary, including rendering, data capture, object/agent control, command parsing modules. We optimized the rendering pipeline and command system
 - **UnrealCV+ Client**: Python-based utility functions for launching binaries, connecting to servers, and interacting with UE environments. Uses IPC sockets and batch commands for performance optimization
 - **OpenAI Gym Interface**: Agent-level environment interaction interface, supports task customization via configuration files, includes Gym Wrappers toolkit for environment augmentation and population control
@@ -458,7 +478,7 @@ python example/navigation/keyboard/navigation_keyboard_drone.py \
 ### Data Flow
 
 ```
-User Algorithm (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ UnrealCV Server ←→ UE5.6 Environment
+User Algorithm (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ UnrealCV Server ←→ UE5.7 Environment
                                               (Socket/WebSocket)
 ```
 
@@ -499,10 +519,17 @@ User Algorithm (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ Unrea
 | **Scene Scale** | 16 km² | Maximum single scene area |
 | **Scene Count** | 100+ | Pre-built photo-realistic scenes |
 | **Agent Count** | 10+ | Real-time interaction in same scene |
-| **Rendering Performance** | 60+ FPS | Real-time multi-modal rendering |
-| **Physics Engine** | Chaos | UE5.6 native physics |
-| **Package Size** | 67 GB | UE5 full version |
-| **Download Channels** | GitHub + ModelScope | China acceleration mirror |
+| **Standard Capture Throughput** | 53.46 FPS at 2K; 29.59 FPS at 4K | Camera-capture throughput benchmark; up to 6.31× speedup |
+| **Serialized End-to-End Acquisition** | 22.40 FPS at 2K; 16.25 FPS at 4K | Complete serialized acquisition benchmark; not the full Gym step rate |
+| **Physics Engine** | Chaos | Native physics in the current UE5.7 package |
+| **Package Size** | ~70 GB | Recommended v3.1 UE5.7 full package |
+| **Download Channels** | ModelScope + Hugging Face | Primary package mirrors |
+
+Capture-throughput and serialized end-to-end values measure different parts of
+the observation workflow and should not be compared as the same metric. Actual
+Gym step performance also depends on the scene, enabled modalities, agent count,
+and hardware. See the [v3.1 changelog](doc/CHANGELOG_v3.1.md) for the recorded
+benchmark scope.
 
 ---
 

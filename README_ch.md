@@ -9,12 +9,13 @@
 <!-- Title -->
 <h1>UnrealZoo</h1>
 <h3>Large-scale Photo-realistic Virtual Worlds for Embodied AI</h3>
-<p>Production-Ready 的照片级虚拟环境，支持 100+ 场景、10+ 智能体实时协作</p>
+<p><b>面向具身智能体训练、评估与压力测试的照片级、可交互、异构世界研究平台。</b></p>
+<p>100+ 场景 · 10+ 智能体 · 感知、导航、交互、协作与数据采集</p>
 
 <!-- Badges -->
 <p align="center">
   <img src="https://img.shields.io/badge/UE-5.7-blue?style=flat-square&logo=unrealengine" />
-  <img src="https://img.shields.io/badge/Python-3.8+-green?style=flat-square&logo=python" />
+  <img src="https://img.shields.io/badge/Python-3.9+-green?style=flat-square&logo=python" />
   <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20Win%20%7C%20Mac-orange?style=flat-square" />
   <img src="https://img.shields.io/badge/Scenes-100+-purple?style=flat-square" />
   <img src="https://img.shields.io/badge/Agents-10+-ff69b4?style=flat-square" />
@@ -61,21 +62,27 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 > **UnrealZoo v3.1 在 v3.0 基础上继续扩展**，加入更快的视觉观测、三维感知、物理机器人、运行时智能体定制和外部打包环境支持。
 
-### 🚀 v3.1 核心更新
+### 🚀 v3.1 功能更新
 
 | 特性 | 状态 | 说明 |
 |------|------|----------------------------------------|
-| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 **2K 下达到 53.46 FPS**、在 **4K 下达到 29.59 FPS**；实测最高加速 6.31× |
+| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机的**采集吞吐率**达到 **2K 53.46 FPS**、**4K 29.59 FPS**（最高 6.31×）；**串行端到端采集**平均达到 **2K 22.40 FPS**、**4K 16.25 FPS** |
 | **LiDAR 观测** | ✅ 新增 | 提供 XYZI 点云观测和玩家控制的街景建图示例 |
 | **占用体素观测** | ✅ 新增 | 提供兼容 LINGO 的布尔占用网格，以及 bounds/mesh 两种模式 |
+| **扩展全景观测** | ✅ 新增 | 扩展全景采集模态，用于具身感知与数据集采集 |
+| **[共享内存观测传输](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | ✅ 新增 | 以更低延迟访问原始相机与占用观测 |
+| **[运行时反射](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | ✅ 新增 | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
+| **[电影相机控制](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | ✅ 新增 | 提供物理相机设置、手动对焦控制与派生内参 |
+| **[MQRC 采集](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | ✅ 新增 | 提供可显式控制渲染与后处理的高质量光照图像采集 |
 | **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
 | **无人机运行时视觉定制** | ✅ 新增 | 无需重新生成无人机即可切换五种带动态螺旋桨的正式模型、使用定制模板，或加载兼容的外部 Static Mesh |
 | **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
-| **外部 3DGS 环境** | ✅ 新增 | 加载用户打包的 3DGS 资产并复用 UnrealZoo 智能体、相机和任务 API |
-| **[共享内存观测传输](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | ✅ 新增 | 通过[共享内存](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)传输原始相机与占用观测，降低数据采集延迟 |
+| **外部 3DGS 环境** | ✅ 新增 | 动态加载用户打包的 3DGS 资产，并复用 UnrealZoo 智能体、相机和任务 API |
 | **Runtime MCP** | ✅ 新增 | 将兼容 MCP 的智能体连接到运行中的 UnrealZoo 环境，用于场景检查和任务控制 |
 
-📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 功能指南](example/new_features/README.md)
+📄 [v3.1 Changelog](doc/CHANGELOG_v3.1.md) · 📚 [v3.1 功能指南](example/new_features/README.md) · 📚 [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html)
+
+> 💡 **命令参考：** 完整的 UnrealCV+ 命令列表参见[命令 Reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html)。
 
 <details>
 <summary><b>🚀 v3.0 核心更新</b></summary>
@@ -92,41 +99,15 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 </details>
 
-### 🔌 UnrealCV+ Plugin 升级
+### 📦 版本与环境包兼容关系
 
-| 特性 | 说明 |
-|------|------------------------|
-| **更快的相机采集** | 标准相机在 **2K 下达到 53.46 FPS**、在 **4K 下达到 29.59 FPS**；实测最高加速 6.31× |
-| **LiDAR 观测** | 提供 XYZI 点云，支持同步观测和建图工作流 |
-| **占用体素观测** | 提供兼容 LINGO 的布尔场景占用网格，以及可配置的 Profile 和体素化模式 |
-| **扩展全景观测** | 扩展全景采集模态，用于具身感知与数据集采集 |
-| **渲染性能提升** | 图像渲染速度提升 120%，多智能体场景 FPS 大幅提升 |
-| **PAK 运行时挂载** | 无需重建项目，动态扩展内容资源 |
-| **全景相机支持** | 360° 等距柱状图像/视频导出，支持 VR 预览 |
-| **C++ 视频录制管线** | 大规模采集工作流更高效 |
-| **路径对象生成** | 通过完整资源路径直接生成对象 |
-| **场景标注系统** | 支持语义分割和物体检测训练工作流 |
-| **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
-| **[共享内存传输](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | 为相机和占用数据提供低拷贝观测管线 |
-| **[运行时反射](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
-| **[电影相机控制](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | 提供物理相机设置与派生内参，支持可控成像 |
-| **[MQRC 采集](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | 提供可显式控制渲染与后处理的高质量光照图像采集 |
-| **Runtime MCP** | 提供面向智能体的场景概览、Actor 检查和 UnrealCV 命令执行能力 |
+| 代码分支 | Binary 环境包 | UE 版本 | 状态 | 推荐用途 | 下载 |
+|---|---|---:|---|---|---|
+| **v3.1** | **最新 UE5.7 完整版** | 5.7 | **当前推荐** | 最新感知、Go1、Runtime MCP、外观定制与外部 3DGS 功能 | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) · [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
+| **v3.0** | UE5.6 完整版 | 5.6 | 上一稳定版本 | 多智能体任务与既有 v3.0 工作流 | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) |
+| **v2.0** | UE5 / UE4 示例包 | UE5 / UE4 | 旧版兼容 | 旧教程与示例场景兼容 | [UE5 环境包](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) · [UE4 环境包](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
 
-> 💡 **命令参考：** 完整的 UnrealCV+ 命令列表参见[命令 Reference](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/commands.html)。
-
-> 💡 全景导出、NavMesh 路径规划、无人机仿真和完整交互系统均支持开箱即用。
-
-📄 [查看完整 Changelog](doc/CHANGELOG_v3.1.md) | 📚 [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 📚 [查看 Notion 技术文档](https://www.notion.so/unrealzoo/placeholder)
-
-### 📦 环境包下载
-
-| 版本                               | 内容 | 大小    | 下载 |
-|----------------------------------|------|-------|------|
-| **最新 UE5.7 完整版（推荐）**          | UnrealZoo v3.1 完整环境包 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files), [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) |
-| **UE5.6 完整版**                      | 100+ 场景，Chaos 物理 | ~70GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/tree/master/UnrealZoo_UE5_6_v3.0.0) |
-| UE5 示例版 (1.0版本,需要使用v2.0 branch)  | 4 个示例场景 | ~10GB | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) |
-| UE4 示例版  (1.0版本,需要使用v2.0 branch) | 6 个示例场景 | ~3GB  | [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE4/files) |
+推荐的 v3.1 UE5.7 完整包大小约为 **70 GB**。
 
 ### 📜 发展历程
 
@@ -146,14 +127,14 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 - ✅ 跨平台二进制支持（Win/Mac/Linux 自动配置）
 - ✅ ModelScope 国内镜像（高速下载通道）
 
-#### 2025-04: v3.0 正式发布
+#### 2026-04: v3.0 正式发布
 - ✅ 异构多智能体协同
 - ✅ 模板化 Agent Spawn
 - ✅ 全套增强交互系统演示代码（API-键盘映射）
 - ✅ NavMesh 路径规划以及任务应用演示代码
 - ✅ UnrealCV+ Plugin 全面升级
 
-#### 2026: v3.1 开发版本
+#### 2026: v3.1 功能更新
 - ✅ 更快的 UnrealCV 视觉观测与录制工作流
 - ✅ LiDAR 和占用体素观测
 - ✅ MuJoCo Go1 仿真示例
@@ -163,77 +144,115 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 </details>
 
-[查看完整更新日志](CHANGELOG.md)
-
 [查看 v3.1 更新日志](doc/CHANGELOG_v3.1.md)
 
 ---
 
 ## 🚀 快速开始
 
-### 1. 安装 UnrealZoo
+以下 smoke test 对应 **v3.1 分支 + UE5.7 完整包**，需要 Python 3.9+、
+Git 和对应平台的 UnrealZoo binary。v3.1 新功能 Demo 当前主要在 Windows
+环境中完成验证。
+
+### 1. 创建 Conda 环境并安装（推荐）
 
 ```bash
 git clone https://github.com/UnrealZoo/unrealzoo-gym.git
 cd unrealzoo-gym
-pip install -e .
+conda create -n unrealzoo python=3.9 -y
+conda activate unrealzoo
+python -m pip install --upgrade pip
+python -m pip install -e .
 ```
 
-### 2. 下载并配置环境
+Editable install 会从 PyPI 安装所需的 **UnrealCV 1.3.0** Python client。
+
+```bash
+python -c "import gym_unrealcv, unrealcv; print('gym_unrealcv OK; unrealcv', unrealcv.__version__)"
+```
+
+### 2. 下载并配置 UE5.7 环境包
 
 从 [ModelScope](https://modelscope.cn/datasets/UnrealZoo/UnrealZoo-UE5/files) 或
 [Hugging Face](https://huggingface.co/datasets/UnrealZoo/UnrealZoo_UE5) 下载
-**最新 UE5.7 完整版（推荐）**，解压后将 `UnrealEnv` 指向环境包所在目录：
+**最新 UE5.7 完整版（推荐）**，解压后将 `UnrealEnv` 指向环境包所在目录。
+
+**Windows CMD**
+
+```cmd
+set "UnrealEnv=D:\path\to\UnrealEnv"
+```
+
+**Linux / macOS**
 
 ```bash
 export UnrealEnv=/path/to/UnrealEnv
 ```
 
-其他可用版本见[环境包下载](#-环境包下载)。
-
-### 3. 运行 Demo
-
 ```bash
-# 多智能体随机策略
-python example/multi_agent/baseline/multi_random_baseline.py \
-  -e UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0
-
-# 键盘导航
-python example/navigation/keyboard/navigation_keyboard_human.py \
-  -e UnrealNavigation-Demo_Roof-MixedColor-v0
+python -c "import os; p=os.environ.get('UnrealEnv'); assert p and os.path.isdir(p), f'Invalid UnrealEnv: {p}'; print('UnrealEnv:', p)"
 ```
 
-> 💡 **提示**：如果鼠标光标消失，按 `` ` ``（Tab 上方）释放鼠标。
+使用旧 binary 或分支前，请先查看[版本与环境包兼容关系](#-版本与环境包兼容关系)。
+
+### 3. 运行 Smoke Test
+
+Navigation 环境会根据 `UnrealEnv` 自动索引并启动 binary：
+
+```bash
+python example/navigation/keyboard/navigation_keyboard_human.py -e UnrealNavigation-SuburbNeighborhood_Day-MixedColor-v0
+```
+
+> 💡 **运行规则：** 常规 Gym Demo 会自动启动配置对应的 binary；Go1
+> 以及部分录制/运行时工具需要连接到用户手动启动的 binary 或 Editor。
+> 如果鼠标光标消失，按 `` ` ``（Tab 上方）释放鼠标。
+
+### 4. 最小 Gym API 示例
+
+```python
+import gym
+import numpy as np
+import gym_unrealcv  # 注册 UnrealZoo environments。
+
+env = gym.make("UnrealTrack-Map_ChemicalPlant_1-ContinuousColor-v0")
+obs = env.reset()
+
+for _ in range(100):
+    obs, reward, done, info = env.step(env.action_space.sample())
+    if bool(np.asarray(done).all()):
+        obs = env.reset()
+
+env.close()
+```
+
+UnrealZoo v3.1 使用 OpenAI Gym API。多智能体环境返回按智能体组织的
+observation、action、reward 和 done；具体视觉模态由注册任务配置决定。
 
 ---
 
 ## 🌟 功能与 Demo
 
-### 功能概览
+### 为什么选择 UnrealZoo？
 
-<div align="center">
+| 平台能力 | 研究价值 |
+|---|---|
+| **100+ 照片级世界与异构智能体** | 在城市、自然、建筑和工业场景中评估人类、机器人、车辆与动物智能体 |
+| **具身感知** | 在同一可交互世界中组合 RGB-D、Mask、全景、LiDAR 与占用观测 |
+| **交互式多智能体环境** | 研究导航、操作、载具交互、追踪与异构协作 |
+| **运行时扩展能力** | 加载外部 3DGS 环境、定制资产与外观，并复用现有智能体和任务 API |
+| **端到端智能体工作流** | 接入 Gym 策略、VLN/VLM 系统、Runtime MCP 智能体与数据采集管线 |
 
-| 📡 **LiDAR 观测** | 🧊 **占用体素** | 🐕 **MuJoCo Go1** | 🌐 **外部 3DGS** |
-|:---:|:---:|:---:|:---:|
-| XYZI 点云观测 | 兼容 LINGO 的三维网格 | 键盘与策略控制 | 加载用户打包场景 |
-| 结合位姿的街景建图 | Bounds 和 Mesh 模式 | Unreal 渲染的物理仿真 | 复用智能体和任务 API |
+### 选择研究工作流
 
-| 🚁 **无人机视觉定制** | 🎭 **社交动画** | ⚡ **更快的 UnrealCV 采集** |
-|:---:|:---:|:---:|
-| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 53.46 FPS、4K 29.59 FPS |
-| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 6.31× |
-
-| 🏙️ **100+ 场景** | 👥 **10+ 智能体** | 🚗 **载具交互** | 📦 **物体操作** |
-|:---:|:---:|:---:|:---:|
-| 城市/自然/建筑/工业 | 同场景实时协作 | 进入/驾驶/退出 | 拾取/搬运/放置 |
-| 16km² 最大场景 | 人形/车辆/动物 | 真实车辆动画 | 任意位置生成 |
-
-| ⚡ **UE5.6 Chaos** | 🎮 **即开即用** | 🐕 **多样实体** | 🌐 **跨平台** |
-|:---:|:---:|:---:|:---:|
-| 碰撞/爆炸/火焰 | pip install 即运行 | 人形/车辆/动物 | Linux/Win/Mac |
-| 物理级真实感 | 无需 UE 知识 | 外观实时切换 | 预编译二进制 |
-
-</div>
+| 我想研究 | 建议入口 | 运行方式 |
+|---|---|---|
+| **多智能体协作 / 追踪** | [多智能体随机策略](example/multi_agent/baseline/multi_random_baseline.py) · [追踪示例](example/tracking/basic/tracking_auto_basic.py) | 自动启动 binary |
+| **交互式导航** | [键盘导航](example/navigation/keyboard/navigation_keyboard_human.py) | 自动启动 binary |
+| **RGB-D / LiDAR / 占用感知** | [v3.1 感知指南](example/new_features/README.md) · [LiDAR 建图](example/new_features/suburb_street_slam.py) · [占用可视化](example/new_features/realtime_scene_occupancy_gpu.py) | 自动启动 binary |
+| **Unitree Go1 控制与跑酷** | [MuJoCo Go1 指南](example/mujoco/README.md) | 手动启动 binary 或 Editor |
+| **VLN / VLM 智能体** | [VLN Baseline 指南](example/VLN_Baseline/README.md) | 按模型说明配置 |
+| **Runtime MCP 智能体** | [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp) | 连接运行中的环境 |
+| **数据采集 / 标注** | [视频录制管线](example/DataRecording/VideoRecordingPipeline.py) · [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 手动启动 binary |
 
 ### 🎬 可视化展示
 
@@ -267,24 +286,22 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 提示词、操作流程、截图和录制工作流参见 [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp)。
 
-**📡 LiDAR 街景建图**
-
-<img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
-
-键盘控制 LiDAR 观测，并结合实时位姿更新地图。
-
 **🎥 电影摄影机手动对焦（Cine Camera）**
 
-<div align="center">
-
-<table><tr>
-<td><img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" height="180"></td>
-<td><img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" height="180"></td>
-</tr></table>
-
-</div>
+<p align="center">
+  <img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" width="48%" alt="Cine Camera manual focus demo">
+  <img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" width="48%" alt="Cine Camera MQRC focus demo">
+</p>
 
 上面的演示展示了 **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** 的手动对焦距离动态调整效果。
+
+**📡 LiDAR 街景建图**
+
+<p align="center">
+  <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
+</p>
+
+键盘控制 LiDAR 观测，并结合实时位姿更新地图。
 
 **🚗 载具交互**
 
@@ -443,7 +460,7 @@ python example/navigation/keyboard/navigation_keyboard_drone.py \
 
 ### 架构说明
 
-- **Unreal Engine Environments (Binary)**: 包含场景和可玩实体的 UE5.6 运行时环境
+- **Unreal Engine Environments (Binary)**: 包含场景和可玩实体的当前 UE5.7 运行时环境包
 - **UnrealCV+ Server**: 内置于 UE 二进制中的插件，包含渲染、数据捕获、对象/智能体控制、命令解析模块。我们优化了渲染管线和命令系统
 - **UnrealCV+ Client**: 提供基于 Python 的工具函数，用于启动二进制、连接服务器、与 UE 环境交互。使用 IPC sockets 和批量命令优化性能
 - **OpenAI Gym Interface**: 提供智能体级别的环境交互接口，支持通过配置文件自定义任务，包含环境增强、人口控制等 Gym Wrappers 工具集
@@ -451,7 +468,7 @@ python example/navigation/keyboard/navigation_keyboard_drone.py \
 ### 数据流
 
 ```
-用户算法 (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ UnrealCV Server ←→ UE5.6 Environment
+用户算法 (Python) ←→ Gym Interface ←→ UnrealCV Client ←→ UnrealCV Server ←→ UE5.7 Environment
                                               (Socket/WebSocket)
 ```
 
@@ -492,10 +509,15 @@ python example/navigation/keyboard/navigation_keyboard_drone.py \
 | **场景规模** | 16 km² | 最大单场景面积 |
 | **场景数量** | 100+ | 预置照片级场景 |
 | **智能体数量** | 10+ | 同场景实时交互 |
-| **渲染性能** | 60+ FPS | 实时多模态渲染 |
-| **物理引擎** | Chaos | UE5.6 原生物理 |
-| **环境包大小** | 67 GB | UE5 完整版 |
-| **下载渠道** | GitHub + ModelScope | 国内加速镜像 |
+| **标准相机采集吞吐率** | 2K 53.46 FPS；4K 29.59 FPS | 相机采集吞吐率测试，最高加速 6.31× |
+| **串行端到端采集** | 2K 22.40 FPS；4K 16.25 FPS | 完整串行采集测试，不代表完整 Gym step 速率 |
+| **物理引擎** | Chaos | 当前 UE5.7 环境包的原生物理系统 |
+| **环境包大小** | ~70 GB | 推荐的 v3.1 UE5.7 完整包 |
+| **下载渠道** | ModelScope + Hugging Face | 主要环境包镜像 |
+
+采集吞吐率与串行端到端采集测量的是观测流程中的不同范围，不能作为同一
+指标直接比较。实际 Gym step 性能还会受到场景、启用模态、智能体数量和
+硬件的影响。测试范围见 [v3.1 Changelog](doc/CHANGELOG_v3.1.md)。
 
 ---
 
