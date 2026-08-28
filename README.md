@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Status | Description |
 |------|------|----------------------------------------|
-| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera capture reaches **96.20 FPS at 2K** and **65.21 FPS at 4K**; measured speedup reaches 14.66× for standard cameras and 4.96× for panoramas |
+| **Faster UnrealCV Capture** | ✅ Enhanced | Standard-camera capture reaches **53.46 FPS at 2K** and **29.59 FPS at 4K**; measured speedup reaches 6.31× |
 | **LiDAR Observation** | ✅ Added | XYZI point-cloud observations with a player-controlled street-mapping example |
 | **Occupancy Voxel Observation** | ✅ Added | LINGO-compatible boolean occupancy grids with bounds- and mesh-based modes |
 | **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | Feature | Description |
 |------|------------------------|
-| **Faster Camera Capture** | Standard-camera capture reaches **96.20 FPS at 2K** and **65.21 FPS at 4K**; measured speedup reaches 14.66× for standard cameras and 4.96× for panoramas |
+| **Faster Camera Capture** | Standard-camera capture reaches **53.46 FPS at 2K** and **29.59 FPS at 4K**; measured speedup reaches 6.31× |
 | **LiDAR Observation** | Provides XYZI point clouds for synchronized observation and mapping workflows |
 | **Occupancy Voxel Observation** | Exposes LINGO-compatible boolean scene-occupancy grids with configurable profiles and voxelization modes |
 | **Expanded Panorama Observation** | Extends panoramic capture modalities for embodied perception and dataset collection |
@@ -109,7 +109,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **Stable CID Camera Identifier** | Long-term script configuration compatibility |
 | **[Shared-Memory Transport](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | Raw camera and occupancy buffers for low-copy observation pipelines |
 | **[Runtime Reflection](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | JSON-based inspection, property access, and function invocation for supported Unreal objects |
-| **[Cinematic Camera Controls](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/cine-camera.html)** | Physical camera settings and derived intrinsics for controlled image formation |
+| **[Cinematic Camera Controls](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | Physical camera settings and derived intrinsics for controlled image formation |
 | **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | High-quality lit capture with explicit rendering and post-process controls |
 | **Runtime MCP** | Agent-facing scene overview, actor inspection, and UnrealCV command execution |
 
@@ -222,8 +222,8 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 | 🚁 **Drone Visual Customization** | 🎭 **Social Animation** | ⚡ **Faster UnrealCV Capture** |
 |:---:|:---:|:---:|
-| Five animated production-ready models plus a customization template | Select character social actions at runtime | Standard camera: 96.20 FPS at 2K, 65.21 FPS at 4K |
-| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Up to 14.66× standard and 4.96× panorama speedup |
+| Five animated production-ready models plus a customization template | Select character social actions at runtime | Standard camera: 53.46 FPS at 2K, 29.59 FPS at 4K |
+| External Static Mesh support preserves control, physics, camera, and task state | Party, everyday, and in-car animation groups | Up to 6.31× speedup |
 
 | 🏙️ **100+ Scenes** | 👥 **10+ Agents** | 🚗 **Vehicle Interaction** | 📦 **Object Manipulation** |
 |:---:|:---:|:---:|:---:|
@@ -274,6 +274,19 @@ See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp)
 <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
 
 Player-controlled LiDAR observation with pose-conditioned map updates.
+
+**🎥 Cine Camera**
+
+<div align="center">
+
+<table><tr>
+<td><img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" height="180"></td>
+<td><img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" height="180"></td>
+</tr></table>
+
+</div>
+
+The above demos sweep the manual focus distance of the **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)**.
 
 **🚗 Vehicle Interaction**
 

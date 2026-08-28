@@ -65,7 +65,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 状态 | 说明 |
 |------|------|----------------------------------------|
-| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **更快的 UnrealCV 采集** | ✅ 增强 | 标准相机在 **2K 下达到 53.46 FPS**、在 **4K 下达到 29.59 FPS**；实测最高加速 6.31× |
 | **LiDAR 观测** | ✅ 新增 | 提供 XYZI 点云观测和玩家控制的街景建图示例 |
 | **占用体素观测** | ✅ 新增 | 提供兼容 LINGO 的布尔占用网格，以及 bounds/mesh 两种模式 |
 | **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
@@ -96,7 +96,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 | 特性 | 说明 |
 |------|------------------------|
-| **更快的相机采集** | 标准相机在 **2K 下达到 96.20 FPS**、在 **4K 下达到 65.21 FPS**；实测标准相机最高加速 14.66×、全景最高加速 4.96× |
+| **更快的相机采集** | 标准相机在 **2K 下达到 53.46 FPS**、在 **4K 下达到 29.59 FPS**；实测最高加速 6.31× |
 | **LiDAR 观测** | 提供 XYZI 点云，支持同步观测和建图工作流 |
 | **占用体素观测** | 提供兼容 LINGO 的布尔场景占用网格，以及可配置的 Profile 和体素化模式 |
 | **扩展全景观测** | 扩展全景采集模态，用于具身感知与数据集采集 |
@@ -109,7 +109,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **稳定 CID 相机标识** | 长期脚本配置兼容性保障 |
 | **[共享内存传输](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html)** | 为相机和占用数据提供低拷贝观测管线 |
 | **[运行时反射](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
-| **[电影相机控制](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/cine-camera.html)** | 提供物理相机设置与派生内参，支持可控成像 |
+| **[电影相机控制](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | 提供物理相机设置与派生内参，支持可控成像 |
 | **[MQRC 采集](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | 提供可显式控制渲染与后处理的高质量光照图像采集 |
 | **Runtime MCP** | 提供面向智能体的场景概览、Actor 检查和 UnrealCV 命令执行能力 |
 
@@ -220,8 +220,8 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 
 | 🚁 **无人机视觉定制** | 🎭 **社交动画** | ⚡ **更快的 UnrealCV 采集** |
 |:---:|:---:|:---:|
-| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 96.20 FPS、4K 65.21 FPS |
-| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 14.66×、全景最高 4.96× |
+| 五种带动画的正式模型，另含一个定制模板 | 运行时选择角色社交动作 | 标准相机：2K 53.46 FPS、4K 29.59 FPS |
+| 外部 Static Mesh 接入保留控制、物理、相机和任务状态 | 聚会、日常和车内动画组 | 标准相机最高 6.31× |
 
 | 🏙️ **100+ 场景** | 👥 **10+ 智能体** | 🚗 **载具交互** | 📦 **物体操作** |
 |:---:|:---:|:---:|:---:|
@@ -272,6 +272,19 @@ python example/navigation/keyboard/navigation_keyboard_human.py \
 <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
 
 键盘控制 LiDAR 观测，并结合实时位姿更新地图。
+
+**🎥 电影摄影机手动对焦（Cine Camera）**
+
+<div align="center">
+
+<table><tr>
+<td><img src="doc/figs/new_features/cine-focus-mqrc-demo-v4.gif" height="180"></td>
+<td><img src="doc/figs/new_features/cine-focus-mqrc-demo.gif" height="180"></td>
+</tr></table>
+
+</div>
+
+上面的演示展示了 **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** 的手动对焦距离动态调整效果。
 
 **🚗 载具交互**
 
