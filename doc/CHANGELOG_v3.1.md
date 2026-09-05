@@ -192,7 +192,7 @@ cycle.
   demonstrates player-controlled LiDAR street mapping.
 - [`lidar_visualization.py`](../example/new_features/lidar_visualization.py)
   visualizes individual LiDAR observations and accumulated maps.
-- [`go1_parkour.py`](../example/mujoco/go1_parkour.py) demonstrates MuJoCo Go1
+- [`parkour/demo.py`](../example/mujoco/parkour/demo.py) demonstrates MuJoCo Go1
   control in an Unreal-rendered scene.
 - [`realtime_scene_occupancy_gpu.py`](../example/new_features/realtime_scene_occupancy_gpu.py)
   renders live [shared-memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) occupancy data in four GPU-instanced views.

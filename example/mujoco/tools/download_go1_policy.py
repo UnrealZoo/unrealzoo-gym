@@ -6,12 +6,17 @@ import urllib.request
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_OUT_DIR = Path(__file__).resolve().parent / "policies"
+REPO_ROOT = Path(__file__).resolve().parents[3]
+MUJOCO_DIR = Path(__file__).resolve().parents[1]
+DEFAULT_OUT_DIR = MUJOCO_DIR / "policies"
 HF_REPO = "robomotic/mjlab-policies"
 POLICIES = {
     "go1_velocity": "go1_velocity/2026-04-27_13-40-37/policy.onnx",
     "go1_rough_velocity": "go1_rough_velocity/2026-04-29_08-00-37/policy.onnx",
+}
+OUTPUT_PATHS = {
+    "go1_velocity": Path("go1") / "velocity" / "policy.onnx",
+    "go1_rough_velocity": Path("go1") / "rough_velocity" / "policy.onnx",
 }
 
 
@@ -42,7 +47,7 @@ def main():
     args = parser.parse_args()
 
     filename = POLICIES[args.name]
-    output_path = args.output_dir / args.name / "policy.onnx"
+    output_path = args.output_dir / OUTPUT_PATHS[args.name]
     if output_path.exists() and not args.force:
         print(f"EXISTS|{output_path}")
         return 0

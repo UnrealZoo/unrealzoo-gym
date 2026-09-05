@@ -1,0 +1,88 @@
+{
+    "env_name": "SuburbNeighborhood_Day",
+    "env_bin": "UnrealZoo_UE5_6_Linux_v3.0.0/Linux/UnrealZoo_UE5_6/Binaries/Linux/UnrealZoo_UE5_6",
+    "env_map": "SuburbNeighborhood_Day",
+    "env_bin_win": "UnrealZoo_UE5_7_Win64_v3.1.1/Windows/UnrealZoo_UE5_7/Binaries/Win64/UnrealZoo_UE5_7.exe",
+    "env_bin_mac": "/wait/for/update",
+    "mujoco": {
+        "spawn_location": null,
+        "runtime": {
+            "resolution": [
+                160,
+                160
+            ],
+            "sleep_time": 8.0,
+            "nullrhi": false,
+            "offscreen_rendering": false,
+            "use_opengl": false
+        },
+        "robots": {
+            "go1": {
+                "blueprint": "/Game/robot-dog-unitree-go1/BP_UnitreeGo1.BP_UnitreeGo1",
+                "physics": {
+                    "timestep": 0.005,
+                    "control_decimation": 4,
+                    "gravity": [
+                        0.0,
+                        0.0,
+                        -9.81
+                    ],
+                    "solver_iterations": 0,
+                    "joint_damping_scale": 1.0,
+                    "joint_armature_scale": 1.0,
+                    "joint_frictionloss_scale": 1.0,
+                    "geom_friction_scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "actuator_force_limit_scale": 1.0
+                }
+            },
+            "g1": {
+                "blueprint": "/Game/robot-humanoid-unitree-g1/BP_UnitreeG1.BP_UnitreeG1",
+                "physics": {
+                    "timestep": 0.002,
+                    "control_decimation": 10,
+                    "gravity": [
+                        0.0,
+                        0.0,
+                        -9.81
+                    ],
+                    "solver_iterations": 0,
+                    "joint_damping_scale": 1.0,
+                    "joint_armature_scale": 1.0,
+                    "joint_frictionloss_scale": 1.0,
+                    "geom_friction_scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "actuator_force_limit_scale": 1.0
+                }
+            },
+            "microduck": {
+                "blueprint": "/Game/robot-biped-microduck/BP_MicroDuck.BP_MicroDuck",
+                "physics": {
+                    "timestep": 0.005,
+                    "control_decimation": 4,
+                    "gravity": [
+                        0.0,
+                        0.0,
+                        -9.81
+                    ],
+                    "solver_iterations": 0,
+                    "joint_damping_scale": 1.0,
+                    "joint_armature_scale": 1.0,
+                    "joint_frictionloss_scale": 1.0,
+                    "geom_friction_scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "actuator_force_limit_scale": 1.0
+                }
+            }
+        }
+    }
+}

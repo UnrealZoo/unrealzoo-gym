@@ -19,7 +19,7 @@ and environment package, and configure the UnrealEnv path.
 | **Interaction** | [Interaction examples](interaction/) | [Object interaction](interaction/keyboard/interaction_keyboard_object.py) · [Vehicle interaction](interaction/keyboard/interaction_keyboard_vehicle.py) | Binary auto-launch |
 | **Data recording** | [Data-recording examples](DataRecording/) | [Video recording pipeline](DataRecording/VideoRecordingPipeline.py) | Start the binary manually |
 | **v3.1 features** | [Latest feature guide](new_features/README.md) | [LiDAR street mapping](new_features/suburb_street_slam.py) · [Occupancy viewer](new_features/realtime_scene_occupancy_gpu.py) · [Drone customization](new_features/drone_mesh_switch_demo.py) | See the feature guide |
-| **MuJoCo Go1** | [Go1 setup and demos](mujoco/README.md) | [Keyboard control](mujoco/go1_keyboard_control.py) · [Parkour](mujoco/go1_parkour.py) | Start the binary or Editor manually |
+| **MuJoCo robots** | [Go1/G1/MicroDuck guide](mujoco/README.md) | [Unified locomotion](mujoco/mujoco_robot_demo.py) · [Parkour](mujoco/parkour/demo.py) | Manual start or MuJoCo auto-launch |
 | **VLN baselines** | [VLN baseline guide](VLN_Baseline/README.md) | Uni-NaVid · ViNT / NoMaD · StreamVLN | Follow the model-specific guide |
 
 ## Runtime Conventions

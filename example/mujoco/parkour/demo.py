@@ -20,18 +20,20 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
-EXAMPLE_DIR = SCRIPT_DIR.parent
-if str(EXAMPLE_DIR) not in sys.path:
-    sys.path.insert(0, str(EXAMPLE_DIR))
+MUJOCO_DIR = SCRIPT_DIR.parent
+REPO_ROOT = MUJOCO_DIR.parents[1]
+for import_dir in (MUJOCO_DIR, REPO_ROOT):
+    if str(import_dir) not in sys.path:
+        sys.path.insert(0, str(import_dir))
 
-import go1_locomotion as locomotion  # noqa: E402
-from go1_keyboard_control import (  # noqa: E402
-    KeyboardController as HoldKeyboardController,
+from runtime import go1_locomotion as locomotion  # noqa: E402
+from common.command_source import (  # noqa: E402
+    HoldKeyboardController,
     ijkl_command,
     interpolate_command,
 )
-from go1_observation_visualizer import Go1ObservationVisualizer  # noqa: E402
-from parkour_policy import ACTION_DIM, RobotParkourPolicy  # noqa: E402
+from observation_visualizer import Go1ObservationVisualizer  # noqa: E402
+from policy import ACTION_DIM, RobotParkourPolicy  # noqa: E402
 from unrealcv.util import read_npy  # noqa: E402
 
 
@@ -824,7 +826,7 @@ def run_control_loop(client, actor_name, policy, camera, args):
 
 
 def parse_args() -> argparse.Namespace:
-    default_policy_dir = SCRIPT_DIR / "policies" / "robot_parkour_go1"
+    default_policy_dir = MUJOCO_DIR / "policies" / "parkour" / "go1"
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=9000)
@@ -861,7 +863,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--observation-dump-dir",
-        default=str(SCRIPT_DIR / "observation_debug"),
+        default=str(REPO_ROOT / "artifacts" / "mujoco" / "parkour_observation_debug"),
         help="Directory for automatic anomaly/fall observation snapshots",
     )
     parser.add_argument(

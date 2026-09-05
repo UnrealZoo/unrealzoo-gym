@@ -4,11 +4,10 @@ import json
 import unrealcv
 
 def load_env_setting(filename):
-    f = open(get_settingpath(filename))
-    type = os.path.splitext(filename)[1]
-    assert type in ['.json'], type + ' is not supported'
-    setting = json.load(f)
-    return setting
+    extension = os.path.splitext(filename)[1]
+    assert extension in ['.json'], extension + ' is not supported'
+    with open(get_settingpath(filename), encoding='utf-8') as setting_file:
+        return json.load(setting_file)
 
 
 def get_settingpath(filename):

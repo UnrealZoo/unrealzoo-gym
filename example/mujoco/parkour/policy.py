@@ -14,6 +14,7 @@ from typing import Sequence
 
 ACTION_DIM = 12
 PROPRIO_DIM = 48
+MUJOCO_DIR = Path(__file__).resolve().parents[1]
 
 # UnrealCV's MuJoCo bridge uses FR, FL, RR, RL. Robot Parkour Learning uses
 # FL, FR, RL, RR. Each entry expands to hip, thigh, calf.
@@ -90,7 +91,7 @@ class RobotParkourPolicy:
         runtime_root = (
             Path(runtime_dir).expanduser().resolve()
             if runtime_dir
-            else self.policy_dir / "rsl_rl"
+            else MUJOCO_DIR / "third_party" / "robot_parkour_rsl_rl"
         )
         if not (runtime_root / "rsl_rl" / "modules").is_dir():
             raise FileNotFoundError(

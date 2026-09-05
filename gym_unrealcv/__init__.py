@@ -7,6 +7,30 @@ logger = logging.getLogger(__name__)
 use_docker = False  # True: use nvidia docker   False: do not use nvidia-docker
 
 
+for robot_name, gym_name in (
+    ("go1", "Go1"),
+    ("g1", "G1"),
+    ("microduck", "MicroDuck"),
+):
+    register(
+        id="UnrealMujoco-{}-v0".format(gym_name),
+        entry_point="gym_unrealcv.envs:UnrealCvMujocoEnv",
+        kwargs={"robot": robot_name},
+    )
+
+
+def make_mujoco_env(robot, **runtime_options):
+    """Create a MuJoCo Gym environment with runtime connection options.
+
+    Gym 0.10.9 does not forward keyword arguments from ``gym.make``. This
+    factory preserves the registered environment IDs while allowing demos to
+    select a server, actor, and spawn pose at runtime.
+    """
+    from gym_unrealcv.envs.mujoco import UnrealCvMujocoEnv
+
+    return UnrealCvMujocoEnv(robot=robot, **runtime_options)
+
+
 
 # ------------------------------------------------------------------
 # Robot Arm

@@ -11,7 +11,8 @@ dependencies = [
     "gym==0.10.9",
     "matplotlib",
     "numpy",
-    "unrealcv==1.3.0",
+    "onnxruntime",
+    "unrealcv==1.3.2",
     "wget",
     "opencv-python",
     "glfw",
@@ -30,7 +31,9 @@ authors = [
 "gym_unrealcv" = ["envs/setting/**/*"]
 
 [tool.setuptools]
-packages = ["gym_unrealcv"]
+
+[tool.setuptools.packages.find]
+include = ["gym_unrealcv*"]
 
 [tool.setuptools.dynamic]
 version = {attr = "gym_unrealcv.__version__"}

@@ -11,7 +11,7 @@ connection to an environment started by the user.
 | Feature | What the demo proves | Entry point | Recommended visual |
 |---|---|---|---|
 | LiDAR observation + mapping | XYZI observation, scan checks and pose-conditioned street mapping | [`suburb_street_slam.py`](suburb_street_slam.py) | RGB + current scan + accumulated map dashboard |
-| MuJoCo | UE rendering driven by MuJoCo state and policy observations | [`../mujoco/go1_parkour.py`](../mujoco/go1_parkour.py) | Keyboard, parkour third-person, and depth-observation GIFs |
+| MuJoCo | UE rendering driven by MuJoCo state and policy observations | [`../mujoco/parkour/demo.py`](../mujoco/parkour/demo.py) | Keyboard, parkour third-person, and depth-observation GIFs |
 | Scene occupancy voxels | [Shared-memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) bool XYZ grid, bounds/mesh modes, camera-relative origin | [`realtime_scene_occupancy_gpu.py`](realtime_scene_occupancy_gpu.py) | GPU-instanced four-view rendering and live RGB + occupancy projection |
 | Runtime drone visual customization | Five production-ready models with animated propellers, one customization template, and external Static Mesh support on the same live pawn | [`drone_mesh_switch_demo.py`](drone_mesh_switch_demo.py) | Third-person GIF covering the built-in appearances |
 | Character social animations | Runtime selection from the packaged party, everyday, and in-car animation groups | `BP_Character.set_social_anim` | Third-person character montage capture |
@@ -101,10 +101,10 @@ server; `--binary`, `--env-id`, and `--sleep-time` do not apply to Go1.
 
 ```cmd
 rem Basic keyboard locomotion policy.
-python example\mujoco\go1_keyboard_control.py --host 127.0.0.1 --port 9000
+python example\mujoco\mujoco_robot_demo.py go1 keyboard --host 127.0.0.1 --port 9000
 
 rem Advanced vision-based parkour policy.
-python example\mujoco\go1_parkour.py --host 127.0.0.1 --port 9000 --command-mode keyboard
+python example\mujoco\parkour\demo.py --host 127.0.0.1 --port 9000 --command-mode keyboard
 ```
 
 The parkour demo combines UE RGB/depth, MuJoCo proprioception and keyboard or

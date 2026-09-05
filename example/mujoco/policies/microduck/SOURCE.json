@@ -1,0 +1,16 @@
+{
+  "model_repository": "https://github.com/pollen-robotics/microduck",
+  "training_repository": "https://github.com/pollen-robotics/microduck_rl",
+  "release": "daemon-v0.10.0",
+  "files": {
+    "alpha_walking.onnx": "BEST_alpha_walking_rough.onnx",
+    "alpha_stand.onnx": "BEST_alpha_stand_body_control.onnx",
+    "alpha_sitstand.onnx": "BEST_alpha_sitstand.onnx",
+    "alpha_ground_pick.onnx": "alpha_ground_pick.onnx",
+    "ball_kick_left.onnx": "ball_kick_left.onnx",
+    "ball_kick_right.onnx": "ball_kick_right.onnx",
+    "roulade.onnx": "roulade.onnx"
+  },
+  "interface": "obs[1,61] -> actions[1,14]",
+  "note": "The ONNX normalizer is embedded by the upstream exporter."
+}

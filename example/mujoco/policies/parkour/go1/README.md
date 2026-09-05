@@ -1,7 +1,7 @@
 # Robot Parkour Learning — Go1
 
 This directory packages the official Go1 visual-distillation checkpoint used by
-`../../go1_parkour.py`. The demo keeps the existing 48D ONNX locomotion example
+`../../../parkour/demo.py`. The demo keeps the existing 48D ONNX locomotion example
 unchanged; this policy instead consumes 48D proprioception, a 48x64 forward
 depth image, and recurrent state.
 
@@ -15,13 +15,13 @@ Bundled files:
 
 - `model_674000.pt`: official Go1 parkour checkpoint.
 - `config.json`: matching official training/deployment configuration.
-- `rsl_rl/`: the minimum official Python policy runtime.
+- `../../../third_party/robot_parkour_rsl_rl/`: the minimum official Python policy runtime.
 - `SOURCE.json`: provenance and SHA-256 hashes.
 
 Offline load/inference check:
 
 ```cmd
-conda run --no-capture-output -n unrealzoo python .\example\mujoco\go1_parkour.py --self-test
+conda run --no-capture-output -n unrealzoo python .\example\mujoco\parkour\demo.py --self-test
 ```
 
 Run after starting an UnrealCV-enabled editor session or packaged build. The
@@ -30,7 +30,7 @@ collision geometry before MuJoCo starts:
 
 ```cmd
 conda run --no-capture-output -n unrealzoo python ^
-  .\example\mujoco\go1_parkour.py ^
+  .\example\mujoco\parkour\demo.py ^
   --spawn-camera-id 0 ^
   --vx 1.0 --warmup 0.8 --print-every 5
 ```

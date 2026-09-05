@@ -165,7 +165,7 @@ python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
-The editable install obtains the required **UnrealCV 1.3.0** Python client from
+The editable install obtains the required **UnrealCV 1.3.2** Python client from
 PyPI.
 
 ```bash
@@ -360,13 +360,13 @@ manually. Wait for the map and UnrealCV server to finish loading, then use the
 matching port:
 
 ```cmd
-python example\mujoco\go1_keyboard_control.py --host 127.0.0.1 --port 9000
-python example\mujoco\go1_parkour.py --host 127.0.0.1 --port 9000 --command-mode keyboard
+python example\mujoco\mujoco_robot_demo.py go1 keyboard --host 127.0.0.1 --port 9000
+python example\mujoco\parkour\demo.py --host 127.0.0.1 --port 9000 --command-mode keyboard
 ```
 
 Both Go1 examples use `I/K` for forward/backward and `J/L` for turning. The
 advanced example adapts the official [Robot Parkour Learning repository](https://github.com/ZiwenZhuang/parkour);
-source and citation details are recorded in the [MuJoCo example guide](example/mujoco/README.md#advanced-policy-source-and-citation).
+source and citation details are recorded in the [MuJoCo Parkour guide](example/mujoco/docs/PARKOUR.md).
 
 **Social animation:** See the [`set_social_anim` API and case-sensitive
 argument list](example/new_features/README.md#5-character-social-animations).

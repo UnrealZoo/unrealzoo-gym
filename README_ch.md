@@ -353,13 +353,13 @@ python example\new_features\drone_mesh_switch_demo.py --interval 2 --cycles 2 --
 UnrealCV server 完成加载，再使用与服务一致的端口运行：
 
 ```cmd
-python example\mujoco\go1_keyboard_control.py --host 127.0.0.1 --port 9000
-python example\mujoco\go1_parkour.py --host 127.0.0.1 --port 9000 --command-mode keyboard
+python example\mujoco\mujoco_robot_demo.py go1 keyboard --host 127.0.0.1 --port 9000
+python example\mujoco\parkour\demo.py --host 127.0.0.1 --port 9000 --command-mode keyboard
 ```
 
 两个 Go1 示例均使用 `I/K` 前进后退、`J/L` 转向。高级示例适配自官方
 [Robot Parkour Learning 仓库](https://github.com/ZiwenZhuang/parkour)，策略来源与引用信息见
-[MuJoCo 示例文档](example/mujoco/README.md#advanced-policy-source-and-citation)。
+[MuJoCo Parkour 文档](example/mujoco/docs/PARKOUR.md)。
 
 **社交动画：** 参见 [`set_social_anim` API 与大小写敏感参数列表](example/new_features/README.md#5-character-social-animations)。
 
