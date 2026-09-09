@@ -62,6 +62,8 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 
 > **UnrealZoo v3.1 expands the v3.0 foundation** with faster visual observation, 3-D perception, physics-driven robots, runtime agent customization, and externally packaged environments.
 
+> **Now, all three platform binaries (Win/Linux/MacOs) are released!**
+
 ### 🚀 v3.1 Feature Updates
 
 | Feature | Status | Description |
