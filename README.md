@@ -76,7 +76,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **[Runtime Reflection](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | ✅ Added | JSON-based inspection, property access, and function invocation for supported Unreal objects |
 | **[Cine Camera Controls](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | ✅ Added | Physical camera settings, manual focus control, and derived intrinsics |
 | **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | ✅ Added | High-quality lit capture with explicit rendering and post-process controls |
-| **MuJoCo Unitree Go1** | ✅ Added | Keyboard locomotion and an advanced Robot Parkour policy example |
+| **MuJoCo Robot Physics** | ✅ Added | Go1 locomotion and vision-based Parkour, plus pretrained Micro Duck biped control |
 | **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
 | **External 3DGS Environments** | ✅ Added | Dynamically load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
@@ -139,7 +139,7 @@ The recommended v3.1 UE5.7 package is approximately **70 GB**.
 #### 2026: v3.1 Feature Update
 - ✅ Faster UnrealCV visual observation and recording workflows
 - ✅ LiDAR and occupancy voxel observations
-- ✅ MuJoCo Go1 simulation examples
+- ✅ MuJoCo robot simulation examples for Go1 and Micro Duck
 - ✅ User-packaged 3DGS environment support
 - ✅ Runtime drone visual customization with animated built-in models and external Static Mesh support
 - ✅ Expanded character social animations
@@ -256,7 +256,7 @@ modalities are selected by the registered task configuration.
 | **Multi-agent coordination / tracking** | [Multi-agent random baseline](example/multi_agent/baseline/multi_random_baseline.py) · [Tracking example](example/tracking/basic/tracking_auto_basic.py) | Binary auto-launch |
 | **Interactive navigation** | [Keyboard navigation](example/navigation/keyboard/navigation_keyboard_human.py) | Binary auto-launch |
 | **RGB-D / LiDAR / occupancy perception** | [v3.1 perception guide](example/new_features/README.md) · [LiDAR mapping](example/new_features/suburb_street_slam.py) · [Occupancy viewer](example/new_features/realtime_scene_occupancy_gpu.py) | Binary auto-launch |
-| **Unitree Go1 control and parkour** | [MuJoCo Go1 guide](example/mujoco/README.md) | Start binary or Editor manually |
+| **MuJoCo robot physics (Go1 and Micro Duck)** | [MuJoCo guide](example/mujoco/README.md) | Start binary or Editor manually |
 | **VLN / VLM agents** | [VLN baseline guide](example/VLN_Baseline/README.md) | Follow model-specific setup |
 | **Runtime MCP agents** | [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp) | Connect to a running environment |
 | **Data collection / annotation** | [Video recording pipeline](example/DataRecording/VideoRecordingPipeline.py) · [UnrealCV+ documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | Start binary manually |
@@ -265,12 +265,14 @@ modalities are selected by the registered task configuration.
 
 <div align="center">
 
-**🐕 MuJoCo Go1 Control & Parkour**
+**⚙️ MuJoCo Physics Simulation**
 
-| Keyboard Control | Parkour: Third-Person View | Parkour: Depth Observation |
+| Direct Go1 Control | Vision-Based Go1 Parkour | Micro Duck Biped Locomotion |
 |:---:|:---:|:---:|
-| <img src="doc/figs/new_features/mujoco_go1_keyboard.gif" width="100%" alt="MuJoCo Go1 keyboard control"> | <img src="doc/figs/new_features/mujoco_go1_parkour_third_person.gif" width="100%" alt="MuJoCo Go1 parkour third-person view"> | <img src="doc/figs/new_features/mujoco_go1_parkour_depth.gif" width="100%" alt="MuJoCo Go1 parkour depth observation"> |
-| Basic `I/J/K/L` locomotion demo | Advanced policy behavior rendered from outside the robot | UnrealCV raw depth and the policy depth input |
+| <img src="doc/figs/new_features/mujoco_go1_keyboard.gif" width="100%" alt="MuJoCo Go1 keyboard control"> | <img src="doc/figs/new_features/mujoco_go1_parkour.gif" width="100%" alt="MuJoCo Go1 parkour in third-person and depth views"> | <img src="doc/figs/new_features/mujoco_microduck.gif" width="100%" alt="Micro Duck pretrained locomotion driven by MuJoCo in UnrealZoo"> |
+
+Control Go1 directly with `I/J/K/L`, run a vision-conditioned Parkour policy,
+or drive the compact Micro Duck biped with pretrained MuJoCo locomotion.
 
 | 🚁 Runtime Drone Visual Customization | 🎭 Character Social Animation | 🌐 External 3DGS + UnrealZoo Actor |
 |:---:|:---:|:---:|

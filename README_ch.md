@@ -74,7 +74,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **[运行时反射](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/runtime-reflection.html)** | ✅ 新增 | 通过 JSON 检查受支持的 Unreal 对象，并访问属性和调用函数 |
 | **[电影相机控制](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** | ✅ 新增 | 提供物理相机设置、手动对焦控制与派生内参 |
 | **[MQRC 采集](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | ✅ 新增 | 提供可显式控制渲染与后处理的高质量光照图像采集 |
-| **MuJoCo Unitree Go1** | ✅ 新增 | 提供键盘运动控制和 Robot Parkour 高级策略示例 |
+| **MuJoCo 机器人物理仿真** | ✅ 新增 | 提供 Go1 运动控制与视觉跑酷，以及 Micro Duck 双足机器人的预训练控制 |
 | **无人机运行时视觉定制** | ✅ 新增 | 无需重新生成无人机即可切换五种带动态螺旋桨的正式模型、使用定制模板，或加载兼容的外部 Static Mesh |
 | **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
 | **外部 3DGS 环境** | ✅ 新增 | 动态加载用户打包的 3DGS 资产，并复用 UnrealZoo 智能体、相机和任务 API |
@@ -137,7 +137,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 #### 2026: v3.1 功能更新
 - ✅ 更快的 UnrealCV 视觉观测与录制工作流
 - ✅ LiDAR 和占用体素观测
-- ✅ MuJoCo Go1 仿真示例
+- ✅ Go1 与 Micro Duck 的 MuJoCo 机器人仿真示例
 - ✅ 用户打包的 3DGS 环境支持
 - ✅ 支持动态内置模型与外部 Static Mesh 的无人机运行时视觉定制
 - ✅ 扩展角色社交动画
@@ -249,7 +249,7 @@ observation、action、reward 和 done；具体视觉模态由注册任务配置
 | **多智能体协作 / 追踪** | [多智能体随机策略](example/multi_agent/baseline/multi_random_baseline.py) · [追踪示例](example/tracking/basic/tracking_auto_basic.py) | 自动启动 binary |
 | **交互式导航** | [键盘导航](example/navigation/keyboard/navigation_keyboard_human.py) | 自动启动 binary |
 | **RGB-D / LiDAR / 占用感知** | [v3.1 感知指南](example/new_features/README.md) · [LiDAR 建图](example/new_features/suburb_street_slam.py) · [占用可视化](example/new_features/realtime_scene_occupancy_gpu.py) | 自动启动 binary |
-| **Unitree Go1 控制与跑酷** | [MuJoCo Go1 指南](example/mujoco/README.md) | 手动启动 binary 或 Editor |
+| **MuJoCo 机器人物理仿真（Go1 与 Micro Duck）** | [MuJoCo 指南](example/mujoco/README.md) | 手动启动 binary 或 Editor |
 | **VLN / VLM 智能体** | [VLN Baseline 指南](example/VLN_Baseline/README.md) | 按模型说明配置 |
 | **Runtime MCP 智能体** | [Runtime MCP 示例](https://github.com/unrealcv/unrealcv-runtime-mcp) | 连接运行中的环境 |
 | **数据采集 / 标注** | [视频录制管线](example/DataRecording/VideoRecordingPipeline.py) · [UnrealCV+ 文档](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html) | 手动启动 binary |
@@ -258,12 +258,14 @@ observation、action、reward 和 done；具体视觉模态由注册任务配置
 
 <div align="center">
 
-**🐕 MuJoCo Go1 控制与跑酷**
+**⚙️ MuJoCo 物理仿真**
 
-| 键盘控制 | Parkour：第三人称视角 | Parkour：深度观测 |
+| Go1 直接控制 | Go1 视觉跑酷策略 | Micro Duck 双足运动 |
 |:---:|:---:|:---:|
-| <img src="doc/figs/new_features/mujoco_go1_keyboard.gif" width="100%" alt="MuJoCo Go1 keyboard control"> | <img src="doc/figs/new_features/mujoco_go1_parkour_third_person.gif" width="100%" alt="MuJoCo Go1 parkour third-person view"> | <img src="doc/figs/new_features/mujoco_go1_parkour_depth.gif" width="100%" alt="MuJoCo Go1 parkour depth observation"> |
-| 基础 `I/J/K/L` 运动控制 | 从机器人外部展示高级策略行为 | UnrealCV 原始深度与策略使用的深度输入 |
+| <img src="doc/figs/new_features/mujoco_go1_keyboard.gif" width="100%" alt="MuJoCo Go1 keyboard control"> | <img src="doc/figs/new_features/mujoco_go1_parkour.gif" width="100%" alt="MuJoCo Go1 parkour in third-person and depth views"> | <img src="doc/figs/new_features/mujoco_microduck.gif" width="100%" alt="Micro Duck pretrained locomotion driven by MuJoCo in UnrealZoo"> |
+
+使用 `I/J/K/L` 直接控制 Go1、运行视觉条件 Parkour 策略，或通过预训练 MuJoCo
+运动策略驱动紧凑型 Micro Duck 双足机器人。
 
 | 🚁 无人机运行时视觉定制 | 🎭 角色社交动画 | 🌐 外部 3DGS + UnrealZoo Actor |
 |:---:|:---:|:---:|
