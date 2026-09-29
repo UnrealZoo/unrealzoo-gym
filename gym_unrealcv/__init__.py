@@ -31,6 +31,18 @@ def make_mujoco_env(robot, **runtime_options):
     return UnrealCvMujocoEnv(robot=robot, **runtime_options)
 
 
+def make_mujoco_vector_env(robot, num_env=1, num_agent=1, **runtime_options):
+    """Create MuJoCo robots across Unreal processes and in-process agents."""
+    from gym_unrealcv.envs.mujoco_vector import UnrealCvMujocoVectorEnv
+
+    return UnrealCvMujocoVectorEnv(
+        robot=robot,
+        num_env=num_env,
+        num_agent=num_agent,
+        **runtime_options
+    )
+
+
 
 # ------------------------------------------------------------------
 # Robot Arm

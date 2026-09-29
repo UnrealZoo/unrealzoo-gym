@@ -123,6 +123,8 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
         self.started = False
         self.physics_configured = False
         self.steps = 0
+        self._reset_location = None
+        self._reset_rotation = None
 
         self.action_space = spaces.Box(
             low=-1.0,
@@ -194,6 +196,47 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
         )
         self.configure_mujoco_physics(self.actor_name)
         self.physics_configured = True
+
+    @staticmethod
+    def _parse_actor_vector(response, field_name):
+        values = np.asarray(
+            str(response).replace(",", " ").split(), dtype=np.float64
+        )
+        if values.shape != (3,) or not np.all(np.isfinite(values)):
+            raise RuntimeError(
+                "Invalid {} returned by UnrealCV: {}".format(
+                    field_name, response
+                )
+            )
+        return values
+
+    def _capture_reset_transform(self):
+        """Capture the authored/settled pose before MuJoCo can move the Actor."""
+        self._reset_location = self._parse_actor_vector(
+            self.request("vget /object/{}/location".format(self.actor_name)),
+            "actor location",
+        )
+        self._reset_rotation = self._parse_actor_vector(
+            self.request("vget /object/{}/rotation".format(self.actor_name)),
+            "actor rotation",
+        )
+
+    def _restore_reset_transform(self):
+        """Restore the immutable spawn pose before rebuilding MuJoCo state."""
+        if self._reset_location is None or self._reset_rotation is None:
+            raise RuntimeError("MuJoCo reset transform has not been captured")
+        location = " ".join(
+            "{:.9f}".format(float(value)) for value in self._reset_location
+        )
+        rotation = " ".join(
+            "{:.9f}".format(float(value)) for value in self._reset_rotation
+        )
+        self.request(
+            "vset /object/{}/location {}".format(self.actor_name, location)
+        )
+        self.request(
+            "vset /object/{}/rotation {}".format(self.actor_name, rotation)
+        )
 
     def _send_command(self):
         values = " ".join("{:.6f}".format(float(value)) for value in self.command)
@@ -275,8 +318,18 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
         elif not self.physics_configured:
             self.configure_mujoco_physics(self.actor_name)
             self.physics_configured = True
+
+        # MuJoCo writes its floating-base pose back to the owning UE Actor. A
+        # stop/start cycle therefore cannot be a reset by itself: without an
+        # explicit restore, the next model captures the previous episode's
+        # fallen (and potentially underground) Actor transform as its new
+        # initial qpos. Capture once, before the first simulation starts, and
+        # always restore that immutable transform before rebuilding the model.
+        if self._reset_location is None:
+            self._capture_reset_transform()
         if self.started:
             self._stop_robot()
+        self._restore_reset_transform()
 
         self.steps = 0
         self.last_action.fill(0.0)
@@ -300,39 +353,30 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
         self.previous_targets = targets.copy()
         return targets
 
-    def step(self, action):
+    def _build_step_command(self, action):
         action = np.asarray(action, dtype=np.float32)
-
         if self.robot == "go1":
             values = " ".join("{:.9f}".format(float(value)) for value in action)
-            self.state = json.loads(
-                self.request(
-                    "vset /object/{}/mujoco_go1_policy_step {}".format(
-                        self.actor_name, values
-                    )
-                )
+            return "vset /object/{}/mujoco_go1_policy_step {}".format(
+                self.actor_name, values
             )
-            observation = np.asarray(self.state["obs"], dtype=np.float32)
-        elif self.robot == "g1":
+        if self.robot == "g1":
             values = ",".join("{:.9f}".format(float(value)) for value in action)
-            self.state = json.loads(
-                self.request(
-                    "vset /object/{}/mujoco_g1_policy_step {}".format(
-                        self.actor_name, values
-                    )
-                )
+            return "vset /object/{}/mujoco_g1_policy_step {}".format(
+                self.actor_name, values
             )
+        targets = self._microduck_targets(action)
+        values = ",".join("{:.9g}".format(float(value)) for value in targets)
+        return "vset /object/{}/mujoco_microduck_control_step {}".format(
+            self.actor_name, values
+        )
+
+    def _consume_step_response(self, action, response):
+        action = np.asarray(action, dtype=np.float32)
+        self.state = json.loads(self._response_text(response))
+        if self.robot in ("go1", "g1"):
             observation = np.asarray(self.state["obs"], dtype=np.float32)
         else:
-            targets = self._microduck_targets(action)
-            values = ",".join("{:.9g}".format(float(value)) for value in targets)
-            self.state = json.loads(
-                self.request(
-                    "vset /object/{}/mujoco_microduck_control_step {}".format(
-                        self.actor_name, values
-                    )
-                )
-            )
             self.last_action = action.copy()
             observation = self._microduck_observation(self.state)
 
@@ -342,6 +386,11 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
         info["command"] = self.command.copy()
         info["steps"] = self.steps
         return observation, 0.0, False, info
+
+    def step(self, action):
+        action = np.asarray(action, dtype=np.float32)
+        response = self.request(self._build_step_command(action))
+        return self._consume_step_response(action, response)
 
     def _stop_robot(self):
         if self.robot == "go1":
@@ -362,7 +411,7 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
             )
         self.started = False
 
-    def close(self):
+    def _close_actor(self):
         if self.actor_name:
             if self.started:
                 self._stop_robot()
@@ -371,4 +420,7 @@ class UnrealCvMujocoEnv(UnrealCvMujocoBase):
                     "vset /object/{}/destroy".format(self.actor_name)
                 )
             self.actor_name = ""
+
+    def close(self):
+        self._close_actor()
         super().close()

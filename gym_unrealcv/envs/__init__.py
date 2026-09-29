@@ -5,4 +5,5 @@ from gym_unrealcv.envs.track import Track
 from gym_unrealcv.envs.navigation import Navigation
 from gym_unrealcv.envs.navigationmulti import NavigationMulti
 from gym_unrealcv.envs.mujoco import UnrealCvMujocoEnv
+from gym_unrealcv.envs.mujoco_vector import UnrealCvMujocoVectorEnv
 

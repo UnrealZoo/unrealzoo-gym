@@ -1,2 +1,15 @@
-artifacts/mujoco/parkour_observation_debug/
-artifacts/mujoco_rl/
+# Local training outputs, environments and captured data.
+/artifacts/
+/baseline_artifacts/
+/repro_artifacts/
+/runs/
+/.worktrees/
+/.venv/
+/.venvs/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+*.egg-info/
+/build/
+/dist/

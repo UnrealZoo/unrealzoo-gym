@@ -212,6 +212,11 @@ class UnrealCvMujocoBase(gym.Env):
         host = self.host
         port = self.port
         if self.launch:
+            # RunUnreal stores the port in the packaged environment's shared
+            # UnrealCV.ini. Re-apply this instance's preferred port immediately
+            # before launch so several environment processes can start from
+            # deterministic, non-overlapping port ranges.
+            self.ue_binary.write_port(self.port)
             host, port = self.ue_binary.start(
                 resolution=self.resolution,
                 opengl=self.use_opengl,
@@ -233,9 +238,23 @@ class UnrealCvMujocoBase(gym.Env):
 
     def request(self, command):
         self._ensure_session()
-        return str(
+        return self._response_text(
             self.client.request(command, timeout=self.request_timeout)
-        ).strip()
+        )
+
+    @staticmethod
+    def _response_text(response):
+        if isinstance(response, bytes):
+            return response.decode("utf-8").strip()
+        return str(response).strip()
+
+    def request_batch(self, commands):
+        """Send one UnrealCV batch and return one text response per command."""
+        self._ensure_session()
+        responses = self.client.request(
+            list(commands), timeout=self.request_timeout
+        )
+        return [self._response_text(response) for response in responses]
 
     def configure_mujoco_physics(self, actor_name):
         """Apply validated physical parameters before the actor starts MuJoCo."""

@@ -27,6 +27,11 @@ authors = [
     { name = "Kui Wu" }
 ]
 
+[project.optional-dependencies]
+mujoco-training = [
+    "torch>=1.12"
+]
+
 [tool.setuptools.package-data]
 "gym_unrealcv" = ["envs/setting/**/*"]
 
