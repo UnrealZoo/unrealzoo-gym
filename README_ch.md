@@ -76,6 +76,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **[MQRC 采集](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | ✅ 新增 | 提供可显式控制渲染与后处理的高质量光照图像采集 |
 | **MuJoCo 机器人物理仿真** | ✅ 新增 | 提供 Go1 运动控制与视觉跑酷，以及 Micro Duck 双足机器人的预训练控制 |
 | **无人机运行时视觉定制** | ✅ 新增 | 无需重新生成无人机即可切换五种带动态螺旋桨的正式模型、使用定制模板，或加载兼容的外部 Static Mesh |
+| **[无人机三维导航](example/new_features/README.md)** | v3.1.4 | 支持目标点自主飞行、碰撞避障、路径平滑、自动朝向及缩放后的避障范围刷新；**需要包含该功能的 v3.1.4 更新环境包** |
 | **社交动画** | ✅ 新增 | 运行时选择新增的聚会、日常和车内角色动画 |
 | **外部 3DGS 环境** | ✅ 新增 | 动态加载用户打包的 3DGS 资产，并复用 UnrealZoo 智能体、相机和任务 API |
 | **Runtime MCP** | ✅ 新增 | 将兼容 MCP 的智能体连接到运行中的 UnrealZoo 环境，用于场景检查和任务控制 |
@@ -272,6 +273,11 @@ observation、action、reward 和 done；具体视觉模态由注册任务配置
 | <img src="doc/figs/new_features/drone_mesh_switch.gif" width="100%" alt="UnrealZoo runtime drone mesh switching"> | <img src="doc/figs/new_features/social_animation.gif" width="100%" alt="UnrealZoo character social animations"> | <img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor"> |
 | [五种带动画的内置模型与外部 Static Mesh 支持](example/new_features/README.md#4-runtime-drone-visual-customization) | [`set_social_anim` 大小写敏感参数列表](example/new_features/README.md#5-character-social-animations) | 加载外部 3DGS 场景并复用 UnrealZoo 支持的 Actor |
 
+| 📡 LiDAR 街景建图 | 🚁 无人机三维导航（v3.1.4） |
+|:---:|:---:|
+| <img src="doc/figs/new_features/lidar_street_slam.gif" width="100%" alt="UnrealZoo Suburb LiDAR voxel mapping"> | <img src="doc/figs/new_features/drone_3d_navigation_v3.1.4.gif" width="100%" alt="无人机第三视角三维飞行：绕树避障、爬升、转向与下降"> |
+| 键盘控制 LiDAR 观测，并结合实时位姿更新地图。 | 通过 `viewactor` 第三视角展示避障、爬升、下降和平滑转向（约 1.6 倍速回放）。[使用指南](example/new_features/README.md) · **需要包含该功能的 v3.1.4 更新环境包。** |
+
 **🌐 实时三维场景感知：占用体与全景深度**
 
 | 实时占用体与全景深度观测 |
@@ -296,14 +302,6 @@ observation、action、reward 和 done；具体视觉模态由注册任务配置
 </p>
 
 上面的演示展示了 **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)** 的手动对焦距离动态调整效果。
-
-**📡 LiDAR 街景建图**
-
-<p align="center">
-  <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
-</p>
-
-键盘控制 LiDAR 观测，并结合实时位姿更新地图。
 
 **🚗 载具交互**
 

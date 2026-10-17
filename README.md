@@ -78,6 +78,7 @@ Integrated with [UnrealCV](https://unrealcv.org/), UnrealZoo provides a suite of
 | **[MQRC Capture](https://docs.unrealcv.org/en/latest/unrealcv_plus/reference/mqrc-rendering.html)** | ✅ Added | High-quality lit capture with explicit rendering and post-process controls |
 | **MuJoCo Robot Physics** | ✅ Added | Go1 locomotion and vision-based Parkour, plus pretrained Micro Duck biped control |
 | **Runtime Drone Visual Customization** | ✅ Added | Switch among five production-ready models with animated propellers, use a template appearance, or load a compatible external Static Mesh without respawning the drone |
+| **[3D Drone Navigation](example/new_features/README.md)** | v3.1.4 | Goal-directed flight with collision avoidance, smooth paths, automatic heading, and collision-envelope updates after resizing; **requires the updated v3.1.4 environment package containing this feature** |
 | **Social Animation** | ✅ Added | Select newly packaged party, everyday, and in-car character animations at runtime |
 | **External 3DGS Environments** | ✅ Added | Dynamically load user-packaged 3DGS assets and reuse UnrealZoo agents, cameras, and task APIs |
 | **Runtime MCP** | ✅ Added | Connect an MCP-compatible agent to a running UnrealZoo environment for scene inspection and task control |
@@ -279,6 +280,11 @@ or drive the compact Micro Duck biped with pretrained MuJoCo locomotion.
 | <img src="doc/figs/new_features/drone_mesh_switch.gif" width="100%" alt="UnrealZoo runtime drone mesh switching"> | <img src="doc/figs/new_features/social_animation.gif" width="100%" alt="UnrealZoo character social animations"> | <img src="doc/figs/new_features/3dgs_dynamic_load.gif" width="100%" alt="External 3DGS environment loaded with a supported UnrealZoo actor"> |
 | [Five animated built-in models plus external Static Mesh support](example/new_features/README.md#4-runtime-drone-visual-customization) | [`set_social_anim` case-sensitive argument list](example/new_features/README.md#5-character-social-animations) | Load an external 3DGS scene and reuse an UnrealZoo-supported actor |
 
+| 📡 LiDAR Street Mapping | 🚁 3D Drone Navigation (v3.1.4) |
+|:---:|:---:|
+| <img src="doc/figs/new_features/lidar_street_slam.gif" width="100%" alt="UnrealZoo Suburb LiDAR voxel mapping"> | <img src="doc/figs/new_features/drone_3d_navigation_v3.1.4.gif" width="100%" alt="Third-person drone flight avoiding trees, climbing, turning, and descending in 3D"> |
+| Player-controlled LiDAR observation with pose-conditioned map updates. | Third-person `viewactor` flight with obstacle avoidance, ascent/descent, and smooth turns (approximately 1.6× playback). [Usage guide](example/new_features/README.md) · **Requires the updated v3.1.4 environment package containing this feature.** |
+
 **🌐 Live 3D Scene Perception: Occupancy & Panoramic Depth**
 
 | Live Occupancy and Panoramic Depth Observation |
@@ -303,14 +309,6 @@ See the [Runtime MCP examples](https://github.com/unrealcv/unrealcv-runtime-mcp)
 </p>
 
 The above demos sweep the manual focus distance of the **[Cine Camera](https://docs.unrealcv.org/en/latest/reference/cine_camera.html)**.
-
-**📡 LiDAR Street Mapping**
-
-<p align="center">
-  <img src="doc/figs/new_features/lidar_street_slam.gif" width="70%" alt="UnrealZoo Suburb LiDAR voxel mapping">
-</p>
-
-Player-controlled LiDAR observation with pose-conditioned map updates.
 
 **🚗 Vehicle Interaction**
 

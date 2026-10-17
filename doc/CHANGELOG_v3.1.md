@@ -15,6 +15,18 @@ every item is already part of the upstream open-source UnrealCV baseline. See
 the official [UnrealCV+ documentation](https://docs.unrealcv.org/en/latest/unrealcv_plus/index.html)
 and [feature overview](https://docs.unrealcv.org/en/latest/unrealcv_plus/overview.html).
 
+## v3.1.4 — 3D drone navigation
+
+- Added goal-directed 3D flight for `BP_Drone_customized`, with collision
+  avoidance, path smoothing, and automatic heading through the existing
+  physics-based flight controls.
+- Added `nav_update_collision` to refresh the collision envelope after scale
+  or appearance changes during reset, alongside navigation status, stop, and
+  manual-release APIs.
+- **Requires the updated v3.1.4 environment package containing this feature;**
+  updating the Python repository alone is insufficient. See the
+  [usage guide](../example/new_features/README.md#3d-drone-navigation-v314).
+
 ## Release highlights
 
 | Area | User-facing result | Recommended showcase |

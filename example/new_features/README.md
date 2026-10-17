@@ -14,6 +14,7 @@ connection to an environment started by the user.
 | MuJoCo | UE rendering driven by MuJoCo state and policy observations | [`../mujoco/parkour/demo.py`](../mujoco/parkour/demo.py) | Keyboard, parkour third-person, and depth-observation GIFs |
 | Scene occupancy voxels | [Shared-memory](https://docs.unrealcv.org/en/latest/reference/unrealzoo_capture_transport.html) bool XYZ grid, bounds/mesh modes, camera-relative origin | [`realtime_scene_occupancy_gpu.py`](realtime_scene_occupancy_gpu.py) | GPU-instanced four-view rendering and live RGB + occupancy projection |
 | Runtime drone visual customization | Five production-ready models with animated propellers, one customization template, and external Static Mesh support on the same live pawn | [`drone_mesh_switch_demo.py`](drone_mesh_switch_demo.py) | Third-person GIF covering the built-in appearances |
+| 3D drone navigation (v3.1.4) | Goal-directed flight, collision avoidance, smooth paths, and automatic heading; requires the updated v3.1.4 environment package | [UnrealCV commands](#3d-drone-navigation-v314) | Flight around an obstacle toward a goal |
 | Character social animations | Runtime selection from the packaged party, everyday, and in-car animation groups | `BP_Character.set_social_anim` | Third-person character montage capture |
 | Dynamic 3DGS load | A user-supplied packaged 3DGS level is loaded and reused by UnrealZoo agents | `vset /action/game/level /Game/3dgs/custom_3dgs` in the UE binary | External scene + supported-actor GIF |
 
@@ -205,6 +206,45 @@ External Static Mesh loading replaces only the drone's visual geometry and
 preserves its controller, physics, camera, and task state. The imported mesh is
 displayed as authored; component-level animation such as propeller rotation is
 not generated automatically for a single Static Mesh.
+
+### 3D drone navigation (v3.1.4)
+
+![Third-person 3D drone navigation](../../doc/figs/new_features/drone_3d_navigation_v3.1.4.gif)
+
+Recorded from the `viewactor` camera pose, showing tree avoidance, climbing,
+turning, and descending, with the actual XYZ trajectory and world height
+(approximately 1.6× playback).
+
+`BP_Drone_customized` supports goal-directed 3D flight with collision avoidance,
+smooth paths, and automatic heading, using its existing physics-based movement
+without a ground NavMesh.
+
+**Requires the updated v3.1.4 environment package containing this feature.**
+Updating the Python repository alone does not add these functions to an older
+binary. Start that package or an updated Editor PIE session first, then use an
+already connected UnrealCV `client`:
+
+```python
+drone_id = "bp_drone_customized_C_1"  # Replace with the drone's instance name in the scene.
+client.request(f"vbp {drone_id} set_phy 1")
+# During reset, finish set_obj_scale / appearance changes before refreshing.
+print(client.request(f"vbp {drone_id} nav_update_collision"))
+client.request(f"vbp {drone_id} nav_to_goal 1500 0 1500")
+print(client.request(f"vbp {drone_id} get_nav_status"))
+```
+
+- Goals use UE world coordinates in centimetres, with Z pointing up. Choose a
+  reachable goal for the current scene. The drone must use its original
+  gravity-disabled physics flight mode, and obstacles must block its collision
+  query channel.
+- `nav_update_collision` refreshes the scaled collision envelope and returns
+  its radius in world centimetres in the JSON `ReturnValue` field. A value of
+  `-1` means failure; fix the collision/scale setup before submitting a goal.
+  Refreshing cancels any active navigation request.
+- `nav_to_goal` starts navigation; `ok` does not mean arrival. Poll
+  `get_nav_status` for `Succeeded`, `Failed`, or `Cancelled`.
+- `nav_stop` brakes before cancelling. Call `nav_release` before taking over
+  with `set_move` or a policy; release preserves physical momentum.
 
 ## 5. Character social animations
 
